@@ -1,0 +1,854 @@
+[
+  {
+    "actions": {
+      "cached-status": "compact:61",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:0"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 4664,
+        "wire_bytes": 6123
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 703,
+        "wire_bytes": 762
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 275,
+        "wire_bytes": 379
+      }
+    },
+    "expected_serve_after_update": true,
+    "family": "public-lock",
+    "scope_projection": {
+      "conflicts": [],
+      "revoked_caps": [],
+      "revoked_keys": []
+    },
+    "span": 1,
+    "target_namespace_keys": 61,
+    "update": "unrelated-publication"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:61",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:1"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 4665,
+        "wire_bytes": 6124
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 479,
+        "wire_bytes": 538
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 293,
+        "wire_bytes": 397
+      }
+    },
+    "expected_serve_after_update": false,
+    "family": "public-lock",
+    "scope_projection": {
+      "conflicts": [],
+      "revoked_caps": [],
+      "revoked_keys": [
+        "n1/anyhow@1.0.87"
+      ]
+    },
+    "span": 1,
+    "target_namespace_keys": 61,
+    "update": "artifact-revocation"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:61",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:1"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 4725,
+        "wire_bytes": 6184
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 475,
+        "wire_bytes": 534
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 285,
+        "wire_bytes": 389
+      }
+    },
+    "expected_serve_after_update": false,
+    "family": "public-lock",
+    "scope_projection": {
+      "conflicts": [],
+      "revoked_caps": [
+        "cap:n1:0"
+      ],
+      "revoked_keys": []
+    },
+    "span": 1,
+    "target_namespace_keys": 61,
+    "update": "capability-revocation"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:61",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:1"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 4665,
+        "wire_bytes": 6124
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 697,
+        "wire_bytes": 756
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 293,
+        "wire_bytes": 397
+      }
+    },
+    "expected_serve_after_update": false,
+    "family": "public-lock",
+    "scope_projection": {
+      "conflicts": [
+        "n1/anyhow@1.0.87"
+      ],
+      "revoked_caps": [],
+      "revoked_keys": []
+    },
+    "span": 1,
+    "target_namespace_keys": 61,
+    "update": "conflicting-publication"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:21",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:0"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 1744,
+        "wire_bytes": 2280
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 703,
+        "wire_bytes": 762
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 275,
+        "wire_bytes": 379
+      }
+    },
+    "expected_serve_after_update": true,
+    "family": "public-lock",
+    "scope_projection": {
+      "conflicts": [],
+      "revoked_caps": [],
+      "revoked_keys": []
+    },
+    "span": 3,
+    "target_namespace_keys": 21,
+    "update": "unrelated-publication"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:21",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:1"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 1745,
+        "wire_bytes": 2281
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 477,
+        "wire_bytes": 536
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 291,
+        "wire_bytes": 395
+      }
+    },
+    "expected_serve_after_update": false,
+    "family": "public-lock",
+    "scope_projection": {
+      "conflicts": [],
+      "revoked_caps": [],
+      "revoked_keys": [
+        "n1/itoa@1.0.11"
+      ]
+    },
+    "span": 3,
+    "target_namespace_keys": 21,
+    "update": "artifact-revocation"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:21",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:1"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 1765,
+        "wire_bytes": 2301
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 475,
+        "wire_bytes": 534
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 285,
+        "wire_bytes": 389
+      }
+    },
+    "expected_serve_after_update": false,
+    "family": "public-lock",
+    "scope_projection": {
+      "conflicts": [],
+      "revoked_caps": [
+        "cap:n1:0"
+      ],
+      "revoked_keys": []
+    },
+    "span": 3,
+    "target_namespace_keys": 21,
+    "update": "capability-revocation"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:21",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:1"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 1745,
+        "wire_bytes": 2281
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 695,
+        "wire_bytes": 754
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 291,
+        "wire_bytes": 395
+      }
+    },
+    "expected_serve_after_update": false,
+    "family": "public-lock",
+    "scope_projection": {
+      "conflicts": [
+        "n1/itoa@1.0.11"
+      ],
+      "revoked_caps": [],
+      "revoked_keys": []
+    },
+    "span": 3,
+    "target_namespace_keys": 21,
+    "update": "conflicting-publication"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:11",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:0"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 1014,
+        "wire_bytes": 1346
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 703,
+        "wire_bytes": 762
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 275,
+        "wire_bytes": 379
+      }
+    },
+    "expected_serve_after_update": true,
+    "family": "public-lock",
+    "scope_projection": {
+      "conflicts": [],
+      "revoked_caps": [],
+      "revoked_keys": []
+    },
+    "span": 6,
+    "target_namespace_keys": 11,
+    "update": "unrelated-publication"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:11",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:1"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 1015,
+        "wire_bytes": 1347
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 484,
+        "wire_bytes": 543
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 298,
+        "wire_bytes": 402
+      }
+    },
+    "expected_serve_after_update": false,
+    "family": "public-lock",
+    "scope_projection": {
+      "conflicts": [],
+      "revoked_caps": [],
+      "revoked_keys": [
+        "n1/regex-syntax@0.8.4"
+      ]
+    },
+    "span": 6,
+    "target_namespace_keys": 11,
+    "update": "artifact-revocation"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:11",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:1"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 1025,
+        "wire_bytes": 1357
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 475,
+        "wire_bytes": 534
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 285,
+        "wire_bytes": 389
+      }
+    },
+    "expected_serve_after_update": false,
+    "family": "public-lock",
+    "scope_projection": {
+      "conflicts": [],
+      "revoked_caps": [
+        "cap:n1:0"
+      ],
+      "revoked_keys": []
+    },
+    "span": 6,
+    "target_namespace_keys": 11,
+    "update": "capability-revocation"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:11",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:1"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 1015,
+        "wire_bytes": 1347
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 702,
+        "wire_bytes": 761
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 298,
+        "wire_bytes": 402
+      }
+    },
+    "expected_serve_after_update": false,
+    "family": "public-lock",
+    "scope_projection": {
+      "conflicts": [
+        "n1/regex-syntax@0.8.4"
+      ],
+      "revoked_caps": [],
+      "revoked_keys": []
+    },
+    "span": 6,
+    "target_namespace_keys": 11,
+    "update": "conflicting-publication"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:129",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:0"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 9629,
+        "wire_bytes": 11481
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 705,
+        "wire_bytes": 765
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 277,
+        "wire_bytes": 382
+      }
+    },
+    "expected_serve_after_update": true,
+    "family": "generated",
+    "scope_projection": {
+      "conflicts": [],
+      "revoked_caps": [],
+      "revoked_keys": []
+    },
+    "span": 1,
+    "target_namespace_keys": 129,
+    "update": "unrelated-publication"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:129",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:1"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 9630,
+        "wire_bytes": 11482
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 476,
+        "wire_bytes": 536
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 290,
+        "wire_bytes": 395
+      }
+    },
+    "expected_serve_after_update": false,
+    "family": "generated",
+    "scope_projection": {
+      "conflicts": [],
+      "revoked_caps": [],
+      "revoked_keys": [
+        "n1/item-000"
+      ]
+    },
+    "span": 1,
+    "target_namespace_keys": 129,
+    "update": "artifact-revocation"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:129",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:1"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 9758,
+        "wire_bytes": 11610
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 477,
+        "wire_bytes": 537
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 287,
+        "wire_bytes": 392
+      }
+    },
+    "expected_serve_after_update": false,
+    "family": "generated",
+    "scope_projection": {
+      "conflicts": [],
+      "revoked_caps": [
+        "cap:n1:0"
+      ],
+      "revoked_keys": []
+    },
+    "span": 1,
+    "target_namespace_keys": 129,
+    "update": "capability-revocation"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:129",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:1"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 9630,
+        "wire_bytes": 11482
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 694,
+        "wire_bytes": 754
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 290,
+        "wire_bytes": 395
+      }
+    },
+    "expected_serve_after_update": false,
+    "family": "generated",
+    "scope_projection": {
+      "conflicts": [
+        "n1/item-000"
+      ],
+      "revoked_caps": [],
+      "revoked_keys": []
+    },
+    "span": 1,
+    "target_namespace_keys": 129,
+    "update": "conflicting-publication"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:43",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:0"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 3350,
+        "wire_bytes": 4003
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 703,
+        "wire_bytes": 762
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 275,
+        "wire_bytes": 379
+      }
+    },
+    "expected_serve_after_update": true,
+    "family": "generated",
+    "scope_projection": {
+      "conflicts": [],
+      "revoked_caps": [],
+      "revoked_keys": []
+    },
+    "span": 3,
+    "target_namespace_keys": 43,
+    "update": "unrelated-publication"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:43",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:1"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 3351,
+        "wire_bytes": 4004
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 474,
+        "wire_bytes": 533
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 288,
+        "wire_bytes": 392
+      }
+    },
+    "expected_serve_after_update": false,
+    "family": "generated",
+    "scope_projection": {
+      "conflicts": [],
+      "revoked_caps": [],
+      "revoked_keys": [
+        "n1/item-000"
+      ]
+    },
+    "span": 3,
+    "target_namespace_keys": 43,
+    "update": "artifact-revocation"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:43",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:1"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 3393,
+        "wire_bytes": 4046
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 475,
+        "wire_bytes": 534
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 285,
+        "wire_bytes": 389
+      }
+    },
+    "expected_serve_after_update": false,
+    "family": "generated",
+    "scope_projection": {
+      "conflicts": [],
+      "revoked_caps": [
+        "cap:n1:0"
+      ],
+      "revoked_keys": []
+    },
+    "span": 3,
+    "target_namespace_keys": 43,
+    "update": "capability-revocation"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:43",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:1"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 3351,
+        "wire_bytes": 4004
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 692,
+        "wire_bytes": 751
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 288,
+        "wire_bytes": 392
+      }
+    },
+    "expected_serve_after_update": false,
+    "family": "generated",
+    "scope_projection": {
+      "conflicts": [
+        "n1/item-000"
+      ],
+      "revoked_caps": [],
+      "revoked_keys": []
+    },
+    "span": 3,
+    "target_namespace_keys": 43,
+    "update": "conflicting-publication"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:22",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:0"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 1817,
+        "wire_bytes": 2176
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 703,
+        "wire_bytes": 762
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 275,
+        "wire_bytes": 379
+      }
+    },
+    "expected_serve_after_update": true,
+    "family": "generated",
+    "scope_projection": {
+      "conflicts": [],
+      "revoked_caps": [],
+      "revoked_keys": []
+    },
+    "span": 6,
+    "target_namespace_keys": 22,
+    "update": "unrelated-publication"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:22",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:1"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 1818,
+        "wire_bytes": 2177
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 474,
+        "wire_bytes": 533
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 288,
+        "wire_bytes": 392
+      }
+    },
+    "expected_serve_after_update": false,
+    "family": "generated",
+    "scope_projection": {
+      "conflicts": [],
+      "revoked_caps": [],
+      "revoked_keys": [
+        "n1/item-000"
+      ]
+    },
+    "span": 6,
+    "target_namespace_keys": 22,
+    "update": "artifact-revocation"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:22",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:1"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 1839,
+        "wire_bytes": 2198
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 475,
+        "wire_bytes": 534
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 285,
+        "wire_bytes": 389
+      }
+    },
+    "expected_serve_after_update": false,
+    "family": "generated",
+    "scope_projection": {
+      "conflicts": [],
+      "revoked_caps": [
+        "cap:n1:0"
+      ],
+      "revoked_keys": []
+    },
+    "span": 6,
+    "target_namespace_keys": 22,
+    "update": "capability-revocation"
+  },
+  {
+    "actions": {
+      "cached-status": "compact:22",
+      "prefix": "prefix:1",
+      "scope-delta": "renew:causes:1"
+    },
+    "costs": {
+      "cached-status": {
+        "messages": 2,
+        "reply_bytes": 1818,
+        "wire_bytes": 2177
+      },
+      "prefix": {
+        "messages": 2,
+        "reply_bytes": 692,
+        "wire_bytes": 751
+      },
+      "scope-delta": {
+        "messages": 2,
+        "reply_bytes": 288,
+        "wire_bytes": 392
+      }
+    },
+    "expected_serve_after_update": false,
+    "family": "generated",
+    "scope_projection": {
+      "conflicts": [
+        "n1/item-000"
+      ],
+      "revoked_caps": [],
+      "revoked_keys": []
+    },
+    "span": 6,
+    "target_namespace_keys": 22,
+    "update": "conflicting-publication"
+  }
+]

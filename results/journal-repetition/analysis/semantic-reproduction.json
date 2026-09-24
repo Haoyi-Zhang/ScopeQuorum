@@ -1,0 +1,8 @@
+{
+  "cases": 48,
+  "policy_runs": 336,
+  "semantic_equal": true,
+  "comparison": "all ordered protocol observations except host durations, peak RSS, and driver timing basis",
+  "observed_policy_cpu_seconds": 393.033558111,
+  "observed_peak_rss_kib": 105640
+}

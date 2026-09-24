@@ -1,0 +1,14 @@
+{
+  "records": 68,
+  "main_cited": 68,
+  "appendix_only": 0,
+  "uncited": 0,
+  "missing_keys": 0,
+  "duplicate_keys": 0,
+  "maximum_group": 4,
+  "new_primary_metadata_checked": [
+    "dependabilitytaxonomy",
+    "byzantinequorums"
+  ],
+  "all_full_texts_newly_read": false
+}

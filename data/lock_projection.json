@@ -1,0 +1,492 @@
+{
+  "source": "https://raw.githubusercontent.com/BurntSushi/ripgrep/14.1.1/Cargo.lock",
+  "source_release": "ripgrep 14.1.1",
+  "source_format": "Cargo lockfile format 3",
+  "acquired_on": "2026-09-10",
+  "acquisition": "Complete web-rendered text; manual semantic projection, not raw-byte download. No package code was downloaded or executed.",
+  "fields_retained": [
+    "name",
+    "version",
+    "dependencies"
+  ],
+  "fields_not_consumed": [
+    "checksum",
+    "source"
+  ],
+  "packages": [
+    {
+      "name": "aho-corasick",
+      "version": "1.1.3",
+      "dependencies": [
+        "memchr"
+      ]
+    },
+    {
+      "name": "anyhow",
+      "version": "1.0.87",
+      "dependencies": []
+    },
+    {
+      "name": "bstr",
+      "version": "1.10.0",
+      "dependencies": [
+        "memchr",
+        "regex-automata",
+        "serde"
+      ]
+    },
+    {
+      "name": "cc",
+      "version": "1.1.18",
+      "dependencies": [
+        "jobserver",
+        "libc",
+        "shlex"
+      ]
+    },
+    {
+      "name": "cfg-if",
+      "version": "1.0.0",
+      "dependencies": []
+    },
+    {
+      "name": "crossbeam-channel",
+      "version": "0.5.13",
+      "dependencies": [
+        "crossbeam-utils"
+      ]
+    },
+    {
+      "name": "crossbeam-deque",
+      "version": "0.8.5",
+      "dependencies": [
+        "crossbeam-epoch",
+        "crossbeam-utils"
+      ]
+    },
+    {
+      "name": "crossbeam-epoch",
+      "version": "0.9.18",
+      "dependencies": [
+        "crossbeam-utils"
+      ]
+    },
+    {
+      "name": "crossbeam-utils",
+      "version": "0.8.20",
+      "dependencies": []
+    },
+    {
+      "name": "encoding_rs",
+      "version": "0.8.34",
+      "dependencies": [
+        "cfg-if"
+      ]
+    },
+    {
+      "name": "encoding_rs_io",
+      "version": "0.1.7",
+      "dependencies": [
+        "encoding_rs"
+      ]
+    },
+    {
+      "name": "glob",
+      "version": "0.3.1",
+      "dependencies": []
+    },
+    {
+      "name": "globset",
+      "version": "0.4.15",
+      "dependencies": [
+        "aho-corasick",
+        "bstr",
+        "glob",
+        "log",
+        "regex-automata",
+        "regex-syntax",
+        "serde",
+        "serde_json"
+      ]
+    },
+    {
+      "name": "grep",
+      "version": "0.3.2",
+      "dependencies": [
+        "grep-cli",
+        "grep-matcher",
+        "grep-pcre2",
+        "grep-printer",
+        "grep-regex",
+        "grep-searcher",
+        "termcolor",
+        "walkdir"
+      ]
+    },
+    {
+      "name": "grep-cli",
+      "version": "0.1.11",
+      "dependencies": [
+        "bstr",
+        "globset",
+        "libc",
+        "log",
+        "termcolor",
+        "winapi-util"
+      ]
+    },
+    {
+      "name": "grep-matcher",
+      "version": "0.1.7",
+      "dependencies": [
+        "memchr",
+        "regex"
+      ]
+    },
+    {
+      "name": "grep-pcre2",
+      "version": "0.1.8",
+      "dependencies": [
+        "grep-matcher",
+        "log",
+        "pcre2"
+      ]
+    },
+    {
+      "name": "grep-printer",
+      "version": "0.2.2",
+      "dependencies": [
+        "bstr",
+        "grep-matcher",
+        "grep-regex",
+        "grep-searcher",
+        "log",
+        "serde",
+        "serde_json",
+        "termcolor"
+      ]
+    },
+    {
+      "name": "grep-regex",
+      "version": "0.1.13",
+      "dependencies": [
+        "bstr",
+        "grep-matcher",
+        "log",
+        "regex-automata",
+        "regex-syntax"
+      ]
+    },
+    {
+      "name": "grep-searcher",
+      "version": "0.1.14",
+      "dependencies": [
+        "bstr",
+        "encoding_rs",
+        "encoding_rs_io",
+        "grep-matcher",
+        "grep-regex",
+        "log",
+        "memchr",
+        "memmap2",
+        "regex"
+      ]
+    },
+    {
+      "name": "ignore",
+      "version": "0.4.23",
+      "dependencies": [
+        "bstr",
+        "crossbeam-channel",
+        "crossbeam-deque",
+        "globset",
+        "log",
+        "memchr",
+        "regex-automata",
+        "same-file",
+        "walkdir",
+        "winapi-util"
+      ]
+    },
+    {
+      "name": "itoa",
+      "version": "1.0.11",
+      "dependencies": []
+    },
+    {
+      "name": "jemalloc-sys",
+      "version": "0.5.4+5.3.0-patched",
+      "dependencies": [
+        "cc",
+        "libc"
+      ]
+    },
+    {
+      "name": "jemallocator",
+      "version": "0.5.4",
+      "dependencies": [
+        "jemalloc-sys",
+        "libc"
+      ]
+    },
+    {
+      "name": "jobserver",
+      "version": "0.1.32",
+      "dependencies": [
+        "libc"
+      ]
+    },
+    {
+      "name": "lexopt",
+      "version": "0.3.0",
+      "dependencies": []
+    },
+    {
+      "name": "libc",
+      "version": "0.2.158",
+      "dependencies": []
+    },
+    {
+      "name": "log",
+      "version": "0.4.22",
+      "dependencies": []
+    },
+    {
+      "name": "memchr",
+      "version": "2.7.4",
+      "dependencies": []
+    },
+    {
+      "name": "memmap2",
+      "version": "0.9.4",
+      "dependencies": [
+        "libc"
+      ]
+    },
+    {
+      "name": "pcre2",
+      "version": "0.2.9",
+      "dependencies": [
+        "libc",
+        "log",
+        "pcre2-sys"
+      ]
+    },
+    {
+      "name": "pcre2-sys",
+      "version": "0.2.9",
+      "dependencies": [
+        "cc",
+        "libc",
+        "pkg-config"
+      ]
+    },
+    {
+      "name": "pkg-config",
+      "version": "0.3.30",
+      "dependencies": []
+    },
+    {
+      "name": "proc-macro2",
+      "version": "1.0.86",
+      "dependencies": [
+        "unicode-ident"
+      ]
+    },
+    {
+      "name": "quote",
+      "version": "1.0.37",
+      "dependencies": [
+        "proc-macro2"
+      ]
+    },
+    {
+      "name": "regex",
+      "version": "1.10.6",
+      "dependencies": [
+        "aho-corasick",
+        "memchr",
+        "regex-automata",
+        "regex-syntax"
+      ]
+    },
+    {
+      "name": "regex-automata",
+      "version": "0.4.7",
+      "dependencies": [
+        "aho-corasick",
+        "memchr",
+        "regex-syntax"
+      ]
+    },
+    {
+      "name": "regex-syntax",
+      "version": "0.8.4",
+      "dependencies": []
+    },
+    {
+      "name": "ripgrep",
+      "version": "14.1.1",
+      "dependencies": [
+        "anyhow",
+        "bstr",
+        "grep",
+        "ignore",
+        "jemallocator",
+        "lexopt",
+        "log",
+        "serde",
+        "serde_derive",
+        "serde_json",
+        "termcolor",
+        "textwrap",
+        "walkdir"
+      ]
+    },
+    {
+      "name": "ryu",
+      "version": "1.0.18",
+      "dependencies": []
+    },
+    {
+      "name": "same-file",
+      "version": "1.0.6",
+      "dependencies": [
+        "winapi-util"
+      ]
+    },
+    {
+      "name": "serde",
+      "version": "1.0.210",
+      "dependencies": [
+        "serde_derive"
+      ]
+    },
+    {
+      "name": "serde_derive",
+      "version": "1.0.210",
+      "dependencies": [
+        "proc-macro2",
+        "quote",
+        "syn"
+      ]
+    },
+    {
+      "name": "serde_json",
+      "version": "1.0.128",
+      "dependencies": [
+        "itoa",
+        "memchr",
+        "ryu",
+        "serde"
+      ]
+    },
+    {
+      "name": "shlex",
+      "version": "1.3.0",
+      "dependencies": []
+    },
+    {
+      "name": "syn",
+      "version": "2.0.77",
+      "dependencies": [
+        "proc-macro2",
+        "quote",
+        "unicode-ident"
+      ]
+    },
+    {
+      "name": "termcolor",
+      "version": "1.4.1",
+      "dependencies": [
+        "winapi-util"
+      ]
+    },
+    {
+      "name": "textwrap",
+      "version": "0.16.1",
+      "dependencies": []
+    },
+    {
+      "name": "unicode-ident",
+      "version": "1.0.12",
+      "dependencies": []
+    },
+    {
+      "name": "walkdir",
+      "version": "2.5.0",
+      "dependencies": [
+        "same-file",
+        "winapi-util"
+      ]
+    },
+    {
+      "name": "winapi-util",
+      "version": "0.1.9",
+      "dependencies": [
+        "windows-sys"
+      ]
+    },
+    {
+      "name": "windows-sys",
+      "version": "0.59.0",
+      "dependencies": [
+        "windows-targets"
+      ]
+    },
+    {
+      "name": "windows-targets",
+      "version": "0.52.6",
+      "dependencies": [
+        "windows_aarch64_gnullvm",
+        "windows_aarch64_msvc",
+        "windows_i686_gnu",
+        "windows_i686_gnullvm",
+        "windows_i686_msvc",
+        "windows_x86_64_gnu",
+        "windows_x86_64_gnullvm",
+        "windows_x86_64_msvc"
+      ]
+    },
+    {
+      "name": "windows_aarch64_gnullvm",
+      "version": "0.52.6",
+      "dependencies": []
+    },
+    {
+      "name": "windows_aarch64_msvc",
+      "version": "0.52.6",
+      "dependencies": []
+    },
+    {
+      "name": "windows_i686_gnu",
+      "version": "0.52.6",
+      "dependencies": []
+    },
+    {
+      "name": "windows_i686_gnullvm",
+      "version": "0.52.6",
+      "dependencies": []
+    },
+    {
+      "name": "windows_i686_msvc",
+      "version": "0.52.6",
+      "dependencies": []
+    },
+    {
+      "name": "windows_x86_64_gnu",
+      "version": "0.52.6",
+      "dependencies": []
+    },
+    {
+      "name": "windows_x86_64_gnullvm",
+      "version": "0.52.6",
+      "dependencies": []
+    },
+    {
+      "name": "windows_x86_64_msvc",
+      "version": "0.52.6",
+      "dependencies": []
+    }
+  ]
+}

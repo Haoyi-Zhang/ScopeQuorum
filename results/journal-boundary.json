@@ -1,0 +1,97 @@
+{
+  "case_count": 8,
+  "cases": [
+    {
+      "any_quorum": true,
+      "both_quorums": false,
+      "byzantine_signs": false,
+      "first_left_signatures": 0,
+      "first_right_signatures": 3,
+      "honest_reachable": 3,
+      "later_left_signatures": 0,
+      "later_right_signatures": 3,
+      "left_honest_locks": 0
+    },
+    {
+      "any_quorum": true,
+      "both_quorums": false,
+      "byzantine_signs": true,
+      "first_left_signatures": 0,
+      "first_right_signatures": 3,
+      "honest_reachable": 3,
+      "later_left_signatures": 1,
+      "later_right_signatures": 4,
+      "left_honest_locks": 0
+    },
+    {
+      "any_quorum": false,
+      "both_quorums": false,
+      "byzantine_signs": false,
+      "first_left_signatures": 1,
+      "first_right_signatures": 2,
+      "honest_reachable": 3,
+      "later_left_signatures": 1,
+      "later_right_signatures": 2,
+      "left_honest_locks": 1
+    },
+    {
+      "any_quorum": true,
+      "both_quorums": false,
+      "byzantine_signs": true,
+      "first_left_signatures": 1,
+      "first_right_signatures": 2,
+      "honest_reachable": 3,
+      "later_left_signatures": 2,
+      "later_right_signatures": 3,
+      "left_honest_locks": 1
+    },
+    {
+      "any_quorum": false,
+      "both_quorums": false,
+      "byzantine_signs": false,
+      "first_left_signatures": 2,
+      "first_right_signatures": 1,
+      "honest_reachable": 3,
+      "later_left_signatures": 2,
+      "later_right_signatures": 1,
+      "left_honest_locks": 2
+    },
+    {
+      "any_quorum": true,
+      "both_quorums": false,
+      "byzantine_signs": true,
+      "first_left_signatures": 2,
+      "first_right_signatures": 1,
+      "honest_reachable": 3,
+      "later_left_signatures": 3,
+      "later_right_signatures": 2,
+      "left_honest_locks": 2
+    },
+    {
+      "any_quorum": true,
+      "both_quorums": false,
+      "byzantine_signs": false,
+      "first_left_signatures": 3,
+      "first_right_signatures": 0,
+      "honest_reachable": 3,
+      "later_left_signatures": 3,
+      "later_right_signatures": 0,
+      "left_honest_locks": 3
+    },
+    {
+      "any_quorum": true,
+      "both_quorums": false,
+      "byzantine_signs": true,
+      "first_left_signatures": 3,
+      "first_right_signatures": 0,
+      "honest_reachable": 3,
+      "later_left_signatures": 4,
+      "later_right_signatures": 1,
+      "left_honest_locks": 3
+    }
+  ],
+  "dual_quorum_failures": 0,
+  "honest_reachability_counterexamples": 2,
+  "interpretation": "persisted branch refusal preserves safety but does not implement branch reconciliation or consensus liveness",
+  "passed": 8
+}

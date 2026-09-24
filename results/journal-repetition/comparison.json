@@ -1,0 +1,32 @@
+{
+  "canonical_main_cases_checked": 48,
+  "retained_complete_repetition_equal": true,
+  "current_main_cases_rerun_and_equal": 6,
+  "equal_result_files": [
+    "renewal/actual-checks.json",
+    "renewal/faults.json",
+    "renewal/selector-summary.json",
+    "renewal/selector-traces.json.gz",
+    "renewal/summary.json",
+    "renewal/traces.json.gz",
+    "witness/adversarial.json",
+    "witness/summary.json",
+    "witness/traces.json.gz",
+    "witness-network/summary.json",
+    "durable-witness/summary.json",
+    "finite.json",
+    "witness-finite.json"
+  ],
+  "excluded_host_fields": [
+    "cpu_seconds",
+    "elapsed_seconds",
+    "first_attempt_ms",
+    "median_restart_and_retry_ms_host_diagnostic",
+    "p95_restart_and_retry_ms_host_diagnostic",
+    "peak_rss_kib",
+    "restart_and_retry_ms"
+  ],
+  "fresh_seed_differential_histories": 500,
+  "differential_seed": 20260923,
+  "differential_mismatches": 0
+}

@@ -1,0 +1,32 @@
+{
+  "clock_boundary_cases": 1512,
+  "cpu_seconds": 0.328275407,
+  "elapsed_seconds": 0.3284978639999281,
+  "families": {
+    "equivocation": {
+      "events": 6,
+      "merge_checks": 5040,
+      "schedules": 720,
+      "state_decisions": 10080
+    },
+    "replay": {
+      "events": 5,
+      "merge_checks": 720,
+      "schedules": 120,
+      "state_decisions": 1440
+    },
+    "revocation": {
+      "events": 7,
+      "merge_checks": 40320,
+      "schedules": 5040,
+      "state_decisions": 80640
+    }
+  },
+  "merge_checks": 46080,
+  "negative_control_unsafe_clock_cases": 48,
+  "peak_rss_kib": 92720,
+  "schedules": 5880,
+  "scope": "three fixed histories / two replicas; not all registry histories",
+  "state_decisions": 92160,
+  "violations": 0
+}

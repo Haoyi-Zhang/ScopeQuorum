@@ -1,0 +1,159 @@
+{
+  "by_churn": [
+    {
+      "churn": 0,
+      "median_best_fixed_wire_bytes": 38721.5,
+      "median_ratio_to_best_fixed": 1.5178645931615051,
+      "median_selector_wire_bytes": 59047.5,
+      "switched_traces": 24,
+      "traces": 24
+    },
+    {
+      "churn": 1,
+      "median_best_fixed_wire_bytes": 45703.5,
+      "median_ratio_to_best_fixed": 1.3517460235009344,
+      "median_selector_wire_bytes": 65597.0,
+      "switched_traces": 24,
+      "traces": 24
+    },
+    {
+      "churn": 4,
+      "median_best_fixed_wire_bytes": 45794.5,
+      "median_ratio_to_best_fixed": 1.3529100162788374,
+      "median_selector_wire_bytes": 65652.5,
+      "switched_traces": 24,
+      "traces": 24
+    },
+    {
+      "churn": 16,
+      "median_best_fixed_wire_bytes": 45901.0,
+      "median_ratio_to_best_fixed": 1.354428921268259,
+      "median_selector_wire_bytes": 65790.5,
+      "switched_traces": 24,
+      "traces": 24
+    }
+  ],
+  "ratio_to_best_fixed_status_or_scope": {
+    "max": 1.8608549643535468,
+    "median": 1.3900809632897504,
+    "min": 1.0263014072960788,
+    "p90": 1.676777103748639,
+    "within_1_25": 22,
+    "within_1_50": 71
+  },
+  "ratio_to_cached_status": {
+    "max": 1.8608549643535468,
+    "median": 0.9687165058959792
+  },
+  "ratio_to_scope_delta": {
+    "max": 1.8527968865623372,
+    "median": 1.282191813879287
+  },
+  "study": {
+    "future_knowledge": false,
+    "policy": "start cached status; charged signed quote each status-mode refresh; switch namespace once cumulative status-mode bytes >= current registration quote; never switch back",
+    "queries_per_trace": 32,
+    "timing_claim": false,
+    "traces": 96,
+    "tuned_on_traces": false
+  },
+  "switched_traces": 96,
+  "worst_traces": [
+    {
+      "best_fixed_wire_bytes": 36329,
+      "cached_status_wire_bytes": 36329,
+      "churn": 0,
+      "family": "generated",
+      "order": "decreasing",
+      "ratio_to_best_fixed": 1.8608549643535468,
+      "scope_delta_wire_bytes": 36487,
+      "selector_wire_bytes": 67603,
+      "span": 1,
+      "switched_namespaces": 1
+    },
+    {
+      "best_fixed_wire_bytes": 39525,
+      "cached_status_wire_bytes": 131112,
+      "churn": 1,
+      "family": "generated",
+      "order": "decreasing",
+      "ratio_to_best_fixed": 1.7847691334598355,
+      "scope_delta_wire_bytes": 39525,
+      "selector_wire_bytes": 70543,
+      "span": 1,
+      "switched_namespaces": 1
+    },
+    {
+      "best_fixed_wire_bytes": 39525,
+      "cached_status_wire_bytes": 131112,
+      "churn": 4,
+      "family": "generated",
+      "order": "decreasing",
+      "ratio_to_best_fixed": 1.7847691334598355,
+      "scope_delta_wire_bytes": 39525,
+      "selector_wire_bytes": 70543,
+      "span": 1,
+      "switched_namespaces": 1
+    },
+    {
+      "best_fixed_wire_bytes": 39525,
+      "cached_status_wire_bytes": 131112,
+      "churn": 16,
+      "family": "generated",
+      "order": "decreasing",
+      "ratio_to_best_fixed": 1.7847691334598355,
+      "scope_delta_wire_bytes": 39525,
+      "selector_wire_bytes": 70543,
+      "span": 1,
+      "switched_namespaces": 1
+    },
+    {
+      "best_fixed_wire_bytes": 25635,
+      "cached_status_wire_bytes": 25635,
+      "churn": 0,
+      "family": "public-lock",
+      "order": "decreasing",
+      "ratio_to_best_fixed": 1.7741369221767116,
+      "scope_delta_wire_bytes": 25793,
+      "selector_wire_bytes": 45480,
+      "span": 1,
+      "switched_namespaces": 1
+    },
+    {
+      "best_fixed_wire_bytes": 45115,
+      "cached_status_wire_bytes": 45115,
+      "churn": 0,
+      "family": "generated",
+      "order": "hot",
+      "ratio_to_best_fixed": 1.70360190623961,
+      "scope_delta_wire_bytes": 45273,
+      "selector_wire_bytes": 76858,
+      "span": 1,
+      "switched_namespaces": 2
+    },
+    {
+      "best_fixed_wire_bytes": 28800,
+      "cached_status_wire_bytes": 67351,
+      "churn": 1,
+      "family": "public-lock",
+      "order": "decreasing",
+      "ratio_to_best_fixed": 1.6802083333333333,
+      "scope_delta_wire_bytes": 28800,
+      "selector_wire_bytes": 48390,
+      "span": 1,
+      "switched_namespaces": 1
+    },
+    {
+      "best_fixed_wire_bytes": 28864,
+      "cached_status_wire_bytes": 67373,
+      "churn": 4,
+      "family": "public-lock",
+      "order": "decreasing",
+      "ratio_to_best_fixed": 1.678700110864745,
+      "scope_delta_wire_bytes": 28864,
+      "selector_wire_bytes": 48454,
+      "span": 1,
+      "switched_namespaces": 1
+    }
+  ]
+}

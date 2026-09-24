@@ -1,0 +1,15 @@
+pilot lww start
+pilot lww done
+pilot signed-index start
+pilot signed-index done
+pilot transparency-only start
+pilot transparency-only done
+pilot root-only start
+pilot root-only done
+pilot all-namespaces start
+pilot all-namespaces done
+pilot scoped start
+pilot scoped done
+pilot status-proof start
+pilot status-proof done
+pilot {"seconds": 6.581837363999995, "safe_violations": 0, "ablation_violations": 1}

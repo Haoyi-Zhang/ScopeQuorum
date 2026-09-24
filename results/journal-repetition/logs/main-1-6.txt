@@ -1,0 +1,10 @@
+retained case-01
+retained case-02
+retained case-03
+retained case-04
+retained case-05
+case-06 scoped start
+case-06 scoped done
+case-06 status-proof start
+case-06 status-proof done
+case-06 {"seconds": 9.85209981700018, "safe_violations": 0, "ablation_violations": 0}

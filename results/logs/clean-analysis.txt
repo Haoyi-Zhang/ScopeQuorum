@@ -1,0 +1,15 @@
+{
+  "cases": 48,
+  "policy_runs": 336,
+  "main_queries": 1344,
+  "probes": 126,
+  "accepted_events": 40740,
+  "min_events_per_policy_run": 86,
+  "max_events_per_policy_run": 157,
+  "max_recovery_rounds": 2,
+  "total_application_messages": 462122,
+  "total_application_bytes": 569112148,
+  "main_policy_cpu_seconds": 390.070326345,
+  "main_policy_wall_seconds": 390.42544585499866,
+  "peak_rss_kib": 105772
+}

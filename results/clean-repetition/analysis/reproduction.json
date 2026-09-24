@@ -1,0 +1,10 @@
+{
+  "cases": 48,
+  "policies": 336,
+  "semantic_equal": true,
+  "compared": "all result fields except explicitly named measured durations, peak RSS and driver timing basis",
+  "primary_policy_cpu_seconds": 390.070326345,
+  "primary_peak_rss_kib": 105772,
+  "comparison_policy_cpu_seconds": 393.033558111,
+  "comparison_peak_rss_kib": 105640
+}

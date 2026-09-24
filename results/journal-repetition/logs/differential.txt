@@ -1,0 +1,12 @@
+{
+  "decision_counts": {
+    "prefix=False,status=False,oracle=False": 196,
+    "prefix=True,status=True,oracle=True": 304
+  },
+  "iterations_completed": 500,
+  "iterations_requested": 500,
+  "mismatch_count": 0,
+  "mismatches": [],
+  "scope": "finite generated toy histories; not a proof",
+  "seed": 20260923
+}

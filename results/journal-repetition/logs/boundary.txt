@@ -1,0 +1,1 @@
+{"case_count": 8, "dual_quorum_failures": 0, "honest_reachability_counterexamples": 2, "interpretation": "persisted branch refusal preserves safety but does not implement branch reconciliation or consensus liveness", "passed": 8}

@@ -1,0 +1,1 @@
+{"cases": 33, "certify_messages": 560, "certify_wire_bytes": 6292402, "corruption_cases": 2, "crash_recovery_cases": 24, "full_restart_fork_cases": 6, "injected_crashes": 24, "passed": 33, "restarts": 54}

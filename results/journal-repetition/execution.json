@@ -1,0 +1,227 @@
+{
+  "scope": "sequential re-execution; host timing diagnostic",
+  "steps": [
+    {
+      "name": "unit",
+      "argv": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 5.593,
+      "cpu_seconds": 4.561,
+      "peak_child_rss_kib": 110644
+    },
+    {
+      "name": "finite",
+      "argv": [
+        "python",
+        "tests/finite.py",
+        "--output",
+        "results/journal-repetition/finite.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.021,
+      "cpu_seconds": 1.294,
+      "peak_child_rss_kib": 110644
+    },
+    {
+      "name": "differential",
+      "argv": [
+        "python",
+        "tests/differential.py",
+        "--iterations",
+        "500",
+        "--seed",
+        "20260923",
+        "--output",
+        "results/journal-repetition/differential.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 5.282,
+      "cpu_seconds": 5.558,
+      "peak_child_rss_kib": 98348
+    },
+    {
+      "name": "witness-finite",
+      "argv": [
+        "python",
+        "tests/witness_finite.py",
+        "--output",
+        "results/journal-repetition/witness-finite.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.618,
+      "cpu_seconds": 0.917,
+      "peak_child_rss_kib": 98348
+    },
+    {
+      "name": "boundary",
+      "argv": [
+        "python",
+        "src/boundary_study.py",
+        "--output",
+        "results/journal-repetition/boundary.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.718,
+      "cpu_seconds": 1.004,
+      "peak_child_rss_kib": 99500
+    },
+    {
+      "name": "quorum",
+      "argv": [
+        "go",
+        "run",
+        "checks/quorum.go"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.115,
+      "cpu_seconds": 0.131,
+      "peak_child_rss_kib": 99500
+    },
+    {
+      "name": "renewal",
+      "argv": [
+        "python",
+        "src/renewal_study.py",
+        "--output",
+        "results/journal-repetition/renewal",
+        "--generated",
+        "results/journal-repetition/generated"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 21.843,
+      "cpu_seconds": 22.134,
+      "peak_child_rss_kib": 120128
+    },
+    {
+      "name": "selector",
+      "argv": [
+        "python",
+        "src/selector_study.py",
+        "--renewal-traces",
+        "results/journal-repetition/renewal/traces.json.gz",
+        "--output-dir",
+        "results/journal-repetition/renewal/selector",
+        "--paper-generated",
+        "results/journal-repetition/generated"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 11.067,
+      "cpu_seconds": 11.357,
+      "peak_child_rss_kib": 120128
+    },
+    {
+      "name": "witness",
+      "argv": [
+        "python",
+        "src/witness_study.py",
+        "--output",
+        "results/journal-repetition/witness",
+        "--generated",
+        "results/journal-repetition/generated"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 17.967,
+      "cpu_seconds": 18.267,
+      "peak_child_rss_kib": 128432
+    },
+    {
+      "name": "witness-network",
+      "argv": [
+        "python",
+        "src/witness_network_study.py",
+        "--output",
+        "results/journal-repetition/witness-network"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 7.542,
+      "cpu_seconds": 7.8,
+      "peak_child_rss_kib": 117376
+    },
+    {
+      "name": "durable-witness",
+      "argv": [
+        "python",
+        "src/durable_witness_study.py",
+        "--output",
+        "results/journal-repetition/durable-witness",
+        "--generated",
+        "results/journal-repetition/generated"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 10.457,
+      "cpu_seconds": 2.824,
+      "peak_child_rss_kib": 117376
+    },
+    {
+      "name": "main-1-6",
+      "argv": [
+        "python",
+        "src/reproduce.py",
+        "--cases",
+        "1:6",
+        "--output",
+        "results/journal-repetition/main",
+        "--resume"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.931,
+      "cpu_seconds": 4.191,
+      "peak_child_rss_kib": 107820
+    },
+    {
+      "name": "analysis",
+      "argv": [
+        "python",
+        "src/analyze.py",
+        "--results",
+        "results",
+        "--output",
+        "results/journal-repetition/analysis",
+        "--compare",
+        "results/clean-repetition",
+        "--compare-semantic",
+        "results/semantic-reference.json.gz"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.831,
+      "cpu_seconds": 3.093,
+      "peak_child_rss_kib": 495620
+    }
+  ],
+  "attempts_not_used_as_scientific_results": [
+    {
+      "name": "differential-5000",
+      "outcome": "tool invocation exceeded 200-second wall timeout; no completed output retained",
+      "iterations_requested": 5000,
+      "seed": 20260923,
+      "completed_histories_certified": null,
+      "disposition": "run a bounded 500-history fresh-seed check; do not claim 5000 histories"
+    },
+    {
+      "name": "witness-matrix-first-attempt",
+      "outcome": "shared 160-second tool invocation expired after renewal and selector completed; witness output was incomplete",
+      "disposition": "rerun the witness matrix alone; no partial output used"
+    },
+    {
+      "name": "main-1-6-first-attempt",
+      "outcome": "180-second shared tool invocation expired after network and durable studies and two main cases completed",
+      "disposition": "resume atomically checkpointed main campaign; do not report partial campaign as complete"
+    },
+    {
+      "name": "main-1-6-resume-interrupted",
+      "outcome": "a later 240-second tool invocation ended with five complete cases and case-06 progress retained",
+      "disposition": "remaining policies were resumed; final six records passed semantic comparison",
+      "aborted_cpu_seconds": "not recorded; do not infer from completed policy diagnostics"
+    }
+  ]
+}

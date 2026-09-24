@@ -1,0 +1,8 @@
+policy,queries,served,bounded_violations,immediate_violations,valid_queries,valid_served,partition_expired_served,probe_violations,median_certificate_bytes,median_verify_ms
+lww,192,192,84,108,108,108,6,0,39559.0,0.019795000014255493
+signed-index,192,192,84,108,108,108,6,0,39559.0,0.01933399994413776
+transparency-only,192,174,66,90,108,108,6,0,39559.0,0.03847299990411557
+root-only,192,120,18,36,108,102,6,0,39560.0,25.260978000005707
+all-namespaces,192,90,0,18,108,90,0,0,60405.0,31.71121600001925
+scoped,192,94,0,18,108,94,4,0,39565.5,25.38722599990706
+status-proof,192,94,0,18,108,94,4,0,16109.0,0.8997984999723485

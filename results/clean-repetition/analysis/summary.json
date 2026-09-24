@@ -1,0 +1,160 @@
+{
+  "totals": {
+    "cases": 48,
+    "policy_runs": 336,
+    "main_queries": 1344,
+    "probes": 126,
+    "accepted_events": 40740,
+    "min_events_per_policy_run": 86,
+    "max_events_per_policy_run": 157,
+    "max_recovery_rounds": 2,
+    "total_application_messages": 462122,
+    "total_application_bytes": 569112148,
+    "main_policy_cpu_seconds": 390.070326345,
+    "main_policy_wall_seconds": 390.42544585499866,
+    "peak_rss_kib": 105772
+  },
+  "policies": [
+    {
+      "policy": "lww",
+      "queries": 192,
+      "served": 192,
+      "bounded_violations": 84,
+      "immediate_violations": 108,
+      "valid_queries": 108,
+      "valid_served": 108,
+      "partition_expired_served": 6,
+      "probe_violations": 0,
+      "median_certificate_bytes": 39559.0,
+      "median_verify_ms": 0.019795000014255493
+    },
+    {
+      "policy": "signed-index",
+      "queries": 192,
+      "served": 192,
+      "bounded_violations": 84,
+      "immediate_violations": 108,
+      "valid_queries": 108,
+      "valid_served": 108,
+      "partition_expired_served": 6,
+      "probe_violations": 0,
+      "median_certificate_bytes": 39559.0,
+      "median_verify_ms": 0.01933399994413776
+    },
+    {
+      "policy": "transparency-only",
+      "queries": 192,
+      "served": 174,
+      "bounded_violations": 66,
+      "immediate_violations": 90,
+      "valid_queries": 108,
+      "valid_served": 108,
+      "partition_expired_served": 6,
+      "probe_violations": 0,
+      "median_certificate_bytes": 39559.0,
+      "median_verify_ms": 0.03847299990411557
+    },
+    {
+      "policy": "root-only",
+      "queries": 192,
+      "served": 120,
+      "bounded_violations": 18,
+      "immediate_violations": 36,
+      "valid_queries": 108,
+      "valid_served": 102,
+      "partition_expired_served": 6,
+      "probe_violations": 0,
+      "median_certificate_bytes": 39560.0,
+      "median_verify_ms": 25.260978000005707
+    },
+    {
+      "policy": "all-namespaces",
+      "queries": 192,
+      "served": 90,
+      "bounded_violations": 0,
+      "immediate_violations": 18,
+      "valid_queries": 108,
+      "valid_served": 90,
+      "partition_expired_served": 0,
+      "probe_violations": 0,
+      "median_certificate_bytes": 60405.0,
+      "median_verify_ms": 31.71121600001925
+    },
+    {
+      "policy": "scoped",
+      "queries": 192,
+      "served": 94,
+      "bounded_violations": 0,
+      "immediate_violations": 18,
+      "valid_queries": 108,
+      "valid_served": 94,
+      "partition_expired_served": 4,
+      "probe_violations": 0,
+      "median_certificate_bytes": 39565.5,
+      "median_verify_ms": 25.38722599990706
+    },
+    {
+      "policy": "status-proof",
+      "queries": 192,
+      "served": 94,
+      "bounded_violations": 0,
+      "immediate_violations": 18,
+      "valid_queries": 108,
+      "valid_served": 94,
+      "partition_expired_served": 4,
+      "probe_violations": 0,
+      "median_certificate_bytes": 16109.0,
+      "median_verify_ms": 0.8997984999723485
+    }
+  ],
+  "sizes": [
+    {
+      "family": "public-lock",
+      "span": 1,
+      "support": 2,
+      "all-namespaces": 44364,
+      "scoped": 34834,
+      "status-proof": 15292
+    },
+    {
+      "family": "public-lock",
+      "span": 3,
+      "support": 4,
+      "all-namespaces": 44352,
+      "scoped": 36724,
+      "status-proof": 15618
+    },
+    {
+      "family": "public-lock",
+      "span": 6,
+      "support": 7,
+      "all-namespaces": 44334,
+      "scoped": 39559,
+      "status-proof": 16107
+    },
+    {
+      "family": "generated",
+      "span": 1,
+      "support": 2,
+      "all-namespaces": 75458,
+      "scoped": 65928,
+      "status-proof": 25531
+    },
+    {
+      "family": "generated",
+      "span": 3,
+      "support": 4,
+      "all-namespaces": 75413,
+      "scoped": 67785,
+      "status-proof": 25856
+    },
+    {
+      "family": "generated",
+      "span": 6,
+      "support": 7,
+      "all-namespaces": 75395,
+      "scoped": 70620,
+      "status-proof": 26345
+    }
+  ]
+}

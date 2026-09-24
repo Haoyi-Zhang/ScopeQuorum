@@ -1,0 +1,60 @@
+{
+  "checks": [
+    {
+      "detail": "1 signatures",
+      "name": "omitted-artifact-revocation",
+      "passed": true
+    },
+    {
+      "detail": "1 signatures",
+      "name": "omitted-capability-revocation",
+      "passed": true
+    },
+    {
+      "detail": "1 signatures",
+      "name": "omitted-conflicting-publication",
+      "passed": true
+    },
+    {
+      "detail": "2/4 responsive",
+      "name": "two-responsive-blocked",
+      "passed": true
+    },
+    {
+      "detail": "3/4 responsive",
+      "name": "three-responsive-valid",
+      "passed": true
+    },
+    {
+      "detail": "overlap includes honest witness",
+      "name": "conflicting-quorum-blocked",
+      "passed": true
+    },
+    {
+      "detail": "4 signatures before acknowledgement",
+      "name": "unacknowledged-private-event-outside-contract",
+      "passed": true
+    },
+    {
+      "detail": "1 signatures after acknowledgement",
+      "name": "acknowledged-revocation-cannot-be-omitted",
+      "passed": true
+    },
+    {
+      "detail": "16 ordered quorum pairs",
+      "name": "quorum-intersection-enumeration",
+      "passed": true
+    }
+  ],
+  "count": 9,
+  "passed": 9,
+  "quorum_audit": {
+    "committee_size": 4,
+    "fault_bound": 1,
+    "honest_intersection_failures": 0,
+    "minimum_intersection": 2,
+    "ordered_pairs": 16,
+    "quorum": 3,
+    "quorum_sets": 4
+  }
+}

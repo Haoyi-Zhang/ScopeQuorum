@@ -1,0 +1,43 @@
+test_artifact_revocation_is_sticky_under_replay (test_protocol.ProtocolTests.test_artifact_revocation_is_sticky_under_replay) ... ok
+test_bad_publisher_signature (test_protocol.ProtocolTests.test_bad_publisher_signature) ... ok
+test_boolean_count (test_protocol.ProtocolTests.test_boolean_count) ... ok
+test_boolean_grant_epoch (test_protocol.ProtocolTests.test_boolean_grant_epoch) ... ok
+test_capability_revocation (test_protocol.ProtocolTests.test_capability_revocation) ... ok
+test_client_floor_after_rollback (test_protocol.ProtocolTests.test_client_floor_after_rollback) ... ok
+test_clock_error_guard (test_protocol.ProtocolTests.test_clock_error_guard) ... ok
+test_conflicting_authority_receipt_quarantines (test_protocol.ProtocolTests.test_conflicting_authority_receipt_quarantines) ... ok
+test_cross_namespace_revoke (test_protocol.ProtocolTests.test_cross_namespace_revoke) ... ok
+test_denial_still_pins_authenticated_count (test_protocol.ProtocolTests.test_denial_still_pins_authenticated_count) ... ok
+test_dependency_cycle (test_protocol.ProtocolTests.test_dependency_cycle) ... ok
+test_depth_32_and_33 (test_protocol.ProtocolTests.test_depth_32_and_33) ... ok
+test_diamond_is_not_cycle (test_protocol.ProtocolTests.test_diamond_is_not_cycle) ... ok
+test_equivocation_pair (test_protocol.ProtocolTests.test_equivocation_pair) ... ok
+test_exact_locked_graph_projection (test_protocol.ProtocolTests.test_exact_locked_graph_projection) ... ok
+test_expiry_strict_endpoint (test_protocol.ProtocolTests.test_expiry_strict_endpoint) ... ok
+test_future_head (test_protocol.ProtocolTests.test_future_head) ... ok
+test_historical_frontier_is_not_freshness (test_protocol.ProtocolTests.test_historical_frontier_is_not_freshness) ... ok
+test_holes_are_not_filled_by_high_sequence (test_protocol.ProtocolTests.test_holes_are_not_filled_by_high_sequence) ... ok
+test_identical_duplicate_is_not_equivocation (test_protocol.ProtocolTests.test_identical_duplicate_is_not_equivocation) ... ok
+test_immediate_policy_abstains (test_protocol.ProtocolTests.test_immediate_policy_abstains) ... ok
+test_local_clock_is_monotone_and_signs_checkpoint (test_protocol.ProtocolTests.test_local_clock_is_monotone_and_signs_checkpoint) ... ok
+test_malformed_inputs_fail_closed (test_protocol.ProtocolTests.test_malformed_inputs_fail_closed) ... ok
+test_missing_shortest_path (test_protocol.ProtocolTests.test_missing_shortest_path) ... ok
+test_namespace_omission (test_protocol.ProtocolTests.test_namespace_omission) ... ok
+test_out_of_order_and_duplicate_delivery (test_protocol.ProtocolTests.test_out_of_order_and_duplicate_delivery) ... ok
+test_positive (test_protocol.ProtocolTests.test_positive) ... ok
+test_prefix_omission (test_protocol.ProtocolTests.test_prefix_omission) ... ok
+test_root_only_freshness_negative_control (test_protocol.ProtocolTests.test_root_only_freshness_negative_control) ... ok
+test_root_substitution (test_protocol.ProtocolTests.test_root_substitution) ... ok
+test_rpc_cannot_choose_issuer_clock (test_protocol.ProtocolTests.test_rpc_cannot_choose_issuer_clock) ... ok
+test_status_baseline_matches_prefix_predicate (test_protocol.ProtocolTests.test_status_baseline_matches_prefix_predicate) ... ok
+test_transfer_keeps_old_immutable_publication (test_protocol.ProtocolTests.test_transfer_keeps_old_immutable_publication) ... ok
+test_unrelated_namespace_does_not_block (test_protocol.ProtocolTests.test_unrelated_namespace_does_not_block) ... ok
+test_wrong_chain (test_protocol.ProtocolTests.test_wrong_chain) ... ok
+test_wrong_head_signature (test_protocol.ProtocolTests.test_wrong_head_signature) ... ok
+test_wrong_receipt_signature (test_protocol.ProtocolTests.test_wrong_receipt_signature) ... ok
+test_wrong_tip (test_protocol.ProtocolTests.test_wrong_tip) ... ok
+
+----------------------------------------------------------------------
+Ran 38 tests in 0.291s
+
+OK

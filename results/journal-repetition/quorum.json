@@ -1,0 +1,3089 @@
+{
+  "existence_checks": 55,
+  "failures": 0,
+  "model": "cardinality quorums; at most f Byzantine identities; no protocol liveness claim",
+  "parameter_rows": 385,
+  "quorum_pair_checks": 250942,
+  "rows": [
+    {
+      "n": 1,
+      "f": 0,
+      "q": 1,
+      "min_intersection": 1,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 2,
+      "f": 0,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 2,
+      "f": 1,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 2,
+      "f": 0,
+      "q": 2,
+      "min_intersection": 2,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 2,
+      "f": 1,
+      "q": 2,
+      "min_intersection": 2,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 3,
+      "f": 0,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 3,
+      "f": 1,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 3,
+      "f": 2,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 3,
+      "f": 0,
+      "q": 2,
+      "min_intersection": 1,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 3,
+      "f": 1,
+      "q": 2,
+      "min_intersection": 1,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 3,
+      "f": 2,
+      "q": 2,
+      "min_intersection": 1,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 3,
+      "f": 0,
+      "q": 3,
+      "min_intersection": 3,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 3,
+      "f": 1,
+      "q": 3,
+      "min_intersection": 3,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 3,
+      "f": 2,
+      "q": 3,
+      "min_intersection": 3,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 4,
+      "f": 0,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 4,
+      "f": 1,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 4,
+      "f": 2,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 4,
+      "f": 3,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 4,
+      "f": 0,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 4,
+      "f": 1,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 4,
+      "f": 2,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 4,
+      "f": 3,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 4,
+      "f": 0,
+      "q": 3,
+      "min_intersection": 2,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 4,
+      "f": 1,
+      "q": 3,
+      "min_intersection": 2,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 4,
+      "f": 2,
+      "q": 3,
+      "min_intersection": 2,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 4,
+      "f": 3,
+      "q": 3,
+      "min_intersection": 2,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 4,
+      "f": 0,
+      "q": 4,
+      "min_intersection": 4,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 4,
+      "f": 1,
+      "q": 4,
+      "min_intersection": 4,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 4,
+      "f": 2,
+      "q": 4,
+      "min_intersection": 4,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 4,
+      "f": 3,
+      "q": 4,
+      "min_intersection": 4,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 5,
+      "f": 0,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 5,
+      "f": 1,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 5,
+      "f": 2,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 5,
+      "f": 3,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 5,
+      "f": 4,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 5,
+      "f": 0,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 5,
+      "f": 1,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 5,
+      "f": 2,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 5,
+      "f": 3,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 5,
+      "f": 4,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 5,
+      "f": 0,
+      "q": 3,
+      "min_intersection": 1,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 5,
+      "f": 1,
+      "q": 3,
+      "min_intersection": 1,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 5,
+      "f": 2,
+      "q": 3,
+      "min_intersection": 1,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 5,
+      "f": 3,
+      "q": 3,
+      "min_intersection": 1,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 5,
+      "f": 4,
+      "q": 3,
+      "min_intersection": 1,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 5,
+      "f": 0,
+      "q": 4,
+      "min_intersection": 3,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 5,
+      "f": 1,
+      "q": 4,
+      "min_intersection": 3,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 5,
+      "f": 2,
+      "q": 4,
+      "min_intersection": 3,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 5,
+      "f": 3,
+      "q": 4,
+      "min_intersection": 3,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 5,
+      "f": 4,
+      "q": 4,
+      "min_intersection": 3,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 5,
+      "f": 0,
+      "q": 5,
+      "min_intersection": 5,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 5,
+      "f": 1,
+      "q": 5,
+      "min_intersection": 5,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 5,
+      "f": 2,
+      "q": 5,
+      "min_intersection": 5,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 5,
+      "f": 3,
+      "q": 5,
+      "min_intersection": 5,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 5,
+      "f": 4,
+      "q": 5,
+      "min_intersection": 5,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 6,
+      "f": 0,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 6,
+      "f": 1,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 6,
+      "f": 2,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 6,
+      "f": 3,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 6,
+      "f": 4,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 6,
+      "f": 5,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 6,
+      "f": 0,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 6,
+      "f": 1,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 6,
+      "f": 2,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 6,
+      "f": 3,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 6,
+      "f": 4,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 6,
+      "f": 5,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 6,
+      "f": 0,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 6,
+      "f": 1,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 6,
+      "f": 2,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 6,
+      "f": 3,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 6,
+      "f": 4,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 6,
+      "f": 5,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 6,
+      "f": 0,
+      "q": 4,
+      "min_intersection": 2,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 6,
+      "f": 1,
+      "q": 4,
+      "min_intersection": 2,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 6,
+      "f": 2,
+      "q": 4,
+      "min_intersection": 2,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 6,
+      "f": 3,
+      "q": 4,
+      "min_intersection": 2,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 6,
+      "f": 4,
+      "q": 4,
+      "min_intersection": 2,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 6,
+      "f": 5,
+      "q": 4,
+      "min_intersection": 2,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 6,
+      "f": 0,
+      "q": 5,
+      "min_intersection": 4,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 6,
+      "f": 1,
+      "q": 5,
+      "min_intersection": 4,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 6,
+      "f": 2,
+      "q": 5,
+      "min_intersection": 4,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 6,
+      "f": 3,
+      "q": 5,
+      "min_intersection": 4,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 6,
+      "f": 4,
+      "q": 5,
+      "min_intersection": 4,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 6,
+      "f": 5,
+      "q": 5,
+      "min_intersection": 4,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 6,
+      "f": 0,
+      "q": 6,
+      "min_intersection": 6,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 6,
+      "f": 1,
+      "q": 6,
+      "min_intersection": 6,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 6,
+      "f": 2,
+      "q": 6,
+      "min_intersection": 6,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 6,
+      "f": 3,
+      "q": 6,
+      "min_intersection": 6,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 6,
+      "f": 4,
+      "q": 6,
+      "min_intersection": 6,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 6,
+      "f": 5,
+      "q": 6,
+      "min_intersection": 6,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 7,
+      "f": 0,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 1,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 2,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 3,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 4,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 5,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 6,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 0,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 1,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 2,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 3,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 4,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 5,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 6,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 7,
+      "f": 0,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 1,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 2,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 3,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 4,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 5,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 7,
+      "f": 6,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 7,
+      "f": 0,
+      "q": 4,
+      "min_intersection": 1,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 1,
+      "q": 4,
+      "min_intersection": 1,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 2,
+      "q": 4,
+      "min_intersection": 1,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 3,
+      "q": 4,
+      "min_intersection": 1,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 4,
+      "q": 4,
+      "min_intersection": 1,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 7,
+      "f": 5,
+      "q": 4,
+      "min_intersection": 1,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 7,
+      "f": 6,
+      "q": 4,
+      "min_intersection": 1,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 7,
+      "f": 0,
+      "q": 5,
+      "min_intersection": 3,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 1,
+      "q": 5,
+      "min_intersection": 3,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 2,
+      "q": 5,
+      "min_intersection": 3,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 3,
+      "q": 5,
+      "min_intersection": 3,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 7,
+      "f": 4,
+      "q": 5,
+      "min_intersection": 3,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 7,
+      "f": 5,
+      "q": 5,
+      "min_intersection": 3,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 7,
+      "f": 6,
+      "q": 5,
+      "min_intersection": 3,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 7,
+      "f": 0,
+      "q": 6,
+      "min_intersection": 5,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 1,
+      "q": 6,
+      "min_intersection": 5,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 2,
+      "q": 6,
+      "min_intersection": 5,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 7,
+      "f": 3,
+      "q": 6,
+      "min_intersection": 5,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 7,
+      "f": 4,
+      "q": 6,
+      "min_intersection": 5,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 7,
+      "f": 5,
+      "q": 6,
+      "min_intersection": 5,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 7,
+      "f": 6,
+      "q": 6,
+      "min_intersection": 5,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 7,
+      "f": 0,
+      "q": 7,
+      "min_intersection": 7,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 7,
+      "f": 1,
+      "q": 7,
+      "min_intersection": 7,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 7,
+      "f": 2,
+      "q": 7,
+      "min_intersection": 7,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 7,
+      "f": 3,
+      "q": 7,
+      "min_intersection": 7,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 7,
+      "f": 4,
+      "q": 7,
+      "min_intersection": 7,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 7,
+      "f": 5,
+      "q": 7,
+      "min_intersection": 7,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 7,
+      "f": 6,
+      "q": 7,
+      "min_intersection": 7,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 0,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 1,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 2,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 3,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 4,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 5,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 6,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 7,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 0,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 1,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 2,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 3,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 4,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 5,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 6,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 7,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 0,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 1,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 2,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 3,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 4,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 5,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 6,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 7,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 0,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 1,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 2,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 3,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 4,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 5,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 6,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 7,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 0,
+      "q": 5,
+      "min_intersection": 2,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 1,
+      "q": 5,
+      "min_intersection": 2,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 2,
+      "q": 5,
+      "min_intersection": 2,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 3,
+      "q": 5,
+      "min_intersection": 2,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 4,
+      "q": 5,
+      "min_intersection": 2,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 5,
+      "q": 5,
+      "min_intersection": 2,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 6,
+      "q": 5,
+      "min_intersection": 2,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 7,
+      "q": 5,
+      "min_intersection": 2,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 0,
+      "q": 6,
+      "min_intersection": 4,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 1,
+      "q": 6,
+      "min_intersection": 4,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 2,
+      "q": 6,
+      "min_intersection": 4,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 3,
+      "q": 6,
+      "min_intersection": 4,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 4,
+      "q": 6,
+      "min_intersection": 4,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 5,
+      "q": 6,
+      "min_intersection": 4,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 6,
+      "q": 6,
+      "min_intersection": 4,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 7,
+      "q": 6,
+      "min_intersection": 4,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 0,
+      "q": 7,
+      "min_intersection": 6,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 1,
+      "q": 7,
+      "min_intersection": 6,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 2,
+      "q": 7,
+      "min_intersection": 6,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 3,
+      "q": 7,
+      "min_intersection": 6,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 4,
+      "q": 7,
+      "min_intersection": 6,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 5,
+      "q": 7,
+      "min_intersection": 6,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 6,
+      "q": 7,
+      "min_intersection": 6,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 7,
+      "q": 7,
+      "min_intersection": 6,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 0,
+      "q": 8,
+      "min_intersection": 8,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 8,
+      "f": 1,
+      "q": 8,
+      "min_intersection": 8,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 2,
+      "q": 8,
+      "min_intersection": 8,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 3,
+      "q": 8,
+      "min_intersection": 8,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 4,
+      "q": 8,
+      "min_intersection": 8,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 5,
+      "q": 8,
+      "min_intersection": 8,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 6,
+      "q": 8,
+      "min_intersection": 8,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 8,
+      "f": 7,
+      "q": 8,
+      "min_intersection": 8,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 0,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 1,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 2,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 3,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 4,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 5,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 6,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 7,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 8,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 0,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 1,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 2,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 3,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 4,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 5,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 6,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 7,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 8,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 0,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 1,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 2,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 3,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 4,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 5,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 6,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 7,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 8,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 0,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 1,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 2,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 3,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 4,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 5,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 6,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 7,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 8,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 0,
+      "q": 5,
+      "min_intersection": 1,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 1,
+      "q": 5,
+      "min_intersection": 1,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 2,
+      "q": 5,
+      "min_intersection": 1,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 3,
+      "q": 5,
+      "min_intersection": 1,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 4,
+      "q": 5,
+      "min_intersection": 1,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 5,
+      "q": 5,
+      "min_intersection": 1,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 6,
+      "q": 5,
+      "min_intersection": 1,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 7,
+      "q": 5,
+      "min_intersection": 1,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 8,
+      "q": 5,
+      "min_intersection": 1,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 0,
+      "q": 6,
+      "min_intersection": 3,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 1,
+      "q": 6,
+      "min_intersection": 3,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 2,
+      "q": 6,
+      "min_intersection": 3,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 3,
+      "q": 6,
+      "min_intersection": 3,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 4,
+      "q": 6,
+      "min_intersection": 3,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 5,
+      "q": 6,
+      "min_intersection": 3,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 6,
+      "q": 6,
+      "min_intersection": 3,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 7,
+      "q": 6,
+      "min_intersection": 3,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 8,
+      "q": 6,
+      "min_intersection": 3,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 0,
+      "q": 7,
+      "min_intersection": 5,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 1,
+      "q": 7,
+      "min_intersection": 5,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 2,
+      "q": 7,
+      "min_intersection": 5,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 3,
+      "q": 7,
+      "min_intersection": 5,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 4,
+      "q": 7,
+      "min_intersection": 5,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 5,
+      "q": 7,
+      "min_intersection": 5,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 6,
+      "q": 7,
+      "min_intersection": 5,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 7,
+      "q": 7,
+      "min_intersection": 5,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 8,
+      "q": 7,
+      "min_intersection": 5,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 0,
+      "q": 8,
+      "min_intersection": 7,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 1,
+      "q": 8,
+      "min_intersection": 7,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 2,
+      "q": 8,
+      "min_intersection": 7,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 3,
+      "q": 8,
+      "min_intersection": 7,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 4,
+      "q": 8,
+      "min_intersection": 7,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 5,
+      "q": 8,
+      "min_intersection": 7,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 6,
+      "q": 8,
+      "min_intersection": 7,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 7,
+      "q": 8,
+      "min_intersection": 7,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 8,
+      "q": 8,
+      "min_intersection": 7,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 0,
+      "q": 9,
+      "min_intersection": 9,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 9,
+      "f": 1,
+      "q": 9,
+      "min_intersection": 9,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 2,
+      "q": 9,
+      "min_intersection": 9,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 3,
+      "q": 9,
+      "min_intersection": 9,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 4,
+      "q": 9,
+      "min_intersection": 9,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 5,
+      "q": 9,
+      "min_intersection": 9,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 6,
+      "q": 9,
+      "min_intersection": 9,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 7,
+      "q": 9,
+      "min_intersection": 9,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 9,
+      "f": 8,
+      "q": 9,
+      "min_intersection": 9,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 0,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 1,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 2,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 3,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 4,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 5,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 6,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 7,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 8,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 9,
+      "q": 1,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 0,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 1,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 2,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 3,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 4,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 5,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 6,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 7,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 8,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 9,
+      "q": 2,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 0,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 1,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 2,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 3,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 4,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 5,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 6,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 7,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 8,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 9,
+      "q": 3,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 0,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 1,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 2,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 3,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 4,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 5,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 6,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 7,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 8,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 9,
+      "q": 4,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 0,
+      "q": 5,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 1,
+      "q": 5,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 2,
+      "q": 5,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 3,
+      "q": 5,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 4,
+      "q": 5,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 5,
+      "q": 5,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 6,
+      "q": 5,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 7,
+      "q": 5,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 8,
+      "q": 5,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 9,
+      "q": 5,
+      "min_intersection": 0,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 0,
+      "q": 6,
+      "min_intersection": 2,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 1,
+      "q": 6,
+      "min_intersection": 2,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 2,
+      "q": 6,
+      "min_intersection": 2,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 3,
+      "q": 6,
+      "min_intersection": 2,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 4,
+      "q": 6,
+      "min_intersection": 2,
+      "safe": false,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 5,
+      "q": 6,
+      "min_intersection": 2,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 6,
+      "q": 6,
+      "min_intersection": 2,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 7,
+      "q": 6,
+      "min_intersection": 2,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 8,
+      "q": 6,
+      "min_intersection": 2,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 9,
+      "q": 6,
+      "min_intersection": 2,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 0,
+      "q": 7,
+      "min_intersection": 4,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 1,
+      "q": 7,
+      "min_intersection": 4,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 2,
+      "q": 7,
+      "min_intersection": 4,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 3,
+      "q": 7,
+      "min_intersection": 4,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 4,
+      "q": 7,
+      "min_intersection": 4,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 5,
+      "q": 7,
+      "min_intersection": 4,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 6,
+      "q": 7,
+      "min_intersection": 4,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 7,
+      "q": 7,
+      "min_intersection": 4,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 8,
+      "q": 7,
+      "min_intersection": 4,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 9,
+      "q": 7,
+      "min_intersection": 4,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 0,
+      "q": 8,
+      "min_intersection": 6,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 1,
+      "q": 8,
+      "min_intersection": 6,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 2,
+      "q": 8,
+      "min_intersection": 6,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 3,
+      "q": 8,
+      "min_intersection": 6,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 4,
+      "q": 8,
+      "min_intersection": 6,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 5,
+      "q": 8,
+      "min_intersection": 6,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 6,
+      "q": 8,
+      "min_intersection": 6,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 7,
+      "q": 8,
+      "min_intersection": 6,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 8,
+      "q": 8,
+      "min_intersection": 6,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 9,
+      "q": 8,
+      "min_intersection": 6,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 0,
+      "q": 9,
+      "min_intersection": 8,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 1,
+      "q": 9,
+      "min_intersection": 8,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 2,
+      "q": 9,
+      "min_intersection": 8,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 3,
+      "q": 9,
+      "min_intersection": 8,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 4,
+      "q": 9,
+      "min_intersection": 8,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 5,
+      "q": 9,
+      "min_intersection": 8,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 6,
+      "q": 9,
+      "min_intersection": 8,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 7,
+      "q": 9,
+      "min_intersection": 8,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 8,
+      "q": 9,
+      "min_intersection": 8,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 9,
+      "q": 9,
+      "min_intersection": 8,
+      "safe": false,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 0,
+      "q": 10,
+      "min_intersection": 10,
+      "safe": true,
+      "threshold_available": true
+    },
+    {
+      "n": 10,
+      "f": 1,
+      "q": 10,
+      "min_intersection": 10,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 2,
+      "q": 10,
+      "min_intersection": 10,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 3,
+      "q": 10,
+      "min_intersection": 10,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 4,
+      "q": 10,
+      "min_intersection": 10,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 5,
+      "q": 10,
+      "min_intersection": 10,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 6,
+      "q": 10,
+      "min_intersection": 10,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 7,
+      "q": 10,
+      "min_intersection": 10,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 8,
+      "q": 10,
+      "min_intersection": 10,
+      "safe": true,
+      "threshold_available": false
+    },
+    {
+      "n": 10,
+      "f": 9,
+      "q": 10,
+      "min_intersection": 10,
+      "safe": true,
+      "threshold_available": false
+    }
+  ]
+}
