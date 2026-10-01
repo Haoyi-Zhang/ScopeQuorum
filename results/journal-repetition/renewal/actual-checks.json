@@ -290,5 +290,7 @@
     }
   ],
   "count": 30,
-  "passed": 30
+  "extension_count": 6,
+  "passed": 30,
+  "update_count": 24
 }

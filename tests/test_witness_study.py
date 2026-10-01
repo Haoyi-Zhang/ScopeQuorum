@@ -6,7 +6,8 @@ import sys
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
-from witness_study import actual_adversarial_checks, fixed_length_parity, run_trace
+from witness_study import (actual_adversarial_checks, fixed_length_parity,
+                           run_trace, state_accounting_checks)
 
 
 class WitnessStudyTests(unittest.TestCase):
@@ -19,6 +20,18 @@ class WitnessStudyTests(unittest.TestCase):
         parity = fixed_length_parity()
         self.assertTrue(parity['all_equal'])
         self.assertEqual(parity['count'], 2)
+
+    def test_state_model_matches_real_witness_payloads(self):
+        accounting = state_accounting_checks()
+        self.assertTrue(accounting['all_model_bytes_equal'])
+        self.assertTrue(accounting['retained_entry_counts_equal'])
+        self.assertTrue(accounting['same_slot_retry_unchanged'])
+        self.assertEqual(accounting['count'], 4)
+        phases = {row['phase']: row for row in accounting['phases']}
+        self.assertEqual(
+            phases['extension']['scope_entries_across_four_witnesses'], 8)
+        self.assertEqual(
+            phases['state-change-renewal']['signed_slot_entries_across_four_witnesses'], 12)
 
     def test_client_savings_do_not_imply_total_plane_savings(self):
         row = run_trace('public-lock', 1, 'increasing', 0)

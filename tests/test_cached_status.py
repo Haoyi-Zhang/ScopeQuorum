@@ -26,6 +26,15 @@ def caches(a,now=1):
     return out
 
 class CachedStatusTests(unittest.TestCase):
+    def test_compact_status_rejects_issuance_before_latest_event(self):
+        authority = Authority('n1')
+        authority.append('grant', grant('n1'), 2)
+        authority.append('publish', manifest('n1', 'leaf', []), 2)
+        with self.assertRaises(ValueError):
+            produce_compact('n1', authority.log, ['n1/leaf'], 1)
+        report = produce_compact('n1', authority.log, ['n1/leaf'], 2)
+        self.assertEqual(report['body']['issued'], 2)
+
     def test_full_then_compact_after_unrelated_update(self):
         a=world();c=caches(a)
         a['n1'].append('publish',manifest('n1','other',[]),2)

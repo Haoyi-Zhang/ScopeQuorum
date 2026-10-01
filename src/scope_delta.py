@@ -13,7 +13,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Iterable
 
-from codec import MAX_EVENTS, commitment, natural, ns_of, sign, verify
+from codec import (MAX_EVENTS, commitment, issuance_covers, natural, ns_of,
+                   sign, verify)
 
 MAX_SCOPE_KEYS = 256
 MAX_SCOPES = 256
@@ -85,8 +86,8 @@ class ScopeService:
 
     def register(self, keys: Iterable[str], now: int) -> dict:
         ordered = _validate_keys(self.ns, keys)
-        if not natural(now):
-            raise ValueError('invalid time')
+        if not issuance_covers(self.authority.log, now):
+            raise ValueError('invalid time or stale issuance frontier')
         objects = [_status(self.authority.log, key) for key in ordered]
         if any(item['manifest'] is None or item['valid'] is not True for item in objects):
             raise ValueError('scope registration requires valid objects')
@@ -147,7 +148,7 @@ class ScopeService:
         }
 
     def renew(self, scope: str, start: int, now: int) -> dict:
-        if scope not in self.scopes or not natural(now):
+        if scope not in self.scopes or not issuance_covers(self.authority.log, now):
             raise ValueError('unknown scope or invalid time')
         body = {
             'op': 'renew', 'ns': self.ns, 'scope': scope,
@@ -157,7 +158,7 @@ class ScopeService:
         return {'body': body, 'signature': sign('authority:' + self.ns, body)}
 
     def extend(self, scope: str, start: int, add: Iterable[str], now: int) -> dict:
-        if scope not in self.scopes or not natural(now):
+        if scope not in self.scopes or not issuance_covers(self.authority.log, now):
             raise ValueError('unknown scope or invalid time')
         additions = _validate_keys(self.ns, add)
         old_keys = self.scopes[scope]
@@ -321,10 +322,11 @@ class ScopeCache:
             raise ValueError('bad scope renewal head') from None
 
 
-def check_scopes(caches: dict[str, ScopeCache], root: str, now: int, *,
-                 delta: int = 10, epsilon: int = 0,
-                 floors: dict[str, int] | None = None) -> dict:
-    """Check a provenance closure from already verified scope caches."""
+def _check_scopes_with_freshness(caches: dict[str, ScopeCache], root: str,
+                                 now: int, *, delta: int, epsilon: int,
+                                 floors: dict[str, int] | None,
+                                 freshness) -> dict:
+    """Shared closure checker with an explicitly supplied clock policy."""
     observed: dict[str, int] = {}
     support: set[str] = set()
     reached: list[str] = []
@@ -353,7 +355,7 @@ def check_scopes(caches: dict[str, ScopeCache], root: str, now: int, *,
                 return result('MISSING_STATUS')
             if cache.count < (floors or {}).get(ns, 0):
                 return result('ROLLBACK')
-            if not _fresh(cache.issued, now, delta, epsilon):
+            if not freshness(cache.issued, now, delta, epsilon):
                 return result('EXPIRED')
             observed[ns] = cache.count
             item = cache.objects[key]
@@ -374,3 +376,12 @@ def check_scopes(caches: dict[str, ScopeCache], root: str, now: int, *,
         return result('SERVE')
     except (KeyError, TypeError, ValueError, IndexError):
         return result('MALFORMED')
+
+
+def check_scopes(caches: dict[str, ScopeCache], root: str, now: int, *,
+                 delta: int = 10, epsilon: int = 0,
+                 floors: dict[str, int] | None = None) -> dict:
+    """Check honest-issuer scope caches with the two-clock-error margin."""
+    return _check_scopes_with_freshness(
+        caches, root, now, delta=delta, epsilon=epsilon, floors=floors,
+        freshness=_fresh)

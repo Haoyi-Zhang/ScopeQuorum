@@ -1,7 +1,7 @@
 {
   "clock_boundary_cases": 1512,
-  "cpu_seconds": 0.34059422799999994,
-  "elapsed_seconds": 0.3406102669999882,
+  "cpu_seconds": 0.29345585500000004,
+  "elapsed_seconds": 0.294019067000022,
   "families": {
     "equivocation": {
       "events": 6,
@@ -24,7 +24,7 @@
   },
   "merge_checks": 46080,
   "negative_control_unsafe_clock_cases": 48,
-  "peak_rss_kib": 92712,
+  "peak_rss_kib": 92716,
   "schedules": 5880,
   "scope": "three fixed histories / two replicas; not all registry histories",
   "state_decisions": 92160,

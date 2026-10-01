@@ -12,6 +12,7 @@ import witness_delta
 from codec import commitment, manifest, sign, signed_receipt
 from fixtures import grant
 from model import Authority
+from scope_delta import check_scopes as check_scopes_with_legacy_two_epsilon
 from witness_delta import (
     QUORUM,
     QuorumUnavailable,
@@ -62,6 +63,45 @@ def malicious_renew_body(service, cache, now, *, conflicts=(), revoked_keys=(), 
 
 
 class WitnessDeltaTests(unittest.TestCase):
+    def test_nonzero_error_cached_reads_use_three_epsilon(self):
+        """Exercise certificate admission and later serving through public APIs.
+
+        True-time annotations for this bounded trace are: publications at 10;
+        witnesses read 12 while the report says 14; the client reads 10 at true
+        time 12; a revocation at 11 obtains a quorum at witness reading 13; and
+        the isolated client reads 19 at true time 21.  With two epsilon the old
+        cache would still serve at 19; witnessed reads must use three epsilon.
+        """
+        authority = Authority('n1')
+        authority.append('grant', grant('n1'), 10)
+        authority.append('publish', manifest('n1', 'leaf', []), 10)
+        committee = WitnessCommittee('n1', clock_epsilon=2)
+        service = WitnessedScopeService(authority, committee)
+        cache = WitnessScopeCache('n1')
+
+        certificate = service.register(
+            ['n1/leaf'], 14, witness_now=12)
+        cache.apply_register(certificate, 10, delta=10, epsilon=2)
+        self.assertTrue(check_witness_scopes(
+            {'n1': cache}, 'n1/leaf', 17, delta=10, epsilon=2)['serve'])
+        # Strict endpoint: 18 - 14 + 3*2 == 10, so it is expired.
+        self.assertEqual(check_witness_scopes(
+            {'n1': cache}, 'n1/leaf', 18, delta=10, epsilon=2)['reason'],
+            'EXPIRED')
+
+        authority.append('revoke', {'target': 'n1/leaf'}, 11)
+        acknowledged = service.checkpoint(15, witness_now=13)
+        self.assertEqual(len(acknowledged['witnesses']), QUORUM)
+        # Reproduce the former adapter wiring: forwarding this witnessed cache
+        # through the honest 2*epsilon scope checker still serves at 19.
+        self.assertTrue(check_scopes_with_legacy_two_epsilon(
+            {'n1': cache}, 'n1/leaf', 19, delta=10, epsilon=2)['serve'])
+        # The public witnessed API must instead apply the composed 3*epsilon
+        # guard on every read and fail closed.
+        self.assertEqual(check_witness_scopes(
+            {'n1': cache}, 'n1/leaf', 19, delta=10, epsilon=2)['reason'],
+            'EXPIRED')
+
     def test_noncanonical_dependency_order_is_rejected(self):
         authority = Authority('n1')
         authority.append('grant', grant('n1'), 0)

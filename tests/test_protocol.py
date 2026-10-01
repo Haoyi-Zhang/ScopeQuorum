@@ -73,6 +73,15 @@ class ProtocolTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.a['n1'].head(2)
 
+    def test_full_status_rejects_issuance_before_latest_event(self):
+        authority = Authority('n1')
+        authority.append('grant', grant('n1'), 2)
+        authority.append('publish', manifest('n1', 'leaf', []), 2)
+        with self.assertRaises(ValueError):
+            produce('n1', authority.log, ['n1/leaf'], 1)
+        report = produce('n1', authority.log, ['n1/leaf'], 2)
+        self.assertEqual(report['body']['issued'], 2)
+
     def test_client_rejects_event_accepted_after_head_issuance(self):
         def move_publication_after_head(body):
             body['accepted'] = 2

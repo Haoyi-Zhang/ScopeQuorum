@@ -22,7 +22,8 @@ from typing import Iterable
 
 from codec import (MAX_EVENTS, authenticated, commitment, natural, ns_of, sign,
                    verify)
-from scope_delta import MAX_SCOPE_KEYS, MAX_SCOPES, _fresh, _status, check_scopes
+from scope_delta import (MAX_SCOPE_KEYS, MAX_SCOPES,
+                         _check_scopes_with_freshness, _status)
 
 WITNESS_IDS = tuple(f'w{i}' for i in range(4))
 FAULT_BOUND = 1
@@ -309,13 +310,17 @@ class Witness:
 
 
 class WitnessCommittee:
-    def __init__(self, ns: str, faulty: Iterable[str] = ()):
+    def __init__(self, ns: str, faulty: Iterable[str] = (), *,
+                 clock_epsilon: int = 0):
         faulty_set = set(faulty)
-        if not faulty_set <= set(WITNESS_IDS) or len(faulty_set) > FAULT_BOUND:
+        if (not faulty_set <= set(WITNESS_IDS) or len(faulty_set) > FAULT_BOUND
+                or not natural(clock_epsilon)):
             raise ValueError('fault bound')
         self.ns = ns
         self.witnesses = {
-            witness_id: Witness(ns, witness_id, witness_id in faulty_set)
+            witness_id: Witness(ns=ns, witness_id=witness_id,
+                                faulty=witness_id in faulty_set,
+                                clock_epsilon=clock_epsilon)
             for witness_id in WITNESS_IDS
         }
 
@@ -369,42 +374,51 @@ class WitnessedScopeService:
             raise ValueError('scope table bound')
         self.scopes[scope] = keys
 
-    def _frontier(self, now: int) -> dict:
+    def _frontier(self, now: int, witness_now: int | None = None) -> dict:
         if not natural(now):
             raise ValueError('invalid time')
+        local_now = now if witness_now is None else witness_now
+        if not natural(local_now):
+            raise ValueError('invalid witness time')
         # In the executable fixture this is a trusted harness action.  A
         # deployment obtains each witness clock locally rather than from the
         # sequencer request.
-        self.committee.advance(now)
+        self.committee.advance(local_now)
         return {'count': len(self.authority.log), 'tip': _tip(self.authority.log), 'issued': now}
 
-    def checkpoint(self, now: int, available: Iterable[str] | None = None) -> dict:
-        body = {'op': 'checkpoint', 'ns': self.ns, **self._frontier(now)}
+    def checkpoint(self, now: int, available: Iterable[str] | None = None, *,
+                   witness_now: int | None = None) -> dict:
+        body = {'op': 'checkpoint', 'ns': self.ns,
+                **self._frontier(now, witness_now)}
         return self.committee.certify(body, self.authority.log, available)
 
     def register(self, keys: Iterable[str], now: int,
-                 available: Iterable[str] | None = None) -> dict:
+                 available: Iterable[str] | None = None, *,
+                 witness_now: int | None = None) -> dict:
         ordered = _validate_keys(self.ns, keys)
         objects = [_status(self.authority.log, key) for key in ordered]
         if any(item['manifest'] is None or item['valid'] is not True for item in objects):
             raise ValueError('registration requires valid objects')
         scope = _scope_id(self.ns, ordered)
         body = {'op': 'register', 'ns': self.ns, 'scope': scope,
-                **self._frontier(now), 'objects': objects}
+                **self._frontier(now, witness_now), 'objects': objects}
         cert = self.committee.certify(body, self.authority.log, available)
         self._remember(scope, ordered)
         return cert
 
     def renew(self, scope: str, start: int, now: int,
-              available: Iterable[str] | None = None) -> dict:
+              available: Iterable[str] | None = None, *,
+              witness_now: int | None = None) -> dict:
         if scope not in self.scopes:
             raise ValueError('unknown scope')
         body = {'op': 'renew', 'ns': self.ns, 'scope': scope, 'from': start,
-                **self._frontier(now), **_projection(self.authority.log, self.scopes[scope], start)}
+                **self._frontier(now, witness_now),
+                **_projection(self.authority.log, self.scopes[scope], start)}
         return self.committee.certify(body, self.authority.log, available)
 
     def extend(self, scope: str, start: int, additions: Iterable[str], now: int,
-               available: Iterable[str] | None = None) -> dict:
+               available: Iterable[str] | None = None, *,
+               witness_now: int | None = None) -> dict:
         if scope not in self.scopes:
             raise ValueError('unknown scope')
         add = _validate_keys(self.ns, additions)
@@ -419,17 +433,20 @@ class WitnessedScopeService:
             raise ValueError('extension requires valid objects')
         new_scope = _scope_id(self.ns, combined)
         body = {'op': 'extend', 'ns': self.ns, 'from_scope': scope,
-                'scope': new_scope, 'from': start, **self._frontier(now),
+                'scope': new_scope, 'from': start,
+                **self._frontier(now, witness_now),
                 **_projection(self.authority.log, old, start), 'objects': objects}
         cert = self.committee.certify(body, self.authority.log, available)
         self._remember(new_scope, combined)
         return cert
 
     def head(self, scope: str, now: int,
-             available: Iterable[str] | None = None) -> dict:
+             available: Iterable[str] | None = None, *,
+             witness_now: int | None = None) -> dict:
         if scope not in self.scopes:
             raise ValueError('unknown scope')
-        body = {'op': 'head', 'ns': self.ns, 'scope': scope, **self._frontier(now)}
+        body = {'op': 'head', 'ns': self.ns, 'scope': scope,
+                **self._frontier(now, witness_now)}
         return self.committee.certify(body, self.authority.log, available)
 
 
@@ -577,7 +594,13 @@ class WitnessScopeCache:
 
 
 def check_witness_scopes(caches: dict[str, WitnessScopeCache], root: str, now: int, **kwargs) -> dict:
-    return check_scopes(caches, root, now, **kwargs)
+    allowed = {'delta', 'epsilon', 'floors'}
+    if set(kwargs) - allowed:
+        raise TypeError('unexpected witness scope policy argument')
+    return _check_scopes_with_freshness(
+        caches, root, now,
+        delta=kwargs.get('delta', 10), epsilon=kwargs.get('epsilon', 0),
+        floors=kwargs.get('floors'), freshness=_witness_fresh)
 
 
 def quorum_intersection_audit() -> dict:

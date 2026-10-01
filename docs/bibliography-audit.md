@@ -2,7 +2,7 @@
 
 The main journal article contains 68 bibliography entries, all cited in the main source. This file separates deterministic coverage checks from source verification. The local checker cannot prove a reference authentic merely because its fields and URL look valid.
 
-The inherited 66 entries retain their bibliographic/source records and previously documented reading limits. The two added entries below were checked against primary publisher or author-institution metadata and abstracts on 2026-09-23. This conversion does not claim a new full-text reading of all 68 papers or execution of external artifacts.
+For 66 records, the package retains the existing bibliographic/source evidence and documented reading limits. The `dependabilitytaxonomy` and `byzantinequorums` records were additionally checked against primary publisher or author-institution metadata and abstracts on 2026-09-23. The audit does not claim a new full-text reading of all 68 papers or execution of their external artifacts.
 
 | Key | Title | Year | Verification basis in this conversion |
 |---|---|---:|---|

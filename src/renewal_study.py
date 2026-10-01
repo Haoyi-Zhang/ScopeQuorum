@@ -765,8 +765,12 @@ def actual_protocol_checks() -> dict:
                 'from_closure': len(first), 'to_closure': len(bundle),
                 'passed': True,
             })
+    update_count = sum(check['kind'] == 'update' for check in checks)
+    extension_count = sum(check['kind'] == 'extension' for check in checks)
     return {'checks': checks, 'count': len(checks),
-            'passed': sum(check['passed'] for check in checks)}
+            'passed': sum(check['passed'] for check in checks),
+            'update_count': update_count,
+            'extension_count': extension_count}
 
 
 def fixed_length_parity() -> dict:
@@ -932,6 +936,8 @@ def summarize(traces: list[dict], faults: list[dict], parity: dict,
         'actual_protocol_checks': {
             'count': actual_checks['count'],
             'passed': actual_checks['passed'],
+            'update_count': actual_checks.get('update_count', 0),
+            'extension_count': actual_checks.get('extension_count', 0),
         },
     }
 
@@ -1022,6 +1028,8 @@ def write_tex(generated: Path, summary: dict) -> None:
         f"\\newcommand{{\\ScopeMedianRatio}}{{{comparison['median_ratio']:.2f}\\xspace}}",
         f"\\newcommand{{\\ScopeMaxRatio}}{{{comparison['max_ratio']:.2f}\\xspace}}",
         f"\\newcommand{{\\ScopeActualChecks}}{{{summary['actual_protocol_checks']['passed']}\\xspace}}",
+        f"\\newcommand{{\\ScopeActualUpdateChecks}}{{{summary['actual_protocol_checks']['update_count']}\\xspace}}",
+        f"\\newcommand{{\\ScopeActualExtensionChecks}}{{{summary['actual_protocol_checks']['extension_count']}\\xspace}}",
         f"\\newcommand{{\\ScopeParityObjects}}{{{summary['fixed_length_parity']['count']}\\xspace}}",
         f"\\newcommand{{\\ScopeMedianAuthorityState}}{{{int(round(state['median_peak_scope_authority_state_bytes'])):,}\\xspace}}",
         f"\\newcommand{{\\ScopeMaxAuthorityState}}{{{int(round(state['max_peak_scope_authority_state_bytes'])):,}\\xspace}}",
@@ -1085,7 +1093,8 @@ def main() -> None:
     args.output.mkdir(parents=True, exist_ok=True)
 
     parity = fixed_length_parity()
-    actual = ({'checks': [], 'count': 0, 'passed': 0}
+    actual = ({'checks': [], 'count': 0, 'passed': 0,
+               'update_count': 0, 'extension_count': 0}
               if args.skip_actual else actual_protocol_checks())
     traces = [
         run_trace(family, span, order, churn)

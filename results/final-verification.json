@@ -1,228 +1,262 @@
 {
-  "target": "IEEE Transactions on Dependable and Secure Computing (TDSC), Regular Paper",
-  "verification_date": "2026-09-23",
-  "scope": "direct TDSC journal package validation; not acceptance, authorship approval, or external independent reproduction",
-  "template": {
-    "class": "IEEEtran",
-    "version": "1.8b",
-    "options": "10pt,journal,compsoc",
-    "bibliography_style": "IEEEtran.bst 1.14",
-    "class_identical_to_installed_public_release": true,
-    "bst_identical_to_installed_public_release": true,
-    "local_style_files": 0
-  },
-  "authorship_layout": {
-    "author_slots": 6,
-    "verified_identity_slots": 2,
-    "pending_identity_slots": 4,
-    "known_authors": [
+  "authorship": {
+    "confirmed_in_manuscript_and_pdf": 2,
+    "confirmed_names": [
       "Haoyi Zhang",
       "Huaijin Ran"
     ],
-    "pending_slots": [
-      "Author 3",
-      "Author 4",
-      "Author 5",
-      "Author 6"
-    ],
-    "submission_hold": "replace all four placeholders and confirm all six ORCIDs, affiliations, authorship eligibility, order, corresponding author, and consent"
+    "hold": "actual names, affiliations, e-mails, ORCIDs, eligibility, order, corresponding author, contributions, consent, and declarations must be confirmed before submission; no placeholder identity is in either PDF",
+    "intended_final_count": 6,
+    "pdf_author_metadata": "Haoyi Zhang; Huaijin Ran",
+    "pending_confirmation_slot_numbers": [
+      3,
+      4,
+      5,
+      6
+    ]
   },
-  "paper": {
-    "main_pages": 12,
-    "main_page_size": "612 x 792 pts (letter)",
-    "supplement_pages": 5,
-    "supplement_page_size": "612 x 792 pts (letter)",
-    "abstract_words": 179,
-    "bibliography_entries": 68,
-    "main_body_cited_entries": 68,
-    "uncited_entries": 0,
-    "missing_entries": 0,
-    "duplicate_keys": 0,
-    "duplicate_titles": 0,
-    "duplicate_dois": 0,
-    "maximum_citation_group": 4,
-    "main_fonts_all_embedded": true,
-    "supplement_fonts_all_embedded": true,
-    "main_text_in_bounds_and_pages_nonempty": true,
-    "supplement_text_in_bounds_and_pages_nonempty": true,
-    "visual_inspection_200dpi": {
-      "main_pages": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12
-      ],
-      "supplement_pages": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ]
-    },
-    "tex_fatal_overfull_undefined_findings": [],
-    "pdf_openable_unencrypted": true,
-    "qpdf_available": false
+  "bounded_checks": {
+    "concurrent_dual_quorum_failures": [],
+    "concurrent_fork_first_arrivals": 32,
+    "delivery_orders": 5880,
+    "directed_tests": 125,
+    "merge_checks": 46080,
+    "ordered_quorum_fault_checks": 80,
+    "original_clock_boundary_cases": 1512,
+    "original_unsafe_clock_negative_controls": 48,
+    "protected_predicate_violations": 0,
+    "quorum_parameter_rows": 385,
+    "reachability_fault_cases": 80,
+    "split_branch_cases": 8,
+    "split_branch_passed": 8,
+    "state_decisions": 92160
   },
-  "quick_gate": {
-    "scope": "quick bounded gate, not a fresh complete network campaign",
-    "retained": {
-      "canonical_main_cases_checked": 48,
-      "retained_complete_repetition_equal": true,
-      "current_main_cases_rerun_and_equal": 6,
-      "equal_result_files": [
-        "renewal/actual-checks.json",
-        "renewal/faults.json",
-        "renewal/selector-summary.json",
-        "renewal/selector-traces.json.gz",
-        "renewal/summary.json",
-        "renewal/traces.json.gz",
-        "witness/adversarial.json",
-        "witness/summary.json",
-        "witness/traces.json.gz",
-        "witness-network/summary.json",
-        "durable-witness/summary.json",
-        "finite.json",
-        "witness-finite.json"
-      ],
-      "excluded_host_fields": [
-        "cpu_seconds",
-        "elapsed_seconds",
-        "first_attempt_ms",
-        "median_restart_and_retry_ms_host_diagnostic",
-        "p95_restart_and_retry_ms_host_diagnostic",
-        "peak_rss_kib",
-        "restart_and_retry_ms"
-      ],
-      "fresh_seed_differential_histories": 500,
-      "differential_seed": 20260923,
-      "differential_mismatches": 0
-    },
-    "commands": [
-      {
-        "name": "unit",
-        "exit_code": 0,
-        "elapsed_seconds_host_diagnostic": 5.544,
-        "passed_tests": 118
-      },
-      {
-        "name": "finite",
-        "exit_code": 0,
-        "elapsed_seconds_host_diagnostic": 0.993
-      },
-      {
-        "name": "witness-finite",
-        "exit_code": 0,
-        "elapsed_seconds_host_diagnostic": 0.776
-      },
-      {
-        "name": "boundary",
-        "exit_code": 0,
-        "elapsed_seconds_host_diagnostic": 0.72
-      },
-      {
-        "name": "quorum",
-        "exit_code": 0,
-        "elapsed_seconds_host_diagnostic": 4.644
-      }
-    ],
-    "passed": true
-  },
-  "fresh_reexecution": {
-    "renewal_traces": 96,
-    "renewal_queries": 3072,
-    "selector_traces": 96,
-    "selector_switched_traces": 96,
-    "witness_traces": 96,
-    "witness_attack_checks": "9/9",
-    "witness_client_plane_scope_wins": 87,
-    "witness_total_plane_scope_wins": 48,
-    "witness_network": {
-      "cases": 45,
-      "passed": 45,
-      "listener_count": 4,
-      "omission_attack_cases": 18,
-      "messages": 710,
-      "wire_bytes": 10960842
-    },
-    "durable_witness": {
-      "cases": 33,
-      "passed": 33,
-      "processes": 4,
-      "separate_processes": true,
-      "crash_recovery_cases": 24,
-      "full_restart_fork_cases": 6,
-      "corruption_cases": 2,
-      "injected_crashes": 24,
-      "restarts": 54,
-      "certify_messages": 560,
-      "certify_wire_bytes": 6292402
-    },
-    "fresh_seed_differential": {
-      "iterations_completed": 500,
-      "seed": 20260923,
-      "mismatch_count": 0,
-      "decision_counts": {
-        "prefix=False,status=False,oracle=False": 196,
-        "prefix=True,status=True,oracle=True": 304
-      }
-    },
-    "canonical_main_campaign_reload": {
-      "cases": 48,
-      "policy_runs": 336,
-      "main_queries": 1344,
-      "probes": 126,
-      "accepted_events": 40740,
-      "messages": 462122,
-      "application_bytes": 569112148
-    },
-    "rerun_outputs_match_retained_logical_outputs": true,
-    "generated_tex_tables_and_macros_match": true
-  },
-  "package_cleanliness": {
+  "clean_extraction": {
+    "bibliography_gate_passed": true,
+    "main_pdf_render_changed_pages_at_200dpi": 0,
+    "paper_clean_build_passed": true,
     "project_root_entries": [
       "CURRENT-STATE.md",
       "artifact",
       "paper",
       "research-plan.md"
     ],
-    "journal_source_only": true,
-    "legacy_template_files_present": false,
-    "nested_archives_present": false,
-    "credentials_or_private_keys_present": false,
-    "publication_build_intermediates_removed_before_packaging": true
+    "project_zip_single_root": true,
+    "repository_zip_single_root": true,
+    "standalone_repository_release_gate_passed": true,
+    "supplement_pdf_render_changed_pages_at_200dpi": 0,
+    "tdsc_package_gate_passed": true
+  },
+  "clock_policy_fix": {
+    "finite_support": {
+      "assignments": 2625,
+      "three_epsilon_failures": 0,
+      "unsafe_two_epsilon_negative_controls": 5
+    },
+    "honest_issuer_margin": "2*epsilon",
+    "interpretation": "real public-API regressions validate wiring; finite arithmetic enumeration is supplementary",
+    "real_api_trace": {
+      "Delta": 10,
+      "certificate_issued": 14,
+      "client_reading_at_admission": 10,
+      "client_reading_at_final_isolated_read": 19,
+      "client_true_time_at_admission": 12,
+      "client_true_time_at_final_read": 21,
+      "epsilon": 2,
+      "fixed_witness_api_at_17": "SERVE",
+      "fixed_witness_api_at_19": "EXPIRED",
+      "fixed_witness_api_at_strict_endpoint_18": "EXPIRED",
+      "honest_issuer_api_at_19": "SERVE",
+      "honest_issuer_api_at_20": "EXPIRED",
+      "legacy_two_epsilon_adapter_at_19": "SERVE",
+      "publication_accepted_true_time": 10,
+      "revocation_accepted_true_time": 11,
+      "witness_reading_at_certificate": 12,
+      "witness_reading_at_quorum": 13
+    },
+    "witness_certificate_admission_margin": "3*epsilon",
+    "witness_every_serve_margin": "3*epsilon"
+  },
+  "differential_scope": {
+    "compared_paths": [
+      "prefix",
+      "full signed status",
+      "independent oracle"
+    ],
+    "excluded_claim": "no random ScopeDelta state-transition differential claim",
+    "iterations": 500,
+    "mismatches": 0,
+    "seed": 20260923
+  },
+  "fresh_studies": {
+    "durable_witness": {
+      "cases": 33,
+      "certify_messages": 560,
+      "certify_wire_bytes": 6292402,
+      "corruption_cases": 2,
+      "crash_recovery_cases": 24,
+      "full_restart_fork_cases": 6,
+      "injected_crashes": 24,
+      "passed": 33,
+      "restarts": 54
+    },
+    "fresh_outputs_match_retained": true,
+    "generated_tables_and_macros_match": true,
+    "renewal_queries": 3072,
+    "renewal_traces": 96,
+    "selector_switched_traces": 96,
+    "selector_traces": 96,
+    "witness_attack_checks": 9,
+    "witness_network": {
+      "cases": 45,
+      "messages": 710,
+      "omission_attack_cases": 18,
+      "passed": 45,
+      "valid_update_cases": 24,
+      "wire_bytes": 10960842
+    },
+    "witness_traces": 96
+  },
+  "honest_scope_signed_evidence": {
+    "counting_rule": "30 total = 24 update + 6 extension; extension cases are not counted again",
+    "extension_cases": 6,
+    "passed": 30,
+    "total": 30,
+    "update_cases": 24
+  },
+  "issuance_frontier_fix": {
+    "boundary_case": "issued equals latest accepted event is accepted",
+    "claim_boundary": "interface-specific; no claim about unlisted producers",
+    "covered_producers": [
+      "honest authority head",
+      "full signed status",
+      "compact signed status",
+      "ScopeService register",
+      "ScopeService renew",
+      "ScopeService extend",
+      "witness report validation"
+    ],
+    "negative_case": "accepted=2, issued=1 rejected before signing or scope allocation as applicable",
+    "transactionality": "stale renew/extend leave scope service state unchanged"
   },
   "limitations": [
-    "Authors 3-6 are placeholders and prevent external submission.",
-    "The four durable witness processes share one host, kernel, and storage subsystem.",
+    "Only two identities are confirmed; intended slots 3-6 remain pending actual-author confirmation.",
+    "The four durable witness processes share one host, kernel, scheduler, and storage subsystem.",
     "No WAN, production workload, dynamic committee, malicious rollback, disk-loss, or cross-namespace atomic-commit claim.",
     "Handwritten arguments and bounded checks are not a proof-assistant mechanization.",
     "Same-team reexecution is not independent third-party reproduction.",
-    "Journal fit and format validation do not predict acceptance."
+    "Journal formatting and internal validation do not predict acceptance."
   ],
+  "package_cleanliness": {
+    "credentials_or_private_keys_present": false,
+    "legacy_conference_template_files_present": false,
+    "nested_archives_present": false,
+    "publication_build_intermediates_present": false,
+    "python_caches_or_bytecode_present": false
+  },
+  "paper": {
+    "abstract_words": 179,
+    "bibliography_entries": 68,
+    "compiled_bibitems": 68,
+    "duplicate_dois": 0,
+    "duplicate_keys": 0,
+    "duplicate_titles": 0,
+    "main_body_cited_entries": 68,
+    "main_fonts_all_embedded": true,
+    "maximum_citation_group": 4,
+    "missing_entries": 0,
+    "pdf_openable_unencrypted": true,
+    "qpdf_available": false,
+    "supplement_fonts_all_embedded": true,
+    "tex_fatal_overfull_undefined_findings": [],
+    "uncited_entries": 0,
+    "visual_inspection_200dpi": {
+      "defects_found": 0,
+      "main_pages": 12,
+      "supplement_pages": 5
+    }
+  },
   "passed": true,
-  "clean_extraction": {
-    "project_zip_single_root": true,
-    "project_root_entries": [
-      "CURRENT-STATE.md",
-      "artifact",
-      "paper",
-      "research-plan.md"
+  "retained_campaign": {
+    "accepted_events": 40740,
+    "application_bytes": 569112148,
+    "application_messages": 462122,
+    "canonical_main_cases_checked": 48,
+    "current_main_cases_separately_rerun_and_equal": 6,
+    "host_diagnostic_fields_excluded_from_semantic_comparison": [
+      "cpu_seconds",
+      "elapsed_seconds",
+      "first_attempt_ms",
+      "median_restart_and_retry_ms_host_diagnostic",
+      "p95_restart_and_retry_ms_host_diagnostic",
+      "peak_rss_kib",
+      "restart_and_retry_ms"
     ],
-    "repository_zip_single_root": true,
-    "paper_clean_build_passed": true,
-    "bibliography_gate_passed": true,
-    "tdsc_package_gate_passed": true,
-    "standalone_repository_gate_passed": true,
-    "main_pdf_render_changed_pages_at_200dpi": 0,
-    "supplement_pdf_render_changed_pages_at_200dpi": 0
+    "main_queries": 1344,
+    "policy_runs": 336,
+    "probes": 126,
+    "retained_complete_repetition_equal": true
+  },
+  "scope": "bounded implementation, experiment, paper, and package validation; not acceptance, external peer review, authorship approval, or independent reproduction",
+  "target": "IEEE Transactions on Dependable and Secure Computing (TDSC), Regular Paper",
+  "template": {
+    "bibliography_style": "IEEEtran.bst 1.14",
+    "bst_control": "IEEEtran-supported control suppresses redundant printed URLs; full DOI/official locators remain in references.bib and audits",
+    "class": "IEEEtran",
+    "class_and_bst_unmodified": true,
+    "main_pages": 12,
+    "options": "10pt,journal,compsoc",
+    "page_size": "US Letter",
+    "supplement_pages": 5,
+    "version": "1.8b"
+  },
+  "witness_state_accounting": {
+    "actual_model_equal": true,
+    "actual_model_transitions": [
+      {
+        "actual_aggregate_payload_bytes": 6144,
+        "equal": true,
+        "model_aggregate_payload_bytes": 6144,
+        "phase": "registration",
+        "scope_entries_across_four_witnesses": 4,
+        "signed_slot_entries_across_four_witnesses": 4
+      },
+      {
+        "actual_aggregate_payload_bytes": 7376,
+        "equal": true,
+        "model_aggregate_payload_bytes": 7376,
+        "phase": "extension",
+        "scope_entries_across_four_witnesses": 8,
+        "signed_slot_entries_across_four_witnesses": 8
+      },
+      {
+        "actual_aggregate_payload_bytes": 9056,
+        "equal": true,
+        "model_aggregate_payload_bytes": 9056,
+        "phase": "state-change-renewal",
+        "scope_entries_across_four_witnesses": 8,
+        "signed_slot_entries_across_four_witnesses": 12
+      },
+      {
+        "actual_aggregate_payload_bytes": 9056,
+        "actual_bytes_unchanged": true,
+        "equal": true,
+        "model_aggregate_payload_bytes": 9056,
+        "model_bytes_unchanged": true,
+        "phase": "same-slot-retry",
+        "scope_entries_across_four_witnesses": 8,
+        "signed_slot_entries_across_four_witnesses": 12
+      }
+    ],
+    "aggregation": "sum across all four witness payloads per namespace",
+    "encoding": "sum of canonical JSON durable-state payload bytes across all four witnesses; includes identity, full retained log, every immutable scope handle, stable slot/digest entries, clock, and clock epsilon; excludes outer commitment envelope, newline, filesystem metadata, allocator overhead, and RSS",
+    "maximum_aggregate_bytes": 7106444,
+    "maximum_aggregate_kib": 6939.9,
+    "median_aggregate_bytes": 544248,
+    "median_aggregate_kib": 531.5,
+    "same_slot_retry_unchanged": true,
+    "traffic_all_counted_planes_scope_wins_unchanged": 48,
+    "traffic_client_scope_wins_unchanged": 87,
+    "witnesses": 4
   }
 }

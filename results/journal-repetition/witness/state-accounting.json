@@ -1,0 +1,44 @@
+{
+  "all_model_bytes_equal": true,
+  "count": 4,
+  "encoding": "sum of canonical JSON durable-state payload bytes across all four witnesses; includes identity, full retained log, every immutable scope handle, stable slot/digest entries, clock, and clock epsilon; excludes outer commitment envelope, newline, filesystem metadata, allocator overhead, and RSS",
+  "phases": [
+    {
+      "actual_aggregate_payload_bytes": 6144,
+      "equal": true,
+      "model_aggregate_payload_bytes": 6144,
+      "phase": "registration",
+      "scope_entries_across_four_witnesses": 4,
+      "signed_slot_entries_across_four_witnesses": 4
+    },
+    {
+      "actual_aggregate_payload_bytes": 7376,
+      "equal": true,
+      "model_aggregate_payload_bytes": 7376,
+      "phase": "extension",
+      "scope_entries_across_four_witnesses": 8,
+      "signed_slot_entries_across_four_witnesses": 8
+    },
+    {
+      "actual_aggregate_payload_bytes": 9056,
+      "equal": true,
+      "model_aggregate_payload_bytes": 9056,
+      "phase": "state-change-renewal",
+      "scope_entries_across_four_witnesses": 8,
+      "signed_slot_entries_across_four_witnesses": 12
+    },
+    {
+      "actual_aggregate_payload_bytes": 9056,
+      "actual_bytes_unchanged": true,
+      "equal": true,
+      "model_aggregate_payload_bytes": 9056,
+      "model_bytes_unchanged": true,
+      "phase": "same-slot-retry",
+      "scope_entries_across_four_witnesses": 8,
+      "signed_slot_entries_across_four_witnesses": 12
+    }
+  ],
+  "retained_entry_counts_equal": true,
+  "same_slot_retry_unchanged": true,
+  "witnesses": 4
+}

@@ -29,7 +29,7 @@ from fixtures import grant
 from model import Authority
 from renewal_study import (
     BATCH, CHURN_LEVELS, DELTA, DIGEST, FAMILIES, ORDERS, QUERIES, SIGNATURE,
-    SPANS, SCOPE, ModelAuthority, add_cost, add_unrelated_churn, build_model,
+    SPANS, ModelAuthority, add_cost, add_unrelated_churn, build_model,
     closure, fold_status, manifest_data, ns_of, roots_for_order,
     scope_projection, tx, wire_bytes,
 )
@@ -64,13 +64,51 @@ def certificate(body: dict) -> dict:
     }
 
 
+def scope_handle(ns: str, keys: set[str] | tuple[str, ...] | list[str]) -> str:
+    return commitment({'ns': ns, 'keys': sorted(keys)})
+
+
+def stable_slot(body: dict) -> tuple:
+    op = body['op']
+    if op == 'register':
+        return (op, body['scope'], body['count'], body['tip'])
+    if op == 'extend':
+        return (op, body['from_scope'], body['scope'], body['from'],
+                body['count'], body['tip'])
+    if op == 'renew':
+        return (op, body['scope'], body['from'], body['count'], body['tip'])
+    if op == 'head':
+        return (op, body['scope'], body['count'], body['tip'])
+    if op == 'checkpoint':
+        return (op, body['count'])
+    raise ValueError('unknown witnessed operation')
+
+
+def stable_digest(body: dict) -> str:
+    return commitment({key: value for key, value in body.items()
+                       if key != 'issued'})
+
+
 @dataclass
 class WitnessPlane:
-    """Four stateful witness replicas and exact certification-plane accounting."""
+    """Four modeled witnesses with the fields retained by durable witnesses.
+
+    ``state_bytes`` sums the canonical payload bytes of all four witnesses in
+    every used namespace.  It includes retained logs, every immutable scope
+    handle, stable slot/digest entries, logical clocks, and identity fields.  It
+    excludes the outer on-disk commitment envelope, newline, filesystem
+    metadata, allocator overhead, and process RSS.
+    """
     counts: dict[str, dict[str, int]] = field(
         default_factory=lambda: defaultdict(lambda: {wid: 0 for wid in WITNESS_IDS}))
     scopes: dict[str, dict[str, set[str]]] = field(
         default_factory=lambda: defaultdict(dict))
+    signed_slots: dict[str, dict[str, dict[tuple, str]]] = field(
+        default_factory=lambda: defaultdict(
+            lambda: {wid: {} for wid in WITNESS_IDS}))
+    clocks: dict[str, dict[str, int]] = field(
+        default_factory=lambda: defaultdict(
+            lambda: {wid: 0 for wid in WITNESS_IDS}))
 
     def certify(self, authority: ModelAuthority, body: dict,
                 scope_keys: set[str] | None = None) -> dict[str, int]:
@@ -91,24 +129,47 @@ class WitnessPlane:
             response = {'id': wid, 'signature': SIGNATURE}
             add_cost(total, tx(request, response))
             self.counts[ns][wid] = len(authority.log)
+            slot = stable_slot(body)
+            digest = stable_digest(body)
+            previous = self.signed_slots[ns][wid].get(slot)
+            if previous is not None and previous != digest:
+                raise AssertionError('modeled witness equivocation')
+            self.signed_slots[ns][wid][slot] = digest
+            self.clocks[ns][wid] = body['issued']
         if scope_keys is not None:
+            prior = self.scopes[ns].get(body['scope'])
+            if prior is not None and prior != set(scope_keys):
+                raise AssertionError('modeled scope collision')
             self.scopes[ns][body['scope']] = set(scope_keys)
         return total
 
+    def payload(self, authorities: dict[str, ModelAuthority], ns: str,
+                wid: str) -> dict:
+        return {
+            'ns': ns,
+            'witness_id': wid,
+            'faulty': False,
+            'log': authorities[ns].log[:self.counts[ns][wid]],
+            'scopes': [
+                {'scope': scope, 'keys': sorted(keys)}
+                for scope, keys in sorted(self.scopes[ns].items())
+            ],
+            'signed_slots': [
+                {'slot': list(slot), 'digest': digest}
+                for slot, digest in sorted(
+                    self.signed_slots[ns][wid].items(),
+                    key=lambda item: encode(list(item[0])),
+                )
+            ],
+            'clock': self.clocks[ns][wid],
+            'clock_epsilon': 0,
+        }
+
     def state_bytes(self, authorities: dict[str, ModelAuthority]) -> int:
-        state = {'witnesses': {}}
-        for wid in WITNESS_IDS:
-            state['witnesses'][wid] = {
-                'logs': {
-                    ns: authorities[ns].log[:self.counts[ns][wid]]
-                    for ns in sorted(self.counts)
-                },
-                'scopes': {
-                    ns: {scope: sorted(keys) for scope, keys in sorted(table.items())}
-                    for ns, table in sorted(self.scopes.items()) if table
-                },
-            }
-        return len(encode(state))
+        return sum(
+            len(encode(self.payload(authorities, ns, wid)))
+            for ns in sorted(self.counts) for wid in WITNESS_IDS
+        )
 
 
 @dataclass
@@ -153,6 +214,7 @@ class WitnessedScopeClient:
     counts: dict[str, int] = field(default_factory=dict)
     issued: dict[str, int] = field(default_factory=dict)
     objects: dict[str, dict] = field(default_factory=dict)
+    scopes: dict[str, str] = field(default_factory=dict)
 
     def _body(self, authority: ModelAuthority, needed: set[str], now: int) -> tuple[dict, str]:
         ns = authority.ns
@@ -160,14 +222,18 @@ class WitnessedScopeClient:
         additions = sorted(needed - existing)
         frontier = {'count': len(authority.log), 'tip': tip(authority), 'issued': now}
         if ns not in self.counts:
+            new_scope = scope_handle(ns, needed)
             body = {
-                'op': 'register', 'ns': ns, 'scope': SCOPE, **frontier,
+                'op': 'register', 'ns': ns, 'scope': new_scope, **frontier,
                 'objects': [fold_status(authority.log, key) for key in sorted(needed)],
             }
             return body, f'register:{len(needed)}'
         if additions:
+            combined = existing | set(needed)
+            new_scope = scope_handle(ns, combined)
             body = {
-                'op': 'extend', 'ns': ns, 'from_scope': SCOPE, 'scope': SCOPE,
+                'op': 'extend', 'ns': ns, 'from_scope': self.scopes[ns],
+                'scope': new_scope,
                 'from': self.counts[ns], **frontier,
                 **scope_projection(authority, existing, self.counts[ns]),
                 'objects': [fold_status(authority.log, key) for key in additions],
@@ -177,7 +243,7 @@ class WitnessedScopeClient:
             return body, f'extend:{len(additions)}+causes:{projected}'
         if self.counts[ns] != len(authority.log):
             body = {
-                'op': 'renew', 'ns': ns, 'scope': SCOPE,
+                'op': 'renew', 'ns': ns, 'scope': self.scopes[ns],
                 'from': self.counts[ns], **frontier,
                 **scope_projection(authority, existing, self.counts[ns]),
             }
@@ -185,7 +251,7 @@ class WitnessedScopeClient:
                             ('conflicts', 'revoked_keys', 'revoked_caps'))
             return body, f'renew:causes:{projected}'
         return {
-            'op': 'head', 'ns': ns, 'scope': SCOPE, **frontier,
+            'op': 'head', 'ns': ns, 'scope': self.scopes[ns], **frontier,
         }, 'head'
 
     def refresh(self, authority: ModelAuthority, needed: set[str], now: int,
@@ -207,11 +273,13 @@ class WitnessedScopeClient:
                 self.objects[item['key']] = {
                     'manifest': item['manifest'], 'valid': item['valid']}
             self.keys[ns] = set(needed)
+            self.scopes[ns] = body['scope']
         elif body['op'] == 'extend':
             for item in body['objects']:
                 self.objects[item['key']] = {
                     'manifest': item['manifest'], 'valid': item['valid']}
             self.keys[ns].update(needed)
+            self.scopes[ns] = body['scope']
         for key in body.get('conflicts', []) + body.get('revoked_keys', []):
             self.objects[key]['valid'] = False
         for cap in body.get('revoked_caps', []):
@@ -226,7 +294,7 @@ class WitnessedScopeClient:
         return len(encode({
             'objects': {key: self.objects[key] for key in sorted(self.objects)},
             'scopes': {
-                ns: {'scope': SCOPE, 'count': self.counts[ns],
+                ns: {'scope': self.scopes[ns], 'count': self.counts[ns],
                      'issued': self.issued[ns], 'keys': sorted(self.keys[ns])}
                 for ns in sorted(self.counts)
             },
@@ -412,8 +480,9 @@ def fixed_length_parity() -> dict:
                            'epoch':0,'rights':['publish']}, 0)
     model.append('publish', manifest_data('n1', 'leaf', []), 0)
     model.append('publish', manifest_data('n1', 'leaf2', []), 0)
+    handle = scope_handle('n1', {'n1/leaf'})
     register_body = {
-        'op':'register','ns':'n1','scope':SCOPE,'count':len(model.log),
+        'op':'register','ns':'n1','scope':handle,'count':len(model.log),
         'tip':DIGEST,'issued':1,
         'objects':[fold_status(model.log, 'n1/leaf')],
     }
@@ -424,7 +493,7 @@ def fixed_length_parity() -> dict:
     actual_renew = service.renew(cache.scope, cache.count, 2)
     model.append('revoke', {'target':'n1/leaf'}, 2)
     renew_body = {
-        'op':'renew','ns':'n1','scope':SCOPE,'from':3,'count':4,
+        'op':'renew','ns':'n1','scope':handle,'from':3,'count':4,
         'tip':DIGEST,'issued':2,
         **scope_projection(model, {'n1/leaf'}, 3),
     }
@@ -443,6 +512,141 @@ def fixed_length_parity() -> dict:
             'objects': rows}
 
 
+def _actual_payload(witness) -> dict:
+    return {
+        'ns': witness.ns,
+        'witness_id': witness.witness_id,
+        'faulty': witness.faulty,
+        'log': deepcopy(witness.log),
+        'scopes': [
+            {'scope': scope, 'keys': list(keys)}
+            for scope, keys in sorted(witness.scopes.items())
+        ],
+        'signed_slots': [
+            {'slot': list(slot), 'digest': digest}
+            for slot, digest in sorted(
+                witness.signed_slots.items(),
+                key=lambda item: encode(list(item[0])),
+            )
+        ],
+        'clock': witness.clock,
+        'clock_epsilon': witness.clock_epsilon,
+    }
+
+
+def _actual_committee_state(committee: WitnessCommittee) -> dict:
+    witnesses = list(committee.witnesses.values())
+    return {
+        'aggregate_payload_bytes': sum(
+            len(encode(_actual_payload(witness))) for witness in witnesses),
+        'scope_entries': sum(len(witness.scopes) for witness in witnesses),
+        'signed_slot_entries': sum(
+            len(witness.signed_slots) for witness in witnesses),
+    }
+
+
+def state_accounting_checks() -> dict:
+    """Compare the state model with real witness objects at four transitions."""
+    authority = actual_world()
+    committee = WitnessCommittee('n1')
+    service = WitnessedScopeService(authority, committee)
+
+    model = ModelAuthority('n1')
+    model.append('grant', {'cap':'cap:n1:0','publisher':'publisher:n1:0',
+                           'epoch':0,'rights':['publish']}, 0)
+    model.append('publish', manifest_data('n1', 'leaf', []), 0)
+    model.append('publish', manifest_data('n1', 'leaf2', []), 0)
+    authorities = {'n1': model}
+    plane = WitnessPlane()
+    rows = []
+
+    def record(phase: str, previous_actual: int | None = None,
+               previous_model: int | None = None) -> tuple[int, int]:
+        actual = _actual_committee_state(committee)
+        modeled = plane.state_bytes(authorities)
+        row = {
+            'phase': phase,
+            'actual_aggregate_payload_bytes': actual['aggregate_payload_bytes'],
+            'model_aggregate_payload_bytes': modeled,
+            'equal': actual['aggregate_payload_bytes'] == modeled,
+            'scope_entries_across_four_witnesses': actual['scope_entries'],
+            'signed_slot_entries_across_four_witnesses': actual['signed_slot_entries'],
+        }
+        if previous_actual is not None:
+            row['actual_bytes_unchanged'] = (
+                actual['aggregate_payload_bytes'] == previous_actual)
+            row['model_bytes_unchanged'] = modeled == previous_model
+        rows.append(row)
+        return actual['aggregate_payload_bytes'], modeled
+
+    first_scope = scope_handle('n1', {'n1/leaf'})
+    actual_register = service.register(['n1/leaf'], 1)
+    register = {
+        'op':'register','ns':'n1','scope':first_scope,
+        'count':len(model.log),'tip':DIGEST,'issued':1,
+        'objects':[fold_status(model.log, 'n1/leaf')],
+    }
+    plane.certify(model, register, {'n1/leaf'})
+    if actual_register['body']['scope'] != first_scope:
+        raise AssertionError('model scope handle does not match protocol')
+    record('registration')
+
+    second_scope = scope_handle('n1', {'n1/leaf', 'n1/leaf2'})
+    actual_extend = service.extend(first_scope, 3, ['n1/leaf2'], 2)
+    extend = {
+        'op':'extend','ns':'n1','from_scope':first_scope,
+        'scope':second_scope,'from':3,'count':len(model.log),
+        'tip':DIGEST,'issued':2,
+        **scope_projection(model, {'n1/leaf'}, 3),
+        'objects':[fold_status(model.log, 'n1/leaf2')],
+    }
+    plane.certify(model, extend, {'n1/leaf', 'n1/leaf2'})
+    if actual_extend['body']['scope'] != second_scope:
+        raise AssertionError('extended scope handle does not match protocol')
+    record('extension')
+
+    authority.append('revoke', {'target':'n1/leaf'}, 3)
+    model.append('revoke', {'target':'n1/leaf'}, 3)
+    actual_renew = service.renew(second_scope, 3, 3)
+    renew = {
+        'op':'renew','ns':'n1','scope':second_scope,'from':3,
+        'count':len(model.log),'tip':DIGEST,'issued':3,
+        **scope_projection(model, {'n1/leaf', 'n1/leaf2'}, 3),
+    }
+    plane.certify(model, renew)
+    before_actual, before_model = record('state-change-renewal')
+
+    retry = service.renew(second_scope, 3, 3)
+    plane.certify(model, renew)
+    if retry['body'] != actual_renew['body']:
+        raise AssertionError('same-slot retry changed protocol body')
+    record('same-slot-retry', before_actual, before_model)
+
+    expected_scopes = [4, 8, 8, 8]
+    expected_slots = [4, 8, 12, 12]
+    counts_equal = all(
+        row['scope_entries_across_four_witnesses'] == expected_scopes[index]
+        and row['signed_slot_entries_across_four_witnesses'] == expected_slots[index]
+        for index, row in enumerate(rows)
+    )
+    retry_unchanged = (rows[-1].get('actual_bytes_unchanged') is True
+                       and rows[-1].get('model_bytes_unchanged') is True)
+    return {
+        'encoding': (
+            'sum of canonical JSON durable-state payload bytes across all four '
+            'witnesses; includes identity, full retained log, every immutable '
+            'scope handle, stable slot/digest entries, clock, and clock epsilon; '
+            'excludes outer commitment envelope, newline, filesystem metadata, '
+            'allocator overhead, and RSS'),
+        'witnesses': len(WITNESS_IDS),
+        'phases': rows,
+        'count': len(rows),
+        'all_model_bytes_equal': all(row['equal'] for row in rows),
+        'retained_entry_counts_equal': counts_equal,
+        'same_slot_retry_unchanged': retry_unchanged,
+    }
+
+
 def median(values):
     return statistics.median(values)
 
@@ -453,7 +657,8 @@ def percentile(values: list[float], q: float) -> float:
     return ordered[index]
 
 
-def summarize(traces: list[dict], adversarial: dict, parity: dict) -> dict:
+def summarize(traces: list[dict], adversarial: dict, parity: dict,
+              state_accounting: dict) -> dict:
     client_ratios = [
         row['client_totals']['witnessed-scope']['wire_bytes'] /
         row['client_totals']['witnessed-prefix']['wire_bytes']
@@ -519,6 +724,8 @@ def summarize(traces: list[dict], adversarial: dict, parity: dict) -> dict:
             'median_scope_certification_fraction': median(cert_fraction),
         },
         'state': {
+            'encoding': state_accounting['encoding'],
+            'aggregation': 'sum across all four witness payloads per namespace',
             'median_scope_client_bytes': median(
                 [row['peak_client_state_bytes']['witnessed-scope'] for row in traces]),
             'median_prefix_client_bytes': median(
@@ -527,6 +734,7 @@ def summarize(traces: list[dict], adversarial: dict, parity: dict) -> dict:
                 [row['final_witness_state_bytes']['witnessed-scope'] for row in traces]),
             'max_scope_witness_state_bytes': max(
                 row['final_witness_state_bytes']['witnessed-scope'] for row in traces),
+            'actual_model_checks': state_accounting,
         },
         'by_churn': by_churn,
         'adversarial_checks': adversarial,
@@ -580,6 +788,8 @@ def write_tex(generated: Path, summary: dict) -> None:
         f"\\newcommand{{\\WitnessAttackChecks}}{{{adversarial['passed']}\\xspace}}",
         f"\\newcommand{{\\WitnessParityObjects}}{{{summary['fixed_length_parity']['count']}\\xspace}}",
         f"\\newcommand{{\\WitnessMedianStateKiB}}{{{state['median_scope_witness_state_bytes']/1024:.1f}\\xspace}}",
+        f"\\newcommand{{\\WitnessMaxStateKiB}}{{{state['max_scope_witness_state_bytes']/1024:.1f}\\xspace}}",
+        f"\\newcommand{{\\WitnessStateParityChecks}}{{{state['actual_model_checks']['count']}\\xspace}}",
         '',
     ]
     (generated / 'witness-macros.tex').write_text('\n'.join(macros))
@@ -602,6 +812,25 @@ def write_tex(generated: Path, summary: dict) -> None:
     lines.extend(['\\bottomrule', '\\end{tabular}', ''])
     (generated / 'witness-table.tex').write_text('\n'.join(lines))
 
+    state_lines = [
+        '% Generated by artifact/src/witness_study.py; do not edit.',
+        '\\begin{tabular}{@{}lrrrr@{}}',
+        '\\toprule',
+        'Transition & Actual B & Model B & Scopes & Slots \\\\',
+        '\\midrule',
+    ]
+    for row in state['actual_model_checks']['phases']:
+        label = row['phase'].replace('-', ' ')
+        state_lines.append(
+            f"{label} & {row['actual_aggregate_payload_bytes']:,} & "
+            f"{row['model_aggregate_payload_bytes']:,} & "
+            f"{row['scope_entries_across_four_witnesses']} & "
+            f"{row['signed_slot_entries_across_four_witnesses']} \\\\"
+        )
+    state_lines.extend(['\\bottomrule', '\\end{tabular}', ''])
+    (generated / 'witness-state-check-table.tex').write_text(
+        '\n'.join(state_lines))
+
 
 def main() -> None:
     parser = argparse.ArgumentParser()
@@ -616,9 +845,12 @@ def main() -> None:
     ]
     adversarial = actual_adversarial_checks()
     parity = fixed_length_parity()
-    summary = summarize(traces, adversarial, parity)
+    state_accounting = state_accounting_checks()
+    summary = summarize(traces, adversarial, parity, state_accounting)
     (output / 'summary.json').write_text(json.dumps(summary, indent=2, sort_keys=True) + '\n')
     (output / 'adversarial.json').write_text(json.dumps(adversarial, indent=2, sort_keys=True) + '\n')
+    (output / 'state-accounting.json').write_text(
+        json.dumps(state_accounting, indent=2, sort_keys=True) + '\n')
     with gzip.open(output / 'traces.json.gz', 'wt') as handle:
         json.dump(traces, handle, separators=(',', ':'), sort_keys=True)
     write_csv(output, traces)
@@ -630,6 +862,7 @@ def main() -> None:
         'total_scope_wins': summary['all_counted_planes']['scope_strictly_smaller_traces'],
         'attack_checks': f"{adversarial['passed']}/{adversarial['count']}",
         'parity': parity['all_equal'],
+        'state_accounting': state_accounting['all_model_bytes_equal'],
     }, sort_keys=True))
 
 

@@ -5,6 +5,7 @@ test_split_one_two_blocks_without_byzantine_cooperation (test_boundary.BoundaryT
 test_split_two_one_blocks_without_byzantine_cooperation (test_boundary.BoundaryTests.test_split_two_one_blocks_without_byzantine_cooperation) ... ok
 test_commitment_or_key_order_tampering_fails (test_cached_status.CachedStatusTests.test_commitment_or_key_order_tampering_fails) ... ok
 test_compact_revocation_denies (test_cached_status.CachedStatusTests.test_compact_revocation_denies) ... ok
+test_compact_status_rejects_issuance_before_latest_event (test_cached_status.CachedStatusTests.test_compact_status_rejects_issuance_before_latest_event) ... ok
 test_fresh_head_renews_unchanged_frontier (test_cached_status.CachedStatusTests.test_fresh_head_renews_unchanged_frontier) ... ok
 test_full_then_compact_after_unrelated_update (test_cached_status.CachedStatusTests.test_full_then_compact_after_unrelated_update) ... ok
 test_mixed_frontier_closure_fails_closed (test_cached_status.CachedStatusTests.test_mixed_frontier_closure_fails_closed) ... ok
@@ -47,6 +48,7 @@ test_diamond_is_not_cycle (test_protocol.ProtocolTests.test_diamond_is_not_cycle
 test_equivocation_pair (test_protocol.ProtocolTests.test_equivocation_pair) ... ok
 test_exact_locked_graph_projection (test_protocol.ProtocolTests.test_exact_locked_graph_projection) ... ok
 test_expiry_strict_endpoint (test_protocol.ProtocolTests.test_expiry_strict_endpoint) ... ok
+test_full_status_rejects_issuance_before_latest_event (test_protocol.ProtocolTests.test_full_status_rejects_issuance_before_latest_event) ... ok
 test_future_head (test_protocol.ProtocolTests.test_future_head) ... ok
 test_historical_frontier_is_not_freshness (test_protocol.ProtocolTests.test_historical_frontier_is_not_freshness) ... ok
 test_holes_are_not_filled_by_high_sequence (test_protocol.ProtocolTests.test_holes_are_not_filled_by_high_sequence) ... ok
@@ -69,6 +71,7 @@ test_wrong_chain (test_protocol.ProtocolTests.test_wrong_chain) ... ok
 test_wrong_head_signature (test_protocol.ProtocolTests.test_wrong_head_signature) ... ok
 test_wrong_receipt_signature (test_protocol.ProtocolTests.test_wrong_receipt_signature) ... ok
 test_wrong_tip (test_protocol.ProtocolTests.test_wrong_tip) ... ok
+test_actual_signature_check_breakdown_is_24_plus_6 (test_renewal_study.RenewalStudyTests.test_actual_signature_check_breakdown_is_24_plus_6) ... ok
 test_each_fault_projects_at_most_one_kind_of_cause (test_renewal_study.RenewalStudyTests.test_each_fault_projects_at_most_one_kind_of_cause) ... ok
 test_fixed_token_model_matches_real_object_lengths (test_renewal_study.RenewalStudyTests.test_fixed_token_model_matches_real_object_lengths) ... ok
 test_scope_delta_beats_prefix_on_repeated_churn (test_renewal_study.RenewalStudyTests.test_scope_delta_beats_prefix_on_repeated_churn) ... ok
@@ -79,12 +82,14 @@ test_conflicting_publication_is_projected (test_scope_delta.ScopeDeltaTests.test
 test_expiry_and_floor_are_enforced (test_scope_delta.ScopeDeltaTests.test_expiry_and_floor_are_enforced) ... ok
 test_failed_registration_does_not_allocate_scope (test_scope_delta.ScopeDeltaTests.test_failed_registration_does_not_allocate_scope) ... ok
 test_fresh_head_renews_unchanged_scope (test_scope_delta.ScopeDeltaTests.test_fresh_head_renews_unchanged_scope) ... ok
+test_honest_scope_reads_keep_two_epsilon_policy (test_scope_delta.ScopeDeltaTests.test_honest_scope_reads_keep_two_epsilon_policy) ... ok
 test_identical_duplicate_is_status_neutral (test_scope_delta.ScopeDeltaTests.test_identical_duplicate_is_status_neutral) ... ok
 test_invalid_extension_is_transactional (test_scope_delta.ScopeDeltaTests.test_invalid_extension_is_transactional) ... ok
 test_invalid_or_missing_registration_is_not_cacheable (test_scope_delta.ScopeDeltaTests.test_invalid_or_missing_registration_is_not_cacheable) ... ok
 test_lost_extension_response_preserves_retryable_old_scope (test_scope_delta.ScopeDeltaTests.test_lost_extension_response_preserves_retryable_old_scope) ... ok
 test_scope_extension_adds_only_new_objects (test_scope_delta.ScopeDeltaTests.test_scope_extension_adds_only_new_objects) ... ok
 test_scope_handle_binds_registered_key_set (test_scope_delta.ScopeDeltaTests.test_scope_handle_binds_registered_key_set) ... ok
+test_scope_service_rejects_issuance_before_latest_event_transactionally (test_scope_delta.ScopeDeltaTests.test_scope_service_rejects_issuance_before_latest_event_transactionally) ... ok
 test_tampered_report_and_wrong_frontier_fail (test_scope_delta.ScopeDeltaTests.test_tampered_report_and_wrong_frontier_fail) ... ok
 test_unrelated_update_has_empty_projection (test_scope_delta.ScopeDeltaTests.test_unrelated_update_has_empty_projection) ... ok
 test_valid_cross_namespace_closure (test_scope_delta.ScopeDeltaTests.test_valid_cross_namespace_closure) ... ok
@@ -99,6 +104,8 @@ test_honest_witness_rejects_unbounded_sequencer_timestamp (test_witness_delta.Wi
 test_lost_extension_response_is_retry_safe (test_witness_delta.WitnessDeltaTests.test_lost_extension_response_is_retry_safe) ... ok
 test_malformed_projection_does_not_pin_honest_witness_log (test_witness_delta.WitnessDeltaTests.test_malformed_projection_does_not_pin_honest_witness_log) ... ok
 test_noncanonical_dependency_order_is_rejected (test_witness_delta.WitnessDeltaTests.test_noncanonical_dependency_order_is_rejected) ... ok
+test_nonzero_error_cached_reads_use_three_epsilon (test_witness_delta.WitnessDeltaTests.test_nonzero_error_cached_reads_use_three_epsilon)
+Exercise certificate admission and later serving through public APIs. ... ok
 test_omitted_artifact_revocation_gets_only_faulty_signature (test_witness_delta.WitnessDeltaTests.test_omitted_artifact_revocation_gets_only_faulty_signature) ... ok
 test_omitted_capability_revocation_gets_only_faulty_signature (test_witness_delta.WitnessDeltaTests.test_omitted_capability_revocation_gets_only_faulty_signature) ... ok
 test_omitted_conflict_gets_only_faulty_signature (test_witness_delta.WitnessDeltaTests.test_omitted_conflict_gets_only_faulty_signature) ... ok
@@ -116,8 +123,9 @@ test_all_actual_fault_contract_checks_pass (test_witness_study.WitnessStudyTests
 test_client_savings_do_not_imply_total_plane_savings (test_witness_study.WitnessStudyTests.test_client_savings_do_not_imply_total_plane_savings) ... ok
 test_fixed_token_certificates_match_real_lengths (test_witness_study.WitnessStudyTests.test_fixed_token_certificates_match_real_lengths) ... ok
 test_heavy_unrelated_churn_can_pay_for_projection (test_witness_study.WitnessStudyTests.test_heavy_unrelated_churn_can_pay_for_projection) ... ok
+test_state_model_matches_real_witness_payloads (test_witness_study.WitnessStudyTests.test_state_model_matches_real_witness_payloads) ... ok
 
 ----------------------------------------------------------------------
-Ran 118 tests in 4.514s
+Ran 125 tests in 4.490s
 
 OK

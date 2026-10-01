@@ -35,6 +35,46 @@ def registered(authorities, root2=False, now=1):
 
 
 class ScopeDeltaTests(unittest.TestCase):
+    def test_honest_scope_reads_keep_two_epsilon_policy(self):
+        authority = Authority('n1')
+        authority.append('grant', grant('n1'), 10)
+        authority.append('publish', manifest('n1', 'leaf', []), 10)
+        service = ScopeService(authority)
+        cache = ScopeCache('n1')
+        cache.apply_register(
+            service.register(['n1/leaf'], 14), 10, delta=10, epsilon=2)
+        # 19 - 14 + 2*2 == 9, still fresh for the honest-issuer path.
+        self.assertTrue(check_scopes(
+            {'n1': cache}, 'n1/leaf', 19, delta=10, epsilon=2)['serve'])
+        self.assertEqual(check_scopes(
+            {'n1': cache}, 'n1/leaf', 20, delta=10, epsilon=2)['reason'],
+            'EXPIRED')
+
+    def test_scope_service_rejects_issuance_before_latest_event_transactionally(self):
+        authority = Authority('n1')
+        authority.append('grant', grant('n1'), 2)
+        authority.append('publish', manifest('n1', 'leaf', []), 2)
+        authority.append('publish', manifest('n1', 'leaf2', []), 2)
+        service = ScopeService(authority)
+        with self.assertRaises(ValueError):
+            service.register(['n1/leaf'], 1)
+        self.assertEqual(service.scopes, {})
+
+        registration = service.register(['n1/leaf'], 2)
+        scope = registration['body']['scope']
+        count = registration['body']['count']
+        before = deepcopy(service.scopes)
+        authority.append('publish', manifest('n1', 'later', []), 3)
+        with self.assertRaises(ValueError):
+            service.renew(scope, count, 2)
+        self.assertEqual(service.scopes, before)
+        with self.assertRaises(ValueError):
+            service.extend(scope, count, ['n1/leaf2'], 2)
+        self.assertEqual(service.scopes, before)
+        self.assertEqual(service.renew(scope, count, 3)['body']['issued'], 3)
+        extended = service.extend(scope, count, ['n1/leaf2'], 3)
+        self.assertEqual(extended['body']['issued'], 3)
+
     def test_valid_cross_namespace_closure(self):
         a = world(); _, caches = registered(a)
         self.assertTrue(check_scopes(caches, 'n0/root', 2)['serve'])

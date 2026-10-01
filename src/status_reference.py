@@ -6,11 +6,13 @@ object status; its client need not replay complete namespace histories. It has
 no Byzantine-storage/nonexistence proof claim or historical-prefix audit claim.
 """
 from __future__ import annotations
-from codec import ns_of,sign,verify,natural
+from codec import issuance_covers, ns_of,sign,verify,natural
 
 def produce(ns:str,log:list[dict],keys:list[str],now:int)->dict:
     if len(keys)>256 or len(keys)!=len(set(keys)) or any(ns_of(k)!=ns for k in keys):
         raise ValueError('status request bound')
+    if not issuance_covers(log, now):
+        raise ValueError('status time precedes accepted frontier')
     objects=[]
     for key in keys:
         ms=[e['body']['data']['manifest'] for e in log if e['body']['kind']=='publish' and e['body']['data']['manifest']['key']==key]

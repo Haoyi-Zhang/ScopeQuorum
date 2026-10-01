@@ -7,10 +7,18 @@ import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 
-from renewal_study import fixed_length_parity, run_fault, run_trace
+from renewal_study import (actual_protocol_checks, fixed_length_parity, run_fault,
+                           run_trace)
 
 
 class RenewalStudyTests(unittest.TestCase):
+    def test_actual_signature_check_breakdown_is_24_plus_6(self):
+        result = actual_protocol_checks()
+        self.assertEqual(result['count'], 30)
+        self.assertEqual(result['passed'], 30)
+        self.assertEqual(result['update_count'], 24)
+        self.assertEqual(result['extension_count'], 6)
+
     def test_fixed_token_model_matches_real_object_lengths(self):
         result = fixed_length_parity()
         self.assertTrue(result['all_equal'])

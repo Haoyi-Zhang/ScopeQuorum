@@ -23,9 +23,9 @@ python tests/witness_finite.py \
 
 Expected current results are:
 
-- **118/118** directed tests, including canonical-manifest, temporal-frontier, durable-state, uncertain-commit, and signed-slot-bound regressions;
+- **125/125** directed tests, including canonical-manifest, temporal-frontier, durable-state, uncertain-commit, and signed-slot-bound regressions;
 - 5,880 fixed delivery orders with zero protected-predicate violation;
-- 500 random differential histories with zero prefix/status/ScopeDelta decision mismatch;
+- 500 random differential histories with zero prefix/status/oracle decision mismatch;
 - 80 ordered witness quorum/fault checks and 32 concurrent-fork first-arrival assignments with zero safety failure; and
 - 2,625 witnessed clock assignments with zero `3*epsilon` failure, while the deliberately weakened `2*epsilon` guard preserves five unsafe negative controls.
 
@@ -100,6 +100,8 @@ Under one honest sequencer, dependency-scoped prefixes and signed object status 
 
 Under the witnessed contract, an omitted exact revocation, capability revocation, or conflict obtains only the configured Byzantine witness's signature, not a quorum. Any two 3-of-4 quorums intersect in an honest witness when at most one witness is Byzantine. A quorum-acknowledged revocation therefore cannot later be hidden by a stale fork, including after all four witness-process states have been reloaded from retained stable storage.
 
+The honest ScopeDelta protocol evidence contains **30 actual-signature checks counted once**: 24 update cases and six extension cases. The 500-history differential generator instead compares prefix, full signed status, and the independent oracle; it does not model random ScopeDelta state transitions.
+
 The 33 crash-recovery cases refine that statement:
 
 - crashes before the atomic replace recover the old state and return no signature;
@@ -109,6 +111,8 @@ The 33 crash-recovery cases refine that statement:
 - a persisted logical clock rejects a post-restart backstep.
 
 On the client plane, witnessed exact-scope deltas transfer fewer encoded bytes than witnessed prefixes in 87/96 traces (median ratio 0.46). Counting sequencer-to-witness history synchronization and certification changes the result to 48/96 traces and a median ratio of approximately 1.00; certification traffic is 89.9% of witnessed-scope traffic at the median. Compact client evidence is therefore not automatically compact system-wide evidence.
+
+Witness state is accounted separately as canonical durable payload bytes summed across all four witnesses. The model retains full logs, every immutable old/current scope handle, stable slot/digest entries, witness identity, clock, and clock epsilon. It matches actual protocol objects at registration (6,144 B), extension (7,376 B), state-changing renewal (9,056 B), and same-slot retry (9,056 B with no growth). Across 96 traces the corrected median is 531.5 KiB and maximum 6,939.9 KiB. This state correction does not alter the verified traffic win counts above.
 
 ## Assumptions and limits
 

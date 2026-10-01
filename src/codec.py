@@ -51,6 +51,24 @@ def ns_of(artifact: str) -> str:
 def natural(x: object) -> bool:
     return type(x) is int and 0 <= x < 2**63
 
+def issuance_covers(log: object, issued: object) -> bool:
+    """Return whether ``issued`` is a valid time at or after the log frontier.
+
+    Producers use this before signing a status assertion or allocating state.
+    The check is intentionally small: admission and replay validate the history;
+    this guard prevents a report timestamp from preceding its latest accepted
+    event.  Malformed inputs fail closed.
+    """
+    if not natural(issued) or not isinstance(log, list):
+        return False
+    if not log:
+        return True
+    try:
+        accepted = log[-1]['body']['accepted']
+    except (KeyError, TypeError, IndexError):
+        return False
+    return natural(accepted) and issued >= accepted
+
 def signed_receipt(ns: str, seq: int, previous: str, now: int,
                    kind: str, data: dict) -> dict:
     body = dict(ns=ns, seq=seq, previous=previous, accepted=now, kind=kind, data=data)

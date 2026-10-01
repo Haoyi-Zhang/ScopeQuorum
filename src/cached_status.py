@@ -14,7 +14,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from codec import MAX_EVENTS, commitment, natural, ns_of, sign, verify
+from codec import (MAX_EVENTS, commitment, issuance_covers, natural, ns_of,
+                   sign, verify)
 
 MAX_STATUS_KEYS = 256
 
@@ -49,6 +50,8 @@ def _keys(ns: str, keys: list[str]) -> tuple[str, ...]:
 
 def produce_compact(ns: str, log: list[dict], keys: list[str], now: int) -> dict:
     ordered = _keys(ns, keys)
+    if not issuance_covers(log, now):
+        raise ValueError('status time precedes accepted frontier')
     states = []
     for key in ordered:
         manifest, valid = _fold(log, key)
