@@ -2,7 +2,7 @@
 
 This source-calibration matrix records 22 primary research papers used to calibrate the manuscript's systems narrative and evidence contract. It is a targeted writing/evaluation calibration, not a systematic review, novelty certificate, cover-to-cover reading certification, or reproduction of each paper's artifact. For each selected paper, the abstract and claim-relevant introduction, system/model, evaluation, and limitation/discussion passages available from its primary or official record were inspected; the matrix does not claim that every page or artifact was re-executed. Exact bibliographic records and scholarly URLs are in `external_resources.csv` and `paper/references.bib` in the project package.
 
-The passage-reading descriptions below record the inspected evidence boundary and do not claim cover-to-cover reading of all 22 papers. Structural and primary-record checks are documented in `docs/bibliography-audit.md`. This matrix is a narrative and methodological comparison, not an acceptance certificate.
+Structural and primary-record checks are documented in `docs/bibliography-audit.md`.
 
 ## Twelve closest primary papers
 
