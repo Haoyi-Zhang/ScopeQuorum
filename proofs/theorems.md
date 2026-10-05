@@ -69,9 +69,9 @@ A coherent cache stores `(manifest,valid,count,issued)` per key. A head renews t
 
 A ScopeDelta scope is a bounded sorted exact-key set `S` in one namespace. Registration returns valid manifests and a content-derived handle. Renewal from `c` to `c'` lists each scoped conflict, exact revocation, and relevant capability revocation. Extension creates a new immutable handle and retains the old one.
 
-**Theorem 8 (honest ScopeDelta fold equivalence).** Starting from the exact state at `c`, applying a complete honest projection for `(c,c']` yields the same per-key states as folding the complete prefix through `c'`.
+**Theorem 8 (honest ScopeDelta fold equivalence).** Let `G(P,k)` retain the first admitted immutable manifest and combined Boolean validity for key `k`. Starting from `G(P_c,k)`, applying a complete honest projection for `(c,c']` yields `G(P_c',k)`, the same abstraction of full-prefix replay.
 
-**Argument.** Grants and transfers cannot alter already admitted immutable manifests. Outside-scope publications are irrelevant. Exact duplicates are neutral. A distinct scoped publication, exact revocation, or relevant capability revocation is included and permanently invalidates precisely the affected state. Induction over suffix events proves equality.
+**Argument.** Grants and transfers cannot alter already admitted immutable manifests. Outside-scope publications are irrelevant. Exact duplicates are neutral. While a scoped manifest is valid, a distinct publication, exact revocation, or relevant capability revocation is included and makes validity permanently false. Further invalidators cannot change `G` after that transition. Induction over suffix events proves equality of the retained manifest/validity pairs; separate cause bits and complete historical explanations are not retained.
 
 **Corollary 9 (honest serving equivalence).** With coherent frontiers, equal freshness and floors, and a complete honest projection, ScopeDelta and prefix replay make the same decision for a closure contained in the scopes.
 
