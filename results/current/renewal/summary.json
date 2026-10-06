@@ -1,0 +1,288 @@
+{
+  "actual_protocol_checks": {
+    "count": 30,
+    "extension_count": 6,
+    "passed": 30,
+    "update_count": 24
+  },
+  "by_churn": [
+    {
+      "cached-status": {
+        "max_wire_bytes": 90297,
+        "median_wire_bytes": 38721.5,
+        "min_wire_bytes": 12858
+      },
+      "churn": 0,
+      "prefix": {
+        "max_wire_bytes": 132837,
+        "median_wire_bytes": 74445.5,
+        "min_wire_bytes": 42257
+      },
+      "scope-delta": {
+        "max_wire_bytes": 90850,
+        "median_wire_bytes": 39410.0,
+        "min_wire_bytes": 21059
+      },
+      "scope_wins": 0,
+      "traces": 24
+    },
+    {
+      "cached-status": {
+        "max_wire_bytes": 436406,
+        "median_wire_bytes": 86426.0,
+        "min_wire_bytes": 16351
+      },
+      "churn": 1,
+      "prefix": {
+        "max_wire_bytes": 236543,
+        "median_wire_bytes": 106773.0,
+        "min_wire_bytes": 57066
+      },
+      "scope-delta": {
+        "max_wire_bytes": 111941,
+        "median_wire_bytes": 45703.5,
+        "min_wire_bytes": 21059
+      },
+      "scope_wins": 18,
+      "traces": 24
+    },
+    {
+      "cached-status": {
+        "max_wire_bytes": 436493,
+        "median_wire_bytes": 86463.5,
+        "min_wire_bytes": 16374
+      },
+      "churn": 4,
+      "prefix": {
+        "max_wire_bytes": 548669,
+        "median_wire_bytes": 204768.0,
+        "min_wire_bytes": 101717
+      },
+      "scope-delta": {
+        "max_wire_bytes": 112188,
+        "median_wire_bytes": 45794.5,
+        "min_wire_bytes": 21059
+      },
+      "scope_wins": 18,
+      "traces": 24
+    },
+    {
+      "cached-status": {
+        "max_wire_bytes": 436599,
+        "median_wire_bytes": 86504.0,
+        "min_wire_bytes": 16381
+      },
+      "churn": 16,
+      "prefix": {
+        "max_wire_bytes": 1798045,
+        "median_wire_bytes": 564560.5,
+        "min_wire_bytes": 280183
+      },
+      "scope-delta": {
+        "max_wire_bytes": 112506,
+        "median_wire_bytes": 45901.0,
+        "min_wire_bytes": 21059
+      },
+      "scope_wins": 18,
+      "traces": 24
+    }
+  ],
+  "cached_status_vs_prefix": {
+    "max_ratio": 3.46899579454875,
+    "median_ratio": 0.41532262569475253,
+    "min_ratio": 0.042437378476216904,
+    "no_worse_traces": 84,
+    "strictly_smaller_traces": 84,
+    "traces": 96
+  },
+  "fault_updates": [
+    {
+      "cached-status": {
+        "max_wire_bytes": 11481,
+        "median_wire_bytes": 3141.5,
+        "min_wire_bytes": 1346
+      },
+      "conditions": 6,
+      "prefix": {
+        "max_wire_bytes": 765,
+        "median_wire_bytes": 762.0,
+        "min_wire_bytes": 762
+      },
+      "scope-delta": {
+        "max_wire_bytes": 382,
+        "median_wire_bytes": 379.0,
+        "min_wire_bytes": 379
+      },
+      "update": "unrelated-publication"
+    },
+    {
+      "cached-status": {
+        "max_wire_bytes": 11482,
+        "median_wire_bytes": 3142.5,
+        "min_wire_bytes": 1347
+      },
+      "conditions": 6,
+      "prefix": {
+        "max_wire_bytes": 543,
+        "median_wire_bytes": 536.0,
+        "min_wire_bytes": 533
+      },
+      "scope-delta": {
+        "max_wire_bytes": 402,
+        "median_wire_bytes": 395.0,
+        "min_wire_bytes": 392
+      },
+      "update": "artifact-revocation"
+    },
+    {
+      "cached-status": {
+        "max_wire_bytes": 11610,
+        "median_wire_bytes": 3173.5,
+        "min_wire_bytes": 1357
+      },
+      "conditions": 6,
+      "prefix": {
+        "max_wire_bytes": 537,
+        "median_wire_bytes": 534.0,
+        "min_wire_bytes": 534
+      },
+      "scope-delta": {
+        "max_wire_bytes": 392,
+        "median_wire_bytes": 389.0,
+        "min_wire_bytes": 389
+      },
+      "update": "capability-revocation"
+    },
+    {
+      "cached-status": {
+        "max_wire_bytes": 11482,
+        "median_wire_bytes": 3142.5,
+        "min_wire_bytes": 1347
+      },
+      "conditions": 6,
+      "prefix": {
+        "max_wire_bytes": 761,
+        "median_wire_bytes": 754.0,
+        "min_wire_bytes": 751
+      },
+      "scope-delta": {
+        "max_wire_bytes": 402,
+        "median_wire_bytes": 395.0,
+        "min_wire_bytes": 392
+      },
+      "update": "conflicting-publication"
+    }
+  ],
+  "fixed_length_parity": {
+    "all_equal": true,
+    "count": 8,
+    "objects": [
+      {
+        "actual_bytes": 260,
+        "equal": true,
+        "model_bytes": 260,
+        "object": "grant-receipt"
+      },
+      {
+        "actual_bytes": 503,
+        "equal": true,
+        "model_bytes": 503,
+        "object": "publish-receipt"
+      },
+      {
+        "actual_bytes": 199,
+        "equal": true,
+        "model_bytes": 199,
+        "object": "head"
+      },
+      {
+        "actual_bytes": 1207,
+        "equal": true,
+        "model_bytes": 1207,
+        "object": "full-status"
+      },
+      {
+        "actual_bytes": 576,
+        "equal": true,
+        "model_bytes": 576,
+        "object": "compact-status"
+      },
+      {
+        "actual_bytes": 1278,
+        "equal": true,
+        "model_bytes": 1278,
+        "object": "scope-register"
+      },
+      {
+        "actual_bytes": 275,
+        "equal": true,
+        "model_bytes": 275,
+        "object": "scope-renew"
+      },
+      {
+        "actual_bytes": 1208,
+        "equal": true,
+        "model_bytes": 1208,
+        "object": "snapshot-response"
+      }
+    ]
+  },
+  "scope_delta_vs_best_other": {
+    "max_ratio": 1.6378130346865765,
+    "median_ratio": 0.8047720436258659,
+    "min_ratio": 0.1304789969669612,
+    "no_worse_traces": 54,
+    "p90_ratio": 1.4068158228578018,
+    "traces": 96
+  },
+  "scope_delta_vs_prefix": {
+    "max_ratio": 0.7881917151391291,
+    "median_ratio": 0.2783271159508772,
+    "min_ratio": 0.05694558369179373,
+    "no_worse_traces": 96,
+    "strictly_smaller_traces": 96,
+    "traces": 96
+  },
+  "state_tradeoff": {
+    "max_peak_scope_authority_state_bytes": 2217,
+    "median_peak_client_state_bytes": {
+      "cached-status": 16230.0,
+      "prefix": 119524.0,
+      "scope-delta": 16420.0
+    },
+    "median_peak_scope_authority_state_bytes": 1656.0
+  },
+  "study": {
+    "churn_levels": [
+      0,
+      1,
+      4,
+      16
+    ],
+    "delta_ticks": 10,
+    "families": [
+      "public-lock",
+      "generated"
+    ],
+    "orders": [
+      "increasing",
+      "decreasing",
+      "random",
+      "hot"
+    ],
+    "queries_per_trace": 32,
+    "spans": [
+      1,
+      3,
+      6
+    ],
+    "timing_claim": false,
+    "total_queries": 3072,
+    "traces": 96,
+    "wire_definition": "canonical JSON request plus newline and response plus newline"
+  },
+  "winner_equivalents": {
+    "cached-status": 42.0,
+    "scope-delta": 54.0
+  }
+}

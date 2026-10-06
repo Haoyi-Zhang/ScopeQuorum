@@ -1,6 +1,6 @@
 # Crash-durable witnessed provenance-closed registry reads
 
-This repository is the standalone artifact for an internal study of freshness, revocation, acknowledgement, and evidence transfer for immutable cross-namespace registry dependencies. It deliberately keeps two contracts separate:
+This repository studies freshness, revocation, acknowledgement, and evidence transfer for immutable cross-namespace registry dependencies. It keeps two contracts separate:
 
 - an **honest single-sequencer** model used to compare complete prefixes, signed status, coherent caching, and issuer-computed ScopeDelta; and
 - a **3-of-4 witnessed crash-recovery** model in which witnesses independently replay exact-scope projections, durably commit accepted branch/slot state before releasing a signature, and recover that state after fail-stop restart.
@@ -39,7 +39,7 @@ python -B src/scientific_checks.py --output ../scientific-checks
 
 This runner preserves command logs, raw observations, dependency versions, and platform metadata. It enforces a 30-minute overall wall-time budget and a 15-minute bound per command; it never compiles the paper or overwrites retained results. On Windows it runs the full portable semantic campaign, records unavailable Linux RSS as null, and explicitly omits the 33-case directory-fsync durability study and 17 related unit tests. POSIX CPU/address-space limits are not applied on Windows; that absence is recorded, not simulated. The Go checker runs only when a local toolchain exists, with network toolchain/module downloads disabled.
 
-The `scientific-checks.yml` workflow runs on pushes to `main` or manual dispatch. It uses Ubuntu 24.04 and Python 3.12, installs the declared Python dependency in a runner-temporary virtual environment, runs into a unique `RUNNER_TEMP` directory, and uploads raw output even on failure. The fresh local platform/result summary is `results/local-checks.json`; older durability and Go observations remain historical evidence, not new Windows results.
+The `scientific-checks.yml` workflow runs on pushes to `main` or manual dispatch. It uses Ubuntu 24.04 and Python 3.12, installs the declared Python dependency in a runner-temporary virtual environment, runs into a unique `RUNNER_TEMP` directory, and uploads raw output even on failure. The complete current run passed all 134 tests without skips, all 33 durability cases, the 48-case/336-policy logical reproduction, and the separate Go census (385 rows, 250,942 quorum pairs, 55 existence cases). Its raw results and actual environment are in `results/current/`. The earlier Windows portable summary is `results/local-checks.json`; it does not claim unsupported durability or Go execution.
 
 ```sh
 python src/renewal_study.py \

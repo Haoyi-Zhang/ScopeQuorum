@@ -1,0 +1,296 @@
+{
+  "checks": [
+    {
+      "expected_serve": true,
+      "family": "public-lock",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "SERVE",
+      "span": 1,
+      "status_reason": "SERVE",
+      "update": "unrelated-publication"
+    },
+    {
+      "expected_serve": false,
+      "family": "public-lock",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "INVALID_OR_MISSING_STATUS",
+      "span": 1,
+      "status_reason": "INVALID_OR_MISSING_STATUS",
+      "update": "artifact-revocation"
+    },
+    {
+      "expected_serve": false,
+      "family": "public-lock",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "INVALID_OR_MISSING_STATUS",
+      "span": 1,
+      "status_reason": "INVALID_OR_MISSING_STATUS",
+      "update": "capability-revocation"
+    },
+    {
+      "expected_serve": false,
+      "family": "public-lock",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "INVALID_OR_MISSING_STATUS",
+      "span": 1,
+      "status_reason": "INVALID_OR_MISSING_STATUS",
+      "update": "conflicting-publication"
+    },
+    {
+      "family": "public-lock",
+      "from_closure": 1,
+      "kind": "extension",
+      "passed": true,
+      "span": 1,
+      "to_closure": 62
+    },
+    {
+      "expected_serve": true,
+      "family": "public-lock",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "SERVE",
+      "span": 3,
+      "status_reason": "SERVE",
+      "update": "unrelated-publication"
+    },
+    {
+      "expected_serve": false,
+      "family": "public-lock",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "INVALID_OR_MISSING_STATUS",
+      "span": 3,
+      "status_reason": "INVALID_OR_MISSING_STATUS",
+      "update": "artifact-revocation"
+    },
+    {
+      "expected_serve": false,
+      "family": "public-lock",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "INVALID_OR_MISSING_STATUS",
+      "span": 3,
+      "status_reason": "INVALID_OR_MISSING_STATUS",
+      "update": "capability-revocation"
+    },
+    {
+      "expected_serve": false,
+      "family": "public-lock",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "INVALID_OR_MISSING_STATUS",
+      "span": 3,
+      "status_reason": "INVALID_OR_MISSING_STATUS",
+      "update": "conflicting-publication"
+    },
+    {
+      "family": "public-lock",
+      "from_closure": 1,
+      "kind": "extension",
+      "passed": true,
+      "span": 3,
+      "to_closure": 62
+    },
+    {
+      "expected_serve": true,
+      "family": "public-lock",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "SERVE",
+      "span": 6,
+      "status_reason": "SERVE",
+      "update": "unrelated-publication"
+    },
+    {
+      "expected_serve": false,
+      "family": "public-lock",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "INVALID_OR_MISSING_STATUS",
+      "span": 6,
+      "status_reason": "INVALID_OR_MISSING_STATUS",
+      "update": "artifact-revocation"
+    },
+    {
+      "expected_serve": false,
+      "family": "public-lock",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "INVALID_OR_MISSING_STATUS",
+      "span": 6,
+      "status_reason": "INVALID_OR_MISSING_STATUS",
+      "update": "capability-revocation"
+    },
+    {
+      "expected_serve": false,
+      "family": "public-lock",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "INVALID_OR_MISSING_STATUS",
+      "span": 6,
+      "status_reason": "INVALID_OR_MISSING_STATUS",
+      "update": "conflicting-publication"
+    },
+    {
+      "family": "public-lock",
+      "from_closure": 1,
+      "kind": "extension",
+      "passed": true,
+      "span": 6,
+      "to_closure": 62
+    },
+    {
+      "expected_serve": true,
+      "family": "generated",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "SERVE",
+      "span": 1,
+      "status_reason": "SERVE",
+      "update": "unrelated-publication"
+    },
+    {
+      "expected_serve": false,
+      "family": "generated",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "INVALID_OR_MISSING_STATUS",
+      "span": 1,
+      "status_reason": "INVALID_OR_MISSING_STATUS",
+      "update": "artifact-revocation"
+    },
+    {
+      "expected_serve": false,
+      "family": "generated",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "INVALID_OR_MISSING_STATUS",
+      "span": 1,
+      "status_reason": "INVALID_OR_MISSING_STATUS",
+      "update": "capability-revocation"
+    },
+    {
+      "expected_serve": false,
+      "family": "generated",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "INVALID_OR_MISSING_STATUS",
+      "span": 1,
+      "status_reason": "INVALID_OR_MISSING_STATUS",
+      "update": "conflicting-publication"
+    },
+    {
+      "family": "generated",
+      "from_closure": 1,
+      "kind": "extension",
+      "passed": true,
+      "span": 1,
+      "to_closure": 130
+    },
+    {
+      "expected_serve": true,
+      "family": "generated",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "SERVE",
+      "span": 3,
+      "status_reason": "SERVE",
+      "update": "unrelated-publication"
+    },
+    {
+      "expected_serve": false,
+      "family": "generated",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "INVALID_OR_MISSING_STATUS",
+      "span": 3,
+      "status_reason": "INVALID_OR_MISSING_STATUS",
+      "update": "artifact-revocation"
+    },
+    {
+      "expected_serve": false,
+      "family": "generated",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "INVALID_OR_MISSING_STATUS",
+      "span": 3,
+      "status_reason": "INVALID_OR_MISSING_STATUS",
+      "update": "capability-revocation"
+    },
+    {
+      "expected_serve": false,
+      "family": "generated",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "INVALID_OR_MISSING_STATUS",
+      "span": 3,
+      "status_reason": "INVALID_OR_MISSING_STATUS",
+      "update": "conflicting-publication"
+    },
+    {
+      "family": "generated",
+      "from_closure": 1,
+      "kind": "extension",
+      "passed": true,
+      "span": 3,
+      "to_closure": 130
+    },
+    {
+      "expected_serve": true,
+      "family": "generated",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "SERVE",
+      "span": 6,
+      "status_reason": "SERVE",
+      "update": "unrelated-publication"
+    },
+    {
+      "expected_serve": false,
+      "family": "generated",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "INVALID_OR_MISSING_STATUS",
+      "span": 6,
+      "status_reason": "INVALID_OR_MISSING_STATUS",
+      "update": "artifact-revocation"
+    },
+    {
+      "expected_serve": false,
+      "family": "generated",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "INVALID_OR_MISSING_STATUS",
+      "span": 6,
+      "status_reason": "INVALID_OR_MISSING_STATUS",
+      "update": "capability-revocation"
+    },
+    {
+      "expected_serve": false,
+      "family": "generated",
+      "kind": "update",
+      "passed": true,
+      "scope_reason": "INVALID_OR_MISSING_STATUS",
+      "span": 6,
+      "status_reason": "INVALID_OR_MISSING_STATUS",
+      "update": "conflicting-publication"
+    },
+    {
+      "family": "generated",
+      "from_closure": 1,
+      "kind": "extension",
+      "passed": true,
+      "span": 6,
+      "to_closure": 130
+    }
+  ],
+  "count": 30,
+  "extension_count": 6,
+  "passed": 30,
+  "update_count": 24
+}

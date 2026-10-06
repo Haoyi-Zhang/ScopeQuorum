@@ -1,0 +1,1 @@
+{"concurrent_dual_quorum_failures": 0, "ordered_quorum_fault_checks": 80, "reachability_fault_cases": 80, "safety_failures": 0, "three_epsilon_clock_failures": 0, "two_epsilon_negative_controls": 5}

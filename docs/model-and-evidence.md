@@ -63,7 +63,7 @@ The state model is compared with actual protocol objects at four transitions. Re
 - Four actual/model state-accounting transitions covering registration, extension, state change, and same-slot retry.
 - 45 actual-Ed25519 witness-network cases across four distinct loopback listeners in one process, including 18 omission attacks.
 - 33 actual-Ed25519 process-isolated durability cases across four witness processes and listeners.
-- The original 125-test execution record; the current suite contains 130 tests after five consumer-state/reporting/portability regressions. The fresh Windows run passes 113 and explicitly skips 17 POSIX durability tests.
+- The current 134-test suite passes in full without skips on Linux. Earlier 125-test and 130-test Windows records retain their original scope; the latter passes 113 and skips 17 POSIX durability tests.
 - 5,880 original fixed delivery orders and 500 random differential histories comparing prefix, full signed status, and oracle only.
 - 80 ordered quorum/fault checks and 2,625 witnessed clock assignments.
 
@@ -85,4 +85,4 @@ Current finite reachability output therefore reports `honest_signer_threshold_ro
 
 `src/scientific_checks.py` runs all reviewed finite semantic/encoded-size studies and the complete 48-case six-listener campaign into a new directory. The four-listener study now checks the actual target-namespace cache against accepted-history status and frontier data in each of 24 valid updates; a regression deliberately drops renewal and detects the mismatch even with quorum signatures. This is a scope-local predicate, not a whole-root serving check. The fresh platform summary is `results/local-checks.json`.
 
-On Windows, Linux RSS is null and POSIX address-space/CPU limits are not applied; the runner supplies a bounded wall-time budget instead. Directory-fsync durability and an unavailable Go toolchain are explicit unexecuted boundaries. The prepared Ubuntu 24.04/Python 3.12 workflow runs those POSIX paths with fresh temporary outputs; its existence is not evidence that it has run. Retained storage assumptions, licenses, upstream notices, negative controls, and older interrupted-run disclosures remain in force.
+On Windows, Linux RSS is null and POSIX address-space/CPU limits are not applied; the runner supplies a bounded wall-time budget instead. That run does not execute directory-fsync durability or Go. The complete Linux run in `results/current/` executes both paths: all 33 durability cases and the independent Go census pass, alongside 134 unit tests and the complete 48-case/336-policy semantic reproduction. Host timings remain separate, and the stated storage assumptions and negative controls still apply.

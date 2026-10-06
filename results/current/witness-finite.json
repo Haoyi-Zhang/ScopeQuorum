@@ -1,0 +1,32 @@
+{
+  "audit": {
+    "committee_size": 4,
+    "fault_bound": 1,
+    "honest_intersection_failures": 0,
+    "minimum_intersection": 2,
+    "ordered_pairs": 16,
+    "quorum": 3,
+    "quorum_sets": 4
+  },
+  "clock_cases": 2625,
+  "committee_size": 4,
+  "concurrent_dual_quorum_failures": [],
+  "concurrent_fork_assignments": 32,
+  "fault_bound": 1,
+  "fault_sets": 5,
+  "honest_signer_threshold_rows_by_reachable_count": {
+    "0": 0,
+    "1": 0,
+    "2": 0,
+    "3": 8,
+    "4": 5
+  },
+  "ordered_quorum_fault_checks": 80,
+  "quorum": 3,
+  "quorum_sets": 4,
+  "reachability_fault_cases": 80,
+  "safety_failures": [],
+  "three_epsilon_clock_failures": [],
+  "threshold_scope": "reachability/cardinality only; certification also requires a valid timely proposal compatible with retained branches, available state capacity and successful persistence; reachable split branches do not guarantee progress",
+  "two_epsilon_negative_controls": 5
+}

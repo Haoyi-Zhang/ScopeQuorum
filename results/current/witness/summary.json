@@ -1,0 +1,214 @@
+{
+  "adversarial_checks": {
+    "checks": [
+      {
+        "detail": "1 signatures",
+        "name": "omitted-artifact-revocation",
+        "passed": true
+      },
+      {
+        "detail": "1 signatures",
+        "name": "omitted-capability-revocation",
+        "passed": true
+      },
+      {
+        "detail": "1 signatures",
+        "name": "omitted-conflicting-publication",
+        "passed": true
+      },
+      {
+        "detail": "2/4 responsive",
+        "name": "two-responsive-blocked",
+        "passed": true
+      },
+      {
+        "detail": "3/4 responsive",
+        "name": "three-responsive-valid",
+        "passed": true
+      },
+      {
+        "detail": "overlap includes honest witness",
+        "name": "conflicting-quorum-blocked",
+        "passed": true
+      },
+      {
+        "detail": "4 signatures before acknowledgement",
+        "name": "unacknowledged-private-event-outside-contract",
+        "passed": true
+      },
+      {
+        "detail": "1 signatures after acknowledgement",
+        "name": "acknowledged-revocation-cannot-be-omitted",
+        "passed": true
+      },
+      {
+        "detail": "16 ordered quorum pairs",
+        "name": "quorum-intersection-enumeration",
+        "passed": true
+      }
+    ],
+    "count": 9,
+    "passed": 9,
+    "quorum_audit": {
+      "committee_size": 4,
+      "fault_bound": 1,
+      "honest_intersection_failures": 0,
+      "minimum_intersection": 2,
+      "ordered_pairs": 16,
+      "quorum": 3,
+      "quorum_sets": 4
+    }
+  },
+  "all_counted_planes": {
+    "max_scope_prefix_ratio": 1.3782587957228083,
+    "median_scope_certification_fraction": 0.8992308221943026,
+    "median_scope_prefix_ratio": 0.9998318744685024,
+    "min_scope_prefix_ratio": 0.8357847056974503,
+    "p90_scope_prefix_ratio": 1.2380125439366,
+    "scope_strictly_smaller_traces": 48,
+    "traces": 96
+  },
+  "by_churn": [
+    {
+      "churn": 0,
+      "prefix_client_median_wire_bytes": 97674.0,
+      "prefix_total_median_wire_bytes": 391245.0,
+      "scope_client_median_wire_bytes": 96574.0,
+      "scope_total_median_wire_bytes": 447809.5,
+      "traces": 24
+    },
+    {
+      "churn": 1,
+      "prefix_client_median_wire_bytes": 140538.5,
+      "prefix_total_median_wire_bytes": 608084.5,
+      "scope_client_median_wire_bytes": 101141.5,
+      "scope_total_median_wire_bytes": 632864.5,
+      "traces": 24
+    },
+    {
+      "churn": 4,
+      "prefix_client_median_wire_bytes": 231236.5,
+      "prefix_total_median_wire_bytes": 1078050.5,
+      "scope_client_median_wire_bytes": 101239.0,
+      "scope_total_median_wire_bytes": 1038840.5,
+      "traces": 24
+    },
+    {
+      "churn": 16,
+      "prefix_client_median_wire_bytes": 591058.0,
+      "prefix_total_median_wire_bytes": 2877158.0,
+      "scope_client_median_wire_bytes": 101351.5,
+      "scope_total_median_wire_bytes": 2478311.5,
+      "traces": 24
+    }
+  ],
+  "client_plane": {
+    "max_scope_prefix_ratio": 1.448619387103639,
+    "median_scope_prefix_ratio": 0.46465450664951224,
+    "min_scope_prefix_ratio": 0.10250666183390052,
+    "p90_scope_prefix_ratio": 0.9955620703598868,
+    "scope_strictly_smaller_traces": 87,
+    "traces": 96
+  },
+  "fixed_length_parity": {
+    "all_equal": true,
+    "count": 2,
+    "objects": [
+      {
+        "actual_bytes": 807,
+        "equal": true,
+        "model_bytes": 807,
+        "name": "register-certificate"
+      },
+      {
+        "actual_bytes": 704,
+        "equal": true,
+        "model_bytes": 704,
+        "name": "renew-certificate"
+      }
+    ]
+  },
+  "state": {
+    "actual_model_checks": {
+      "all_model_bytes_equal": true,
+      "count": 4,
+      "encoding": "sum of canonical JSON durable-state payload bytes across all four witnesses; includes identity, full retained log, every immutable scope handle, stable slot/digest entries, clock, and clock epsilon; excludes outer commitment envelope, newline, filesystem metadata, allocator overhead, and RSS",
+      "phases": [
+        {
+          "actual_aggregate_payload_bytes": 6144,
+          "equal": true,
+          "model_aggregate_payload_bytes": 6144,
+          "phase": "registration",
+          "scope_entries_across_four_witnesses": 4,
+          "signed_slot_entries_across_four_witnesses": 4
+        },
+        {
+          "actual_aggregate_payload_bytes": 7376,
+          "equal": true,
+          "model_aggregate_payload_bytes": 7376,
+          "phase": "extension",
+          "scope_entries_across_four_witnesses": 8,
+          "signed_slot_entries_across_four_witnesses": 8
+        },
+        {
+          "actual_aggregate_payload_bytes": 9056,
+          "equal": true,
+          "model_aggregate_payload_bytes": 9056,
+          "phase": "state-change-renewal",
+          "scope_entries_across_four_witnesses": 8,
+          "signed_slot_entries_across_four_witnesses": 12
+        },
+        {
+          "actual_aggregate_payload_bytes": 9056,
+          "actual_bytes_unchanged": true,
+          "equal": true,
+          "model_aggregate_payload_bytes": 9056,
+          "model_bytes_unchanged": true,
+          "phase": "same-slot-retry",
+          "scope_entries_across_four_witnesses": 8,
+          "signed_slot_entries_across_four_witnesses": 12
+        }
+      ],
+      "retained_entry_counts_equal": true,
+      "same_slot_retry_unchanged": true,
+      "witnesses": 4
+    },
+    "aggregation": "sum across all four witness payloads per namespace",
+    "encoding": "sum of canonical JSON durable-state payload bytes across all four witnesses; includes identity, full retained log, every immutable scope handle, stable slot/digest entries, clock, and clock epsilon; excludes outer commitment envelope, newline, filesystem metadata, allocator overhead, and RSS",
+    "max_scope_witness_state_bytes": 7106444,
+    "median_prefix_client_bytes": 119524.0,
+    "median_scope_client_bytes": 16420.0,
+    "median_scope_witness_state_bytes": 544248.0
+  },
+  "study": {
+    "churn_levels": [
+      0,
+      1,
+      4,
+      16
+    ],
+    "client_and_certification_planes_separated": true,
+    "committee_size": 4,
+    "families": [
+      "public-lock",
+      "generated"
+    ],
+    "orders": [
+      "increasing",
+      "decreasing",
+      "random",
+      "hot"
+    ],
+    "queries_per_trace": 32,
+    "quorum": 3,
+    "spans": [
+      1,
+      3,
+      6
+    ],
+    "timing_claim": false,
+    "total_queries": 3072,
+    "traces": 96,
+    "wire_definition": "canonical JSON request plus newline and response plus newline"
+  }
+}
