@@ -7,6 +7,8 @@ synchronization/certification bytes.  Witnesses receive each accepted suffix in
 128-event batches and independently co-sign the exact checkpoint or scope body.
 The size model uses fixed-length stand-ins for Ed25519 signatures and SHA-256
 commitments; selected objects are checked against the actual implementation.
+Both TCP prototypes instead resend complete histories per certification;
+object/state parity does not validate this incremental transport model.
 
 This is an encoded-object/network-accounting study, not a latency, WAN,
 storage-engine, or production availability benchmark.
