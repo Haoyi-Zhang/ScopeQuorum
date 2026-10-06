@@ -5,6 +5,7 @@ import asyncio
 from pathlib import Path
 import sys
 import unittest
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 from codec import commitment, manifest
@@ -12,6 +13,7 @@ from fixtures import grant
 from model import Authority
 from witness_delta import QUORUM
 from witness_network import WitnessTCPNetwork
+from witness_network_study import UPDATES, valid_update_case
 
 
 def authority():
@@ -22,6 +24,33 @@ def authority():
 
 
 class WitnessNetworkTests(unittest.TestCase):
+    def test_network_updates_check_actual_cached_scope(self):
+        async def scenario():
+            async with WitnessTCPNetwork() as network:
+                return [await valid_update_case(network, 'state-' + update,
+                                                'public-lock', 1, update)
+                        for update in UPDATES]
+        for row in asyncio.run(scenario()):
+            with self.subTest(update=row['update']):
+                self.assertTrue(row['accepted'])
+                self.assertTrue(row['client_state_matches_reference'])
+                self.assertEqual(row['actual_scope_valid_after_update'],
+                                 row['expected_serve_after_update'])
+
+    def test_network_study_detects_dropped_client_renewal(self):
+        async def scenario():
+            async with WitnessTCPNetwork() as network:
+                with patch('witness_network_study.WitnessScopeCache.apply_renew',
+                           return_value=None):
+                    return await valid_update_case(network, 'dropped-renewal',
+                                                   'public-lock', 1,
+                                                   'artifact-revocation')
+        row = asyncio.run(scenario())
+        self.assertTrue(row['accepted'])  # Signer counts alone would pass.
+        self.assertTrue(row['actual_scope_valid_after_update'])
+        self.assertFalse(row['expected_serve_after_update'])
+        self.assertFalse(row['client_state_matches_reference'])
+
     def test_distinct_endpoints_certify_valid_checkpoint(self):
         async def scenario():
             a = authority()

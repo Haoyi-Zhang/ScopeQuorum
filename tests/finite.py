@@ -8,7 +8,11 @@ from itertools import permutations, product
 from pathlib import Path
 import json
 import time
-import resource
+import sys
+try:
+    import resource
+except ImportError:
+    resource = None
 
 EVENTS=(('a',1,'grant'),('a',2,'publish_root'),('b',1,'grant'),
         ('b',2,'publish_leaf'),('b',3,'revoke_leaf'),
@@ -82,7 +86,10 @@ def run():
                 negative_control_unsafe_clock_cases=unsafe_without_error_margin,
                 violations=0,cpu_seconds=time.process_time()-cpu,
                 elapsed_seconds=time.perf_counter()-start,
-                peak_rss_kib=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
+                platform=sys.platform,
+                peak_rss_kib=(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+                              if sys.platform.startswith('linux') and resource else None),
+                rss_scope='Linux getrusage only; null on unsupported platforms')
 
 if __name__=='__main__':
     import argparse

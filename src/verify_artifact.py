@@ -118,7 +118,7 @@ def main() -> int:
             if name=='unit':
                 match=re.search(r'Ran (\d+) tests',run.stdout)
                 require(match is not None,'unit-test result count missing')
-                row['passed_tests']=int(match.group(1));require(row['passed_tests']==125,'unit count changed')
+                row['passed_tests']=int(match.group(1));require(row['passed_tests']==134,'unit count changed')
             if name=='quorum':
                 actual=json.loads(run.stdout)
                 require(actual==read_json(ROOT/'results/quorum-general.json'),'independent quorum output changed')

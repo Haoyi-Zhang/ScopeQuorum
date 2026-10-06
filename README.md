@@ -23,13 +23,23 @@ python tests/witness_finite.py \
 
 Expected current results are:
 
-- **125/125** directed tests, including canonical-manifest, temporal-frontier, durable-state, uncertain-commit, and signed-slot-bound regressions;
+- 134 directed tests in the current suite; a supported POSIX host is required for all durability tests. The 130-test Windows campaign passes 113 and explicitly skips 17 POSIX durability tests; four subsequently added command-runner regressions also pass separately;
 - 5,880 fixed delivery orders with zero protected-predicate violation;
 - 500 random differential histories with zero prefix/status/oracle decision mismatch;
 - 80 ordered witness quorum/fault checks and 32 concurrent-fork first-arrival assignments with zero safety failure; and
 - 2,625 witnessed clock assignments with zero `3*epsilon` failure, while the deliberately weakened `2*epsilon` guard preserves five unsafe negative controls.
 
 ## Rebuild the bounded studies
+
+For a new complete bounded run, including all 48 six-listener cases, use a previously nonexistent output directory:
+
+```sh
+python -B src/scientific_checks.py --output ../scientific-checks
+```
+
+This runner preserves command logs, raw observations, dependency versions, and platform metadata. It enforces a 30-minute overall wall-time budget and a 15-minute bound per command; it never compiles the paper or overwrites retained results. On Windows it runs the full portable semantic campaign, records unavailable Linux RSS as null, and explicitly omits the 33-case directory-fsync durability study and 17 related unit tests. POSIX CPU/address-space limits are not applied on Windows; that absence is recorded, not simulated. The Go checker runs only when a local toolchain exists, with network toolchain/module downloads disabled.
+
+The `scientific-checks.yml` workflow runs on pushes to `main` or manual dispatch. It uses Ubuntu 24.04 and Python 3.12, installs the declared Python dependency in a runner-temporary virtual environment, runs into a unique `RUNNER_TEMP` directory, and uploads raw output even on failure. The fresh local platform/result summary is `results/local-checks.json`; older durability and Go observations remain historical evidence, not new Windows results.
 
 ```sh
 python src/renewal_study.py \
@@ -53,7 +63,7 @@ python src/durable_witness_study.py \
   --generated ../verification-generated
 ```
 
-The retained witness-network study runs 45 actual-Ed25519 cases over four distinct loopback listeners in one Python process. The crash-recovery study instead runs four witness services in **four separate Python processes**, each with a separate TCP listener and state directory. It executes 33 cases:
+The witness-network study runs 45 actual-Ed25519 cases over four distinct loopback listeners in one Python process. Its 24 valid-update rows now also compare the actual client cache's manifests, validity, count, tip, and issuance time with the accepted-history reference. A dropped-client-renewal regression confirms that signer counts alone cannot pass this check. The validity check is namespace-local, not a whole multi-namespace root serve decision. The historical process-isolated crash-recovery study instead runs four witness services in **four separate Python processes**, each with a separate TCP listener and state directory. It executes 33 cases:
 
 - 24 injected crashes at `before-commit`, `after-temp-fsync`, and `after-replace` windows;
 - six full-committee restarts followed by a conflicting-fork attempt;
@@ -90,6 +100,7 @@ Run remaining ranges in bounded chunks. `src/reproduce.py` uses atomic checkpoin
 - `results/witness-network/summary.json`: 45 in-process four-listener cases and wire counters.
 - `results/durable-witness/`: 33 process-isolated crash/restart/corruption cases and their summary.
 - `results/witness-finite.json`: committee, reachability, and clock enumeration.
+- `results/local-checks.json`: fresh Windows execution summary, with unsupported durability/Go checks separated from completed studies.
 - `proofs/theorems.md`: assumptions and handwritten arguments, including persist-before-sign crash atomicity.
 - `claim_evidence_ledger.csv`: claim-to-evidence mapping.
 - `external_resources.csv`: scholarly, standards, software, and data sources.
@@ -140,6 +151,6 @@ The Go checker requires a local Go toolchain and only the Go standard library; i
 
 The eight actual-signature cases distinguish threshold feasibility from progress. A Byzantine sequencer can split reachable honest witnesses between two individually valid, uncertified branches. With the Byzantine witness withholding, the 2-to-1 and 1-to-2 assignments both prevent a certificate. These are expected counterexamples, not test failures or fixed liveness bugs. No unsafe branch reset is implemented.
 
-`results/journal-repetition/` retains the new bounded repetition. Its complete witness, durability and 96-trace outputs are compared with the canonical results; six new main campaigns are compared individually with the canonical 48-case campaign. The canonical 48 cases and their prior complete repetition remain under `results/` and `results/clean-repetition/`. No new 48-case repeat is claimed. An interrupted 5,000-history attempt yielded no completed result; the completed fresh-seed differential check contains 500 histories. Interrupted tool invocations and successful resumptions are disclosed in the repetition's execution record.
+`results/journal-repetition/` retains an earlier bounded repetition. Its witness, durability and 96-trace outputs were compared with the canonical results; six main campaigns were compared individually with the canonical 48-case campaign. The canonical 48 cases and their earlier complete repetition remain under `results/` and `results/clean-repetition/`. That earlier journal repetition did not rerun all 48 cases. An interrupted 5,000-history attempt yielded no completed result; its completed differential check contains 500 histories. Interrupted invocations and resumptions remain disclosed in its execution record. The distinct fresh Windows run is identified by `results/local-checks.json` and is not used to refresh unsupported durability or Go observations.
 
 The quick verifier checks retained consistency and reruns tests, finite checks, actual boundary signatures and the Go program. It does not rerun every long network study. The explicit commands above are the complete study entry points; never equate a quick verifier pass with a complete new experimental campaign. Do not run Python with `-O`, because the experimental checks use assertions.

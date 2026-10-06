@@ -6,7 +6,11 @@ import gzip
 import json
 import os
 from pathlib import Path
-import resource
+import platform
+try:
+    import resource
+except ImportError:
+    resource = None
 import sys
 import time
 from campaign import run_policy
@@ -29,12 +33,17 @@ def main():
     parser.add_argument('--cases',help='inclusive start:end campaign indices')
     parser.add_argument('--output',type=Path,default=ROOT/'results')
     parser.add_argument('--resume',action='store_true')
+    parser.add_argument('--portable',action='store_true',
+                        help='explicitly allow unavailable POSIX CPU/address-space limits; RSS remains null')
     args=parser.parse_args()
     if sum([args.pilot,args.all,bool(args.cases)])!=1: parser.error('choose exactly one execution scope')
     if hasattr(os,'sched_getaffinity'):
         available=os.sched_getaffinity(0);os.sched_setaffinity(0,{min(available)})
-    resource.setrlimit(resource.RLIMIT_AS,(3*1024**3,3*1024**3))
-    resource.setrlimit(resource.RLIMIT_CPU,(900,900))
+    if resource is None and not args.portable:
+        parser.error('POSIX resource limits unavailable; use --portable with an external wall-time bound')
+    if resource is not None:
+        resource.setrlimit(resource.RLIMIT_AS,(3*1024**3,3*1024**3))
+        resource.setrlimit(resource.RLIMIT_CPU,(900,900))
     campaign=cases()
     if args.pilot:
         chosen=[dict(case='pilot',scenario='revocation',family='public-lock',span=3)]
@@ -53,6 +62,9 @@ def main():
         progress=args.output/'progress'/(case['case']+'.json.gz')
         result={**case,'replicas':6,'workers':1,'batch_events':128,
                 'delta_ticks':10,'epsilon_ticks':0,'policies':[]}
+        result['runtime']={'platform':platform.platform(),'python':platform.python_version(),
+                           'posix_resource_limits_applied':resource is not None,
+                           'rss_scope':'Linux getrusage only; null elsewhere'}
         if args.resume and progress.exists():
             with gzip.open(progress,'rt') as f: result=json.load(f)
             if any(result.get(k)!=v for k,v in case.items()):

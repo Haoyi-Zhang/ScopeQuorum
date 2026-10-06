@@ -7,7 +7,11 @@ logical event time, not wall time, controls the finite freshness experiment.
 from __future__ import annotations
 import asyncio
 import json
-import resource
+import sys
+try:
+    import resource
+except ImportError:
+    resource = None
 import time
 from pathlib import Path
 from codec import NAMESPACES, encode,manifest,ns_of
@@ -195,7 +199,8 @@ async def run_policy(case:dict,policy:str,batch:int=128) -> dict:
                     events=sum(map(len,histories.values())),messages=net.messages,bytes=net.bytes,
                     drops=net.drops,stats=stats,transport=net.log,
                     elapsed_seconds=time.perf_counter()-started,cpu_seconds=time.process_time()-cpu,
-                    peak_rss_kib=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
+                    peak_rss_kib=(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+                                  if sys.platform.startswith('linux') and resource else None))
 
 async def run_case(case:dict,policies=POLICIES,batch:int=128) -> dict:
     result={**case,'replicas':6,'workers':1,'batch_events':batch,'delta_ticks':10,'epsilon_ticks':0,'policies':[]}

@@ -1,0 +1,102 @@
+{
+  "execution_date": "2026-10-06",
+  "platform": "Windows-11-10.0.28000-SP0",
+  "machine": "AMD64",
+  "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "cryptography": "50.0.1",
+  "scope": "Fresh finite formal models, encoded-size studies and owned loopback fixtures; not independent implementation or production evaluation",
+  "raw_output_location": "completion_workspace/experiments/P008/windows-local (separate completion-workspace handoff, not embedded in this artifact)",
+  "portable_runner_commands_completed": 11,
+  "all_completed_commands_exit_zero": true,
+  "unit": {
+    "discovered": 130,
+    "passed": 113,
+    "skipped": 17,
+    "skip_reason": "POSIX directory-fsync durability not validated on Windows",
+    "failures": 0,
+    "errors": 0,
+    "new_regressions_passed": 5
+  },
+  "finite": {
+    "delivery_orders": 5880,
+    "state_decisions": 92160,
+    "merge_checks": 46080,
+    "clock_assignments": 1512,
+    "violations": 0,
+    "weakened_clock_negative_controls": 48
+  },
+  "differential": {"histories": 500, "seed": 20261006, "mismatches": 0},
+  "witness_finite": {
+    "ordered_quorum_fault_checks": 80,
+    "reachability_fault_cases": 80,
+    "concurrent_fork_assignments": 32,
+    "clock_assignments": 2625,
+    "safety_failures": 0,
+    "three_epsilon_failures": 0,
+    "two_epsilon_negative_controls": 5,
+    "reachability_scope": "signer-threshold feasibility only, not guaranteed liveness"
+  },
+  "split_boundary": {"cases": 8, "withholding_split_counterexamples": 2, "dual_quorums": 0},
+  "honest_renewal": {
+    "traces": 96,
+    "queries": 3072,
+    "single_update_conditions": 24,
+    "actual_signature_checks_passed": 30,
+    "actual_update_checks": 24,
+    "actual_extension_checks": 6,
+    "real_object_encoding_pairs_equal": 8,
+    "selector_traces": 96
+  },
+  "witness_study": {
+    "traces": 96,
+    "queries": 3072,
+    "adversarial_checks_passed": 9,
+    "actual_model_state_transitions_equal": 4,
+    "client_plane_scope_wins": 87,
+    "all_counted_planes_scope_wins": 48,
+    "median_four_witness_payload_bytes": 544248,
+    "max_four_witness_payload_bytes": 7106444
+  },
+  "witness_network": {
+    "cases": 45,
+    "passed": 45,
+    "valid_update_cases": 24,
+    "client_state_checks_passed": 24,
+    "client_predicate_scope": "registered target-namespace scope only; not a whole-root serve decision",
+    "omission_cases": 18,
+    "messages": 710,
+    "canonical_framed_bytes": 10960842
+  },
+  "main_campaign": {
+    "fresh_cases": 48,
+    "policy_runs": 336,
+    "main_queries": 1344,
+    "probes": 126,
+    "protected_policy_bounded_violations": 0,
+    "root_only_bounded_violations": 18,
+    "negative_reference_bounded_violations": {"lww": 84, "signed-index": 84, "transparency-only": 66},
+    "logical_reference_equal": true,
+    "comparison_exclusions": "named host durations, peak RSS, driver timing basis and runtime provenance only; all logical observations retained"
+  },
+  "reconciliation": {"comparison_groups": 15, "all_equal": true, "python_sources_syntax_checked": 43},
+  "dropped_renewal_negative_control": {
+    "scope": "separate owned-fixture experiment; client renewal deliberately replaced by a no-op",
+    "network_cases": 45,
+    "passed_under_mutation": 21,
+    "client_state_checks_passed_under_mutation": 0,
+    "mutation_detected": true
+  },
+  "bibliography": {"entries": 68, "main_body_cited": 68, "local_metadata_or_mapping_failures": 0, "full_text_entailment_certificate": false},
+  "peak_rss_kib": null,
+  "posix_cpu_and_address_space_limits_applied": false,
+  "runner_wall_time_limits_seconds": {"overall": 1800, "per_command": 900},
+  "not_executed_here": [
+    "17 POSIX durability unit tests",
+    "33-case process-isolated directory-fsync durability matrix",
+    "Go quorum enumerator (no installed Go toolchain)",
+    "prepared Ubuntu 24.04/Python 3.12 workflow",
+    "paper compilation or rendering"
+  ],
+  "historical_evidence_preserved": true,
+  "latency_throughput_or_linux_resource_claim": false
+}

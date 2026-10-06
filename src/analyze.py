@@ -31,12 +31,17 @@ def csv_write(path,rows):
         w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
 
 def semantic(value):
-    """Ignore ONLY measured host durations/RSS; retain logical time and all decisions."""
+    """Ignore named host diagnostics/provenance; retain logical time and all decisions."""
     if isinstance(value,list):return [semantic(x) for x in value]
     if not isinstance(value,dict):return value
     ignored={'elapsed_ms','verify_ms','elapsed_seconds','cpu_seconds','peak_rss_kib',
-             'driver_cpu_seconds','driver_elapsed_seconds','driver_time_basis'}
+             'driver_cpu_seconds','driver_elapsed_seconds','driver_time_basis','runtime'}
     return {k:semantic(v) for k,v in value.items() if k not in ignored}
+
+def peak_rss(records):
+    values=[p['peak_rss_kib'] for r in records for p in r['policies']
+            if p['peak_rss_kib'] is not None]
+    return max(values) if values else None
 
 def main():
     a=argparse.ArgumentParser();a.add_argument('--results',type=Path,default=ROOT/'results')
@@ -54,18 +59,18 @@ def main():
         assert semantic(rs)==prior,'logical reproduction differs'
         (args.output/'semantic-reproduction.json').write_text(json.dumps(dict(
             cases=48,policy_runs=336,semantic_equal=True,
-            comparison='all ordered protocol observations except host durations, peak RSS, and driver timing basis',
+            comparison='all ordered protocol observations except named host diagnostics and runtime provenance',
             observed_policy_cpu_seconds=sum(p['cpu_seconds'] for r in rs for p in r['policies']),
-            observed_peak_rss_kib=max(p['peak_rss_kib'] for r in rs for p in r['policies'])),indent=2)+'\n')
+            observed_peak_rss_kib=peak_rss(rs)),indent=2)+'\n')
     if args.compare:
         other=load(args.compare)
         assert semantic(rs)==semantic(other),'clean reproduction differs beyond host timing/memory'
         (args.output/'reproduction.json').write_text(json.dumps(dict(cases=48,policies=336,semantic_equal=True,
-          compared='all result fields except explicitly named measured durations, peak RSS and driver timing basis',
+          compared='all result fields except explicitly named host diagnostics and runtime provenance',
           primary_policy_cpu_seconds=sum(p['cpu_seconds'] for r in rs for p in r['policies']),
-          primary_peak_rss_kib=max(p['peak_rss_kib'] for r in rs for p in r['policies']),
+          primary_peak_rss_kib=peak_rss(rs),
           comparison_policy_cpu_seconds=sum(p['cpu_seconds'] for r in other for p in r['policies']),
-          comparison_peak_rss_kib=max(p['peak_rss_kib'] for r in other for p in r['policies'])),indent=2)+'\n')
+          comparison_peak_rss_kib=peak_rss(other)),indent=2)+'\n')
     queries=[];case_rows=[]
     for r in rs:
         for p in r['policies']:
@@ -118,7 +123,7 @@ def main():
         total_application_bytes=sum(p['bytes'] for r in rs for p in r['policies']),
         main_policy_cpu_seconds=sum(p['cpu_seconds'] for r in rs for p in r['policies']),
         main_policy_wall_seconds=sum(p['elapsed_seconds'] for r in rs for p in r['policies']),
-        peak_rss_kib=max(p['peak_rss_kib'] for r in rs for p in r['policies']))
+        peak_rss_kib=peak_rss(rs))
     (args.output/'totals.json').write_text(json.dumps(totals,indent=2)+'\n')
     # Plain TeX rows, no document settings. The paper imports these exact facts.
     tex=[]

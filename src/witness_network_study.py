@@ -115,6 +115,44 @@ async def initialize_case(network: WitnessTCPNetwork, case_id: str,
     return cache, before
 
 
+async def valid_update_case(network: WitnessTCPNetwork, case_id: str,
+                            family: str, span: int, update: str) -> dict:
+    authority, keys, target, graph_map = build_condition(family, span)
+    cache, before = await initialize_case(network, case_id, authority, keys)
+    expected_serve = apply_update(authority, graph_map, target, update)
+    network.advance(case_id, 2)
+    body = {
+        'op': 'renew', 'ns': authority.ns, 'scope': cache.scope,
+        'from': cache.count, **frontier(authority, 2),
+        **_projection(authority.log, tuple(keys), cache.count),
+    }
+    signatures = await network.signatures(case_id, body, authority.log)
+    accepted = len(signatures) >= QUORUM
+    if accepted:
+        cache.apply_renew(certificate(body, signatures), 2)
+    reference = {
+        key: {field: _status(authority.log, key)[field]
+              for field in ('manifest', 'valid')}
+        for key in keys
+    }
+    # This is a namespace-local scope predicate, NOT a whole multi-namespace
+    # root serve decision. Check the actual consumer, not just signer counts.
+    actual_scope_valid = all(item['valid'] for item in cache.objects.values())
+    state_matches = (cache.objects == reference
+                     and cache.count == body['count']
+                     and cache.tip == body['tip'] and cache.issued == body['issued'])
+    return {
+        'case': case_id, 'family': family, 'span': span,
+        'update': update, 'variant': 'valid',
+        'expected': 'accept', 'accepted': accepted,
+        'signatures': len(signatures),
+        'expected_serve_after_update': expected_serve,
+        'actual_scope_valid_after_update': actual_scope_valid,
+        'client_state_matches_reference': state_matches,
+        **delta(network.counters, before),
+    }
+
+
 async def run(output: Path) -> dict:
     rows = []
     async with WitnessTCPNetwork() as network:
@@ -125,28 +163,8 @@ async def run(output: Path) -> dict:
                 for update in UPDATES:
                     case_number += 1
                     case_id = f'case-{case_number:03d}-valid'
-                    authority, keys, target, graph_map = build_condition(family, span)
-                    cache, before = await initialize_case(
-                        network, case_id, authority, keys)
-                    expected_serve = apply_update(authority, graph_map, target, update)
-                    network.advance(case_id, 2)
-                    body = {
-                        'op': 'renew', 'ns': authority.ns, 'scope': cache.scope,
-                        'from': cache.count, **frontier(authority, 2),
-                        **_projection(authority.log, tuple(keys), cache.count),
-                    }
-                    signatures = await network.signatures(case_id, body, authority.log)
-                    accepted = len(signatures) >= QUORUM
-                    if accepted:
-                        cache.apply_renew(certificate(body, signatures), 2)
-                    rows.append({
-                        'case': case_id, 'family': family, 'span': span,
-                        'update': update, 'variant': 'valid',
-                        'expected': 'accept', 'accepted': accepted,
-                        'signatures': len(signatures),
-                        'expected_serve_after_update': expected_serve,
-                        **delta(network.counters, before),
-                    })
+                    rows.append(await valid_update_case(
+                        network, case_id, family, span, update))
 
                     if update != 'unrelated-publication':
                         case_number += 1
@@ -227,6 +245,10 @@ async def run(output: Path) -> dict:
     passed = sum(
         (row['expected'] == 'accept') == row['accepted']
         and row.get('first_signatures', QUORUM) >= QUORUM
+        and row.get('client_state_matches_reference', True)
+        and (row['variant'] != 'valid'
+             or row['actual_scope_valid_after_update']
+             == row['expected_serve_after_update'])
         for row in rows
     )
     valid_rows = [row for row in rows if row['variant'] == 'valid']
@@ -237,6 +259,11 @@ async def run(output: Path) -> dict:
         'cases': len(rows),
         'valid_matrix_cases': len(valid_rows),
         'omission_attack_cases': len(omission_rows),
+        'client_state_checks': len(valid_rows),
+        'client_state_checks_passed': sum(
+            row['client_state_matches_reference']
+            and row['actual_scope_valid_after_update'] == row['expected_serve_after_update']
+            for row in valid_rows),
         'passed': passed,
         'messages': sum(row['messages'] for row in rows),
         'wire_bytes': sum(row['wire_bytes'] for row in rows),
@@ -258,6 +285,8 @@ def main() -> None:
     print(json.dumps({key: result[key] for key in (
         'cases','valid_matrix_cases','omission_attack_cases','passed',
         'messages','wire_bytes')}, sort_keys=True))
+    if result['passed'] != result['cases']:
+        raise SystemExit(1)
 
 
 if __name__ == '__main__':

@@ -40,12 +40,12 @@ def run() -> dict:
             availability_rows.append({
                 'reachable': sorted(reachable), 'faulty': sorted(faulty),
                 'honest_reachable': len(honest_reachable),
-                'valid_report_guaranteed': len(honest_reachable) >= QUORUM,
-                'valid_report_possible_if_faulty_cooperates': len(reachable) >= QUORUM,
+                'honest_signer_threshold_feasible': len(honest_reachable) >= QUORUM,
+                'signer_threshold_feasible_if_faulty_cooperates': len(reachable) >= QUORUM,
             })
     guaranteed_counts = {
         str(size): sum(
-            row['valid_report_guaranteed']
+            row['honest_signer_threshold_feasible']
             for row in availability_rows if len(row['reachable']) == size
         )
         for size in range(len(WITNESS_IDS) + 1)
@@ -113,7 +113,11 @@ def run() -> dict:
         'reachability_fault_cases': len(availability_rows),
         'concurrent_fork_assignments': concurrent_fork_assignments,
         'concurrent_dual_quorum_failures': concurrent_dual_quorum_failures,
-        'guaranteed_liveness_rows_by_reachable_count': guaranteed_counts,
+        'honest_signer_threshold_rows_by_reachable_count': guaranteed_counts,
+        'threshold_scope': ('reachability/cardinality only; certification also requires '
+                            'a valid timely proposal compatible with retained branches, '
+                            'available state capacity and successful persistence; '
+                            'reachable split branches do not guarantee progress'),
         'clock_cases': clock_cases,
         'three_epsilon_clock_failures': clock_failures,
         'two_epsilon_negative_controls': two_epsilon_unsafe,
@@ -136,6 +140,9 @@ def main() -> None:
         'three_epsilon_clock_failures': len(result['three_epsilon_clock_failures']),
         'two_epsilon_negative_controls': result['two_epsilon_negative_controls'],
     }, sort_keys=True))
+    if (result['safety_failures'] or result['concurrent_dual_quorum_failures']
+            or result['three_epsilon_clock_failures']):
+        raise SystemExit(1)
 
 
 if __name__ == '__main__':
