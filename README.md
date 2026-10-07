@@ -24,6 +24,7 @@ python tests/witness_finite.py \
 Expected current results are:
 
 - 134 directed tests in the current suite; a supported POSIX host is required for all durability tests. The 130-test Windows campaign passes 113 and explicitly skips 17 POSIX durability tests; four subsequently added command-runner regressions also pass separately;
+- six additional finite status-fold regressions, explicitly run in scientific CI by `python -B tests/status_fold_regression.py`. They are separate from unittest discovery and retained 134-test receipts;
 - 5,880 fixed delivery orders with zero protected-predicate violation;
 - 500 random differential histories with zero prefix/status/oracle decision mismatch;
 - 80 ordered witness quorum/fault checks and 32 concurrent-fork first-arrival assignments with zero safety failure; and
@@ -126,6 +127,15 @@ In the incremental-history encoding model, witnessed exact-scope deltas transfer
 Witness state is accounted separately as canonical durable payload bytes summed across all four witnesses. The model retains full logs, every immutable old/current scope handle, stable slot/digest entries, witness identity, clock, and clock epsilon. It matches actual protocol objects at registration (6,144 B), extension (7,376 B), state-changing renewal (9,056 B), and same-slot retry (9,056 B with no growth). Across 96 traces the corrected median is 531.5 KiB and maximum 6,939.9 KiB. This state correction does not alter the verified traffic win counts above.
 
 ## Assumptions and limits
+
+Witness renewal projection uses a request-local two-pass batch of the scalar
+status fold at its two frontiers. It preserves the first manifest, permanent
+conflict/revocation invalidity, and exact sorted cause lists. The scalar `_status`
+reference and honest-issuer/encoding baselines remain unchanged. No cross-request
+cache, skipped admission/signature/durability check, or runtime improvement claim
+is introduced. The new tests use 256 admitted short signed paths, independent
+finite-set references, and actual witness renewal/retry; they do not rerun the
+network, crash, traffic or timing studies.
 
 Crash durability assumes fail-stop processes and a retained, non-malicious local state file with filesystem semantics sufficient for flushed temporary-file creation, atomic replacement, and directory fsync. Manifests use sorted duplicate-free string dependencies; evidence issuance cannot precede the latest accepted event; and each witness retains at most 65,536 distinct stable signed slots, preserving only same-slot idempotent retry at the bound. The artifact fails closed on the ordinary I/O errors it injects; it does **not** claim tolerance of disk loss, malicious stable-storage rollback, a filesystem or kernel that violates those primitives, dynamically reconfigured committees, key rotation, cross-namespace atomic commit, aggregate signatures, TLS, compression, multitenant scope reclamation, WAN latency, or production load.
 

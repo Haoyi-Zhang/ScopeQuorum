@@ -28,12 +28,16 @@ jobs:
         timeout-minutes: 27
         run: |
           timeout --signal=TERM --kill-after=10s 1500s "$RUNNER_TEMP/scopequorum-env/bin/python" -B src/scientific_checks.py --output "$RUNNER_TEMP/scopequorum-checks-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+      - name: Check request-local status folding against finite independent references
+        run: |
+          timeout 30s "$RUNNER_TEMP/scopequorum-env/bin/python" -B tests/status_fold_regression.py > "$RUNNER_TEMP/scopequorum-status-fold-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.log" 2>&1
       - name: Upload raw observations even on failure
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: scopequorum-scientific-checks-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
+            ${{ runner.temp }}/scopequorum-status-fold-${{ github.run_id }}-${{ github.run_attempt }}.log
             ${{ runner.temp }}/scopequorum-checks-${{ github.run_id }}-${{ github.run_attempt }}/
             !${{ runner.temp }}/scopequorum-checks-${{ github.run_id }}-${{ github.run_attempt }}/tmp/
           if-no-files-found: error

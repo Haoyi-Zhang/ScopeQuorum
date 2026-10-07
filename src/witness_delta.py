@@ -23,7 +23,7 @@ from typing import Iterable
 from codec import (MAX_EVENTS, authenticated, commitment, natural, ns_of, sign,
                    verify)
 from scope_delta import (MAX_SCOPE_KEYS, MAX_SCOPES,
-                         _check_scopes_with_freshness, _status)
+                         _check_scopes_with_freshness, _status, _statuses)
 
 WITNESS_IDS = tuple(f'w{i}' for i in range(4))
 FAULT_BOUND = 1
@@ -58,8 +58,8 @@ def _projection(log: list[dict], keys: tuple[str, ...], start: int,
     end = len(log) if count is None else count
     if not natural(start) or not natural(end) or start > end or end > len(log):
         raise ValueError('invalid projection frontier')
-    old = {key: _status(log, key, start) for key in keys}
-    current = {key: _status(log, key, end) for key in keys}
+    old = _statuses(log, keys, start)
+    current = _statuses(log, keys, end)
     conflicts: list[str] = []
     for key in keys:
         before = old[key]

@@ -41,6 +41,44 @@ def _status(log: list[dict], key: str, count: int | None = None) -> dict:
     return {'key': key, 'manifest': manifest, 'valid': valid}
 
 
+def _statuses(log: list[dict], keys: Iterable[str],
+              count: int | None = None) -> dict[str, dict]:
+    """Batch the scalar fold over one admitted prefix; no retained cache.
+
+    Two passes preserve revocations before first publication as well as the
+    first manifest, exact duplicates and permanent conflicting-publication
+    invalidity. Temporary key/capability maps are bounded by the caller's scope.
+    """
+    prefix = log if count is None else log[:count]
+    states = {key: {'key': key, 'manifest': None, 'valid': False} for key in keys}
+    for event in prefix:
+        body = event['body']
+        if body['kind'] == 'publish':
+            manifest = body['data']['manifest']
+            key = manifest['key']
+            if key in states:
+                item = states[key]
+                if item['manifest'] is None:
+                    item['manifest'] = manifest
+                    item['valid'] = True
+                elif manifest != item['manifest']:
+                    item['valid'] = False
+    by_cap: dict[str, list[dict]] = {}
+    for item in states.values():
+        if item['manifest'] is not None:
+            by_cap.setdefault(item['manifest']['cap'], []).append(item)
+    for event in prefix:
+        body = event['body']
+        if body['kind'] == 'revoke':
+            target = body['data']['target']
+            if target in states:
+                states[target]['valid'] = False
+        elif body['kind'] == 'revoke_cap':
+            for item in by_cap.pop(body['data']['target'], ()):
+                item['valid'] = False
+    return states
+
+
 def _validate_keys(ns: str, keys: Iterable[str]) -> tuple[str, ...]:
     ordered = tuple(sorted(keys))
     if (not ordered or len(ordered) > MAX_SCOPE_KEYS
