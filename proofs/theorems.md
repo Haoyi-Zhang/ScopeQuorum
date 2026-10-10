@@ -79,9 +79,9 @@ A ScopeDelta scope is a bounded sorted exact-key set `S` in one namespace. Regis
 
 **Argument.** The new handle commits to namespace and sorted union. The old immutable entry is not mutated. Client replacement occurs only after complete validation.
 
-**Proposition 11 (no universal zero-regret acquisition decision).** When registration has positive cost and future unrelated churn is unknown, no deterministic causal choice between staying with cached status and registering immediately is no worse than both choices on every continuation.
+**Proposition 11 (no universal zero-regret acquisition decision).** Suppose the admissible horizon and cost model allow two continuations of the same observation prefix: on one, staying with cached status is strictly cheaper than registering immediately; on the other, immediate registration is strictly cheaper. Then no deterministic causal choice between these two fixed strategies is no worse than both on every admissible continuation.
 
-**Argument.** Two continuations share the same observation prefix. Immediate termination makes registration strictly wasteful; sufficiently long unrelated churn makes early registration cheaper. A causal algorithm chooses identically on both prefixes and loses on one. This is not a competitive-ratio or randomized lower bound.
+**Argument.** A causal algorithm chooses identically at the shared prefix, so either fixed choice loses on the continuation with the opposite strict ranking. Positive setup cost can supply the first ranking if termination before any further savings is admissible. The second additionally requires an admissible horizon and recurring cost advantage large enough to repay setup and other registration costs; unknown churn alone does not imply it. If recurring costs are equal and status always dominates, this proposition's premise fails. The finite charged-selector results remain separate observations for their recorded traces, not a competitive-ratio or randomized lower bound.
 
 ## 5. Quorum-witnessed exact-scope deltas
 

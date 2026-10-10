@@ -36,6 +36,7 @@ def check_status(cert:dict,root:str,now:int,floors:dict,delta:int=10)->dict:
             b=report['body'];ns=b['ns']
             if set(b)!={'ns','count','issued','objects'} or not natural(b['count']) or not natural(b['issued']) or not verify('authority:'+ns,b,report['signature']):return result('BAD_STATUS')
             if b['count']<floors.get(ns,0):return result('ROLLBACK')
+            if ns in observed and observed[ns]!=b['count']:return result('BAD_STATUS')
             observed[ns]=b['count']
             if b['issued']>now or now-b['issued']>=delta:return result('EXPIRED')
             for o in b['objects']:
