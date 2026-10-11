@@ -358,7 +358,7 @@ def _write_csv(path: Path, rows: list[dict]) -> None:
         'first_attempt_ms', 'restart_and_retry_ms', 'passed',
         'messages', 'wire_bytes', 'certify_messages', 'certify_wire_bytes',
         'control_messages', 'control_wire_bytes', 'drops',
-        'injected_crashes', 'restarts',
+        'injected_crashes', 'restarts', 'history_events',
     ]
     with path.open('w', newline='') as handle:
         writer = csv.DictWriter(handle, fieldnames=fields)
