@@ -20,6 +20,7 @@ from typing import Iterable
 from codec import MAX_FRAME, encode
 from durable_witness import DurableStateError, DurableWitness, InjectedCrash
 from witness_delta import WITNESS_IDS
+from witness_sync import HistorySession, incremental_certify
 
 _CASE_RE = re.compile(r'^[A-Za-z0-9_.-]{1,128}$')
 
@@ -35,6 +36,7 @@ class DurableNetworkCounters:
     drops: int = 0
     injected_crashes: int = 0
     restarts: int = 0
+    history_events: int = 0
 
 
 def _case_path(root: Path, case_id: str) -> Path:
@@ -45,6 +47,7 @@ def _case_path(root: Path, case_id: str) -> Path:
 
 async def _worker_server(witness_id: str, root: Path, ready) -> None:
     states: dict[str, DurableWitness] = {}
+    sessions: dict[str, HistorySession] = {}
 
     async def handler(reader: asyncio.StreamReader,
                       writer: asyncio.StreamWriter) -> None:
@@ -76,6 +79,7 @@ async def _worker_server(witness_id: str, root: Path, ready) -> None:
                             state = DurableWitness(
                                 path, request['ns'], witness_id, faulty=faulty)
                             states[case_id] = state
+                            sessions[case_id] = HistorySession(state)
                             answer = {'ok': True, 'summary': asdict(state.summary())}
                 elif request['op'] == 'advance':
                     if set(request) != {'op', 'case', 'now'} or request['case'] not in states:
@@ -84,16 +88,17 @@ async def _worker_server(witness_id: str, root: Path, ready) -> None:
                         states[request['case']].advance(request['now'])
                         answer = {'ok': True, 'summary': asdict(states[request['case']].summary())}
                 elif request['op'] == 'certify':
-                    if (set(request) != {'op', 'case', 'body', 'log', 'crash'}
+                    if (set(request) not in ({'op', 'case', 'body', 'crash'},
+                                            {'op', 'case', 'body', 'log', 'crash'})
                             or request['case'] not in states
-                            or not isinstance(request['log'], list)
+                            or ('log' in request and not isinstance(request['log'], list))
                             or (request['crash'] is not None
                                 and not isinstance(request['crash'], str))):
                         answer = {'error': 'BAD_REQUEST'}
                     else:
                         try:
-                            signature = states[request['case']].certify(
-                                request['body'], request['log'],
+                            signature = sessions[request['case']].certify(
+                                request['body'], log=request.get('log'),
                                 crash=request['crash'])
                         except InjectedCrash:
                             os._exit(73)
@@ -101,6 +106,20 @@ async def _worker_server(witness_id: str, root: Path, ready) -> None:
                                    'summary': asdict(states[request['case']].summary())}
                                   if signature is not None
                                   else {'id': witness_id, 'reject': True})
+                elif request['op'] in {'prefix', 'sync', 'reset'}:
+                    if request.get('case') not in sessions:
+                        answer = {'error': 'BAD_REQUEST'}
+                    else:
+                        session = sessions[request['case']]
+                        fields = set(request)
+                        if request['op'] == 'prefix' and fields == {'op', 'case'}:
+                            answer = session.frontier()
+                        elif request['op'] == 'reset' and fields == {'op', 'case', 'ns'}:
+                            answer = session.reset(request['ns'])
+                        elif request['op'] == 'sync' and fields == {'op', 'case', 'ns', 'start', 'previous', 'events'}:
+                            answer = session.sync(request['ns'], request['start'], request['previous'], request['events'])
+                        else:
+                            answer = {'error': 'BAD_REQUEST'}
                 elif request['op'] == 'status':
                     if set(request) != {'op', 'case'} or request['case'] not in states:
                         answer = {'error': 'BAD_REQUEST'}
@@ -150,7 +169,7 @@ def _worker_main(witness_id: str, root: str, ready) -> None:
 class DurableWitnessProcessNetwork:
     """Four spawned witness processes and their bounded TCP control plane."""
 
-    def __init__(self, state_root: str | Path):
+    def __init__(self, state_root: str | Path, *, incremental: bool = True):
         self.state_root = Path(state_root)
         self.state_root.mkdir(parents=True, exist_ok=True)
         method = 'forkserver' if 'forkserver' in mp.get_all_start_methods() else 'spawn'
@@ -162,6 +181,7 @@ class DurableWitnessProcessNetwork:
         self.blocked: set[str] = set()
         self.counters = DurableNetworkCounters()
         self.cases: dict[str, tuple[str, frozenset[str]]] = {}
+        self.incremental = incremental
 
     def state_path(self, witness_id: str, case_id: str) -> Path:
         if witness_id not in WITNESS_IDS:
@@ -231,7 +251,7 @@ class DurableWitnessProcessNetwork:
         wire = encode(request) + b'\n'
         if len(wire) > MAX_FRAME:
             raise ValueError('outbound frame too large')
-        certify = request.get('op') == 'certify'
+        certify = request.get('op') in {'certify', 'prefix', 'sync', 'reset'}
         writer = None
         try:
             reader, writer = await asyncio.wait_for(
@@ -244,6 +264,7 @@ class DurableWitnessProcessNetwork:
             await writer.drain()
             self.counters.messages += 1
             self.counters.wire_bytes += len(wire)
+            self.counters.history_events += len(request.get('events', request.get('log', [])))
             if certify:
                 self.counters.certify_messages += 1
                 self.counters.certify_wire_bytes += len(wire)
@@ -324,12 +345,16 @@ class DurableWitnessProcessNetwork:
         crash = {} if crash is None else dict(crash)
         if not set(crash) <= set(WITNESS_IDS):
             raise ValueError('unknown crash witness')
-        replies = await asyncio.gather(*(
-            self.rpc(witness_id, {
+        async def one(witness_id):
+            if self.incremental:
+                return await incremental_certify(
+                    lambda request: self.rpc(witness_id, request),
+                    case_id, body, log, crash=crash.get(witness_id))
+            return await self.rpc(witness_id, {
                 'op': 'certify', 'case': case_id, 'body': body,
                 'log': log, 'crash': crash.get(witness_id),
-            }) for witness_id in WITNESS_IDS
-        ))
+            })
+        replies = await asyncio.gather(*(one(witness_id) for witness_id in WITNESS_IDS))
         return [
             {'id': reply['id'], 'signature': reply['signature']}
             for reply in replies

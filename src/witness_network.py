@@ -13,6 +13,7 @@ from dataclasses import dataclass
 
 from codec import MAX_FRAME, encode
 from witness_delta import WITNESS_IDS, Witness
+from witness_sync import HistorySession, incremental_certify
 
 
 @dataclass
@@ -20,15 +21,22 @@ class NetworkCounters:
     messages: int = 0
     wire_bytes: int = 0
     drops: int = 0
+    history_events: int = 0
+    prefix_wire_bytes: int = 0
+    sync_wire_bytes: int = 0
+    reset_wire_bytes: int = 0
+    certify_wire_bytes: int = 0
 
 
 class WitnessTCPNetwork:
-    def __init__(self):
+    def __init__(self, *, incremental: bool = True):
         self.servers = []
         self.ports: dict[str, int] = {}
         self.states: dict[str, dict[str, Witness]] = {wid: {} for wid in WITNESS_IDS}
         self.blocked: set[str] = set()
         self.counters = NetworkCounters()
+        self.incremental = incremental
+        self.sessions: dict[str, dict[str, HistorySession]] = {wid: {} for wid in WITNESS_IDS}
 
     def configure(self, case_id: str, ns: str, *, faulty: tuple[str, ...] = ()) -> None:
         if not isinstance(case_id, str) or not case_id or len(case_id) > 128:
@@ -40,6 +48,7 @@ class WitnessTCPNetwork:
             if case_id in self.states[wid]:
                 raise ValueError('duplicate case')
             self.states[wid][case_id] = Witness(ns, wid, wid in faulty_set)
+            self.sessions[wid][case_id] = HistorySession(self.states[wid][case_id])
 
     def advance(self, case_id: str, now: int) -> None:
         """Advance each endpoint's local logical clock outside the RPC path."""
@@ -59,16 +68,25 @@ class WitnessTCPNetwork:
                     else:
                         request = json.loads(line)
                         if (not isinstance(request, dict)
-                                or set(request) != {'op', 'case', 'body', 'log'}
-                                or request['op'] != 'certify'
-                                or request['case'] not in self.states[wid]
-                                or not isinstance(request['log'], list)):
+                                or request.get('case') not in self.states[wid]):
                             answer = {'error': 'BAD_REQUEST'}
                         else:
-                            signature = self.states[wid][request['case']].certify(
-                                request['body'], request['log'])
-                            answer = ({'id': wid, 'signature': signature}
-                                      if signature is not None else {'id': wid, 'reject': True})
+                            session = self.sessions[wid][request['case']]
+                            fields = set(request)
+                            if request.get('op') == 'prefix' and fields == {'op', 'case'}:
+                                answer = session.frontier()
+                            elif request.get('op') == 'reset' and fields == {'op', 'case', 'ns'}:
+                                answer = session.reset(request['ns'])
+                            elif request.get('op') == 'sync' and fields == {'op', 'case', 'ns', 'start', 'previous', 'events'}:
+                                answer = session.sync(request['ns'], request['start'], request['previous'], request['events'])
+                            elif (request.get('op') == 'certify'
+                                  and fields in ({'op', 'case', 'body'}, {'op', 'case', 'body', 'log'})
+                                  and ('log' not in request or isinstance(request['log'], list))):
+                                signature = session.certify(request['body'], log=request.get('log'))
+                                answer = ({'id': wid, 'signature': signature}
+                                          if signature is not None else {'id': wid, 'reject': True})
+                            else:
+                                answer = {'error': 'BAD_REQUEST'}
                     wire = encode(answer) + b'\n'
                     if len(wire) > MAX_FRAME:
                         wire = encode({'error': 'FRAME_BOUND'}) + b'\n'
@@ -89,11 +107,10 @@ class WitnessTCPNetwork:
             server.close()
         await asyncio.gather(*(server.wait_closed() for server in self.servers))
 
-    async def rpc(self, wid: str, case_id: str, body: dict, log: list[dict]) -> dict | None:
+    async def exchange(self, wid: str, request: dict) -> dict | None:
         if wid in self.blocked:
             self.counters.drops += 1
             return None
-        request = {'op': 'certify', 'case': case_id, 'body': body, 'log': log}
         wire = encode(request) + b'\n'
         if len(wire) > MAX_FRAME:
             raise ValueError('outbound frame too large')
@@ -106,7 +123,19 @@ class WitnessTCPNetwork:
             writer.close(); await writer.wait_closed()
         self.counters.messages += 2
         self.counters.wire_bytes += len(wire) + len(reply)
+        op = request['op']
+        field = op + '_wire_bytes'
+        if hasattr(self.counters, field):
+            setattr(self.counters, field, getattr(self.counters, field) + len(wire) + len(reply))
+        self.counters.history_events += len(request.get('events', request.get('log', [])))
         return json.loads(reply)
+
+    async def rpc(self, wid: str, case_id: str, body: dict, log: list[dict]) -> dict | None:
+        if self.incremental:
+            return await incremental_certify(
+                lambda request: self.exchange(wid, request), case_id, body, log)
+        return await self.exchange(wid, {
+            'op': 'certify', 'case': case_id, 'body': body, 'log': log})
 
     async def signatures(self, case_id: str, body: dict, log: list[dict]) -> list[dict]:
         replies = await asyncio.gather(*(

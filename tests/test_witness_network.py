@@ -64,7 +64,7 @@ class WitnessNetworkTests(unittest.TestCase):
         signatures, counters = asyncio.run(scenario())
         self.assertEqual(len(signatures), 4)
         self.assertEqual({item['id'] for item in signatures}, {'w0','w1','w2','w3'})
-        self.assertEqual(counters.messages, 8)
+        self.assertEqual(counters.messages, 24)  # prefix, suffix, body per witness
         self.assertGreater(counters.wire_bytes, 0)
 
     def test_partition_below_quorum_blocks(self):

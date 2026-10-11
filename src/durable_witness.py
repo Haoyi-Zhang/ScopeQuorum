@@ -64,6 +64,25 @@ class DurableSummary:
     state_bytes: int
 
 
+def witness_payload(witness: Witness) -> dict:
+    """The canonical persisted payload, also used for serialized-state counts."""
+    return {
+        'ns': witness.ns, 'witness_id': witness.witness_id,
+        'faulty': witness.faulty, 'log': deepcopy(witness.log),
+        'scopes': [{'scope': scope, 'keys': list(keys)}
+                   for scope, keys in sorted(witness.scopes.items())],
+        'signed_slots': [
+            {'slot': list(slot), 'digest': digest}
+            for slot, digest in sorted(witness.signed_slots.items(),
+                                       key=lambda item: encode(list(item[0])))],
+        'clock': witness.clock, 'clock_epsilon': witness.clock_epsilon,
+    }
+
+
+def snapshot_wire(payload: dict) -> bytes:
+    return encode({'state': payload, 'commitment': commitment(payload)}) + b'\n'
+
+
 def _slot_value(value: Any) -> bool:
     return isinstance(value, str) or natural(value)
 
@@ -234,25 +253,7 @@ class DurableWitness:
         self._unavailable_reason = reason
 
     def _payload(self) -> dict:
-        return {
-            'ns': self.witness.ns,
-            'witness_id': self.witness.witness_id,
-            'faulty': self.witness.faulty,
-            'log': deepcopy(self.witness.log),
-            'scopes': [
-                {'scope': scope, 'keys': list(keys)}
-                for scope, keys in sorted(self.witness.scopes.items())
-            ],
-            'signed_slots': [
-                {'slot': list(slot), 'digest': digest}
-                for slot, digest in sorted(
-                    self.witness.signed_slots.items(),
-                    key=lambda item: encode(list(item[0])),
-                )
-            ],
-            'clock': self.witness.clock,
-            'clock_epsilon': self.witness.clock_epsilon,
-        }
+        return witness_payload(self.witness)
 
     def _load(self, ns: str, witness_id: str, faulty: bool) -> Witness:
         try:
@@ -271,8 +272,7 @@ class DurableWitness:
         if crash is not None and crash not in CRASH_PHASES:
             raise ValueError('unknown injected crash phase')
         payload = self._payload()
-        envelope = {'state': payload, 'commitment': commitment(payload)}
-        wire = encode(envelope) + b'\n'
+        wire = snapshot_wire(payload)
         temp = self.path.parent / (
             f'.{self.path.name}.tmp-{os.getpid()}-{time.monotonic_ns()}'
         )

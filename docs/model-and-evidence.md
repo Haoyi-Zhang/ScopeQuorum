@@ -50,9 +50,35 @@ No path proves that an event outside its declared acknowledgement history exists
 
 ## State and traffic accounting
 
-Witness traffic and witness state are separate quantities. The 96-trace model counts canonical uncompressed request/response JSON for the client and sequencer-to-witness planes. It sends each witness unseen history in 128-event suffix batches followed by a body-only signing request. Both TCP prototypes instead resend the complete candidate history on every certification. The modeled 48/96 total-byte wins and crossover therefore are not measured traffic results for those prototypes; their network matrices have separate counters. Witness state sums canonical durable-state payload bytes across **all four witnesses** in every used namespace. The payload includes witness identity, retained full log, every immutable scope handle, stable slot/digest entries, logical clock, and clock epsilon. It excludes the outer commitment envelope and newline, filesystem metadata, allocator overhead, RSS, compression, and physical write amplification.
+Witness traffic and witness state are separate quantities. The 96-trace model counts canonical uncompressed request/response JSON for the client and sequencer-to-witness planes. It sends each witness unseen history in 128-event suffix batches followed by a body-only signing request. Both revised TCP prototypes reconstruct candidates using signed suffixes after namespace/count/tip agreement. The actual prefix/reset RPC metadata is absent from the retained model. Its 48/96 total-byte wins and crossover therefore remain model results; the new nine-workload comparison measures certification only, not the client plane. Witness state sums canonical durable-state payload bytes across **all four witnesses** in every used namespace. The payload includes witness identity, retained full log, every immutable scope handle, stable slot/digest entries, logical clock, and clock epsilon. It excludes the outer commitment envelope and newline, filesystem metadata, allocator overhead, RSS, compression, and physical write amplification.
 
 The state model is compared with actual protocol objects at four transitions. Registration is 6,144 aggregate bytes with four scope and four slot entries; extension is 7,376 bytes with eight scope and eight slot entries; a state-changing renewal is 9,056 bytes with eight scopes and twelve slots; an idempotent retry of that same stable slot remains 9,056 bytes and adds no entry. Across 96 traces the corrected aggregate state median is 544,248 bytes (531.5 KiB) and maximum is 7,106,444 bytes (6,939.9 KiB). The client-plane and total-plane traffic win counts remain 87/96 and 48/96 respectively; state correction is not used to rewrite those traffic results.
+
+## Implemented suffix transport
+
+`src/witness_sync.py` stages a complete candidate separately from accepted
+history. Namespace/count/tip agreement, consecutive receipt replay and a
+128-receipt batch bound precede staging mutation. The body-only signing step
+still checks the complete history and projection before changing accepted
+state; the durable wrapper retains persist-before-sign. Reset clears only the
+unaccepted staging buffer. The process worker reconstructs staging from the
+validated recovered snapshot; no accepted branch or slot is forgotten.
+
+`results/incremental-tcp/summary.json` measures actual framed certification
+traffic for nine benign histories and 288 full/suffix rounds. It records
+operation-specific metadata bytes, receipt transmissions, accepted-state and
+signature parity, staging serialization, and snapshot payload/envelope size at
+each checkpoint. Its persistence counts are serialized bytes, not physical
+I/O, and exclude configuration/clock-only snapshots. The 128-initial,
+eight-added case uses 5,754,204 full-mode versus 512,052 suffix-mode bytes,
+including 7,432 prefix-metadata bytes. Both modes retain 480,028 snapshot bytes
+and serialize 5,794,204 certificate-associated bytes cumulatively. This does
+not measure the client plane or a scope-versus-prefix crossover.
+
+Ten new portable tests and four existing listener tests pass on Windows;
+one new POSIX process-restart test is skipped. Snapshot decoding/reload is
+portable evidence, not new fail-stop durability evidence. The modified
+process-isolated network has not been re-executed on a directory-fsync host.
 
 ## Retained evidence
 
@@ -63,7 +89,7 @@ The state model is compared with actual protocol objects at four transitions. Re
 - Four actual/model state-accounting transitions covering registration, extension, state change, and same-slot retry.
 - 45 actual-Ed25519 witness-network cases across four distinct loopback listeners in one process, including 18 omission attacks.
 - 33 actual-Ed25519 process-isolated durability cases across four witness processes and listeners.
-- The current 134-test suite passes in full without skips on Linux. Earlier 125-test and 130-test Windows records retain their original scope; the latter passes 113 and skips 17 POSIX durability tests.
+- The retained pre-suffix 134-test suite passed in full without skips on Linux. Earlier 125-test and 130-test Windows records retain their original scope; the latter passes 113 and skips 17 POSIX durability tests.
 - 5,880 original fixed delivery orders and 500 random differential histories comparing prefix, full signed status, and oracle only.
 - 80 ordered quorum/fault checks and 2,625 witnessed clock assignments.
 
@@ -77,7 +103,7 @@ Proofs are handwritten and executable checks are finite checks, not a mechanized
 
 ## Reachability and branch compatibility
 
-All three honest witnesses being reachable is necessary but not sufficient for progress. Valid but uncertified competing histories can lock the honest witnesses 2-to-1. Under Byzantine withholding neither branch then reaches quorum. `results/journal-boundary.json` contains eight actual-signature cases, including two such counterexamples and unanimous controls. No view change, branch reset, or recovery from this split is implemented; readers fail closed once evidence expires. The independent Go enumerator checks standard threshold-set conditions only.
+All three honest witnesses being reachable is necessary but not sufficient for progress. Valid but uncertified competing histories can lock the honest witnesses 2-to-1. Under Byzantine withholding neither branch then reaches quorum. `results/journal-boundary.json` contains eight actual-signature cases, including two such counterexamples and unanimous controls. No view change, accepted-branch reset, or recovery from this split is implemented; readers fail closed once evidence expires. The independent Go enumerator checks standard threshold-set conditions only.
 
 Current finite reachability output therefore reports `honest_signer_threshold_rows_by_reachable_count`, not guaranteed liveness. Signing also needs compatible retained branches, a timely valid body, available state capacity, and successful persistence. Historical JSON is preserved unchanged rather than retroactively relabelled as newly executed evidence.
 

@@ -23,7 +23,7 @@ python tests/witness_finite.py \
 
 Expected current results are:
 
-- 134 directed tests in the current suite; a supported POSIX host is required for all durability tests. The 130-test Windows campaign passes 113 and explicitly skips 17 POSIX durability tests; four subsequently added command-runner regressions also pass separately;
+- 134 directed tests in the retained pre-suffix suite; a supported POSIX host is required for all durability tests. The 130-test Windows campaign passes 113 and explicitly skips 17 POSIX durability tests; four subsequently added command-runner regressions also pass separately;
 - six additional finite status-fold regressions, explicitly run in scientific CI by `python -B tests/status_fold_regression.py`. They are separate from unittest discovery and retained 134-test receipts;
 - 5,880 fixed delivery orders with zero protected-predicate violation;
 - 500 random differential histories with zero prefix/status/oracle decision mismatch;
@@ -40,7 +40,7 @@ python -B src/scientific_checks.py --output ../scientific-checks
 
 This runner preserves command logs, raw observations, dependency versions, and platform metadata. It enforces a 30-minute overall wall-time budget and a 15-minute bound per command; it never compiles the paper or overwrites retained results. On Windows it runs the full portable semantic campaign, records unavailable Linux RSS as null, and explicitly omits the 33-case directory-fsync durability study and 17 related unit tests. POSIX CPU/address-space limits are not applied on Windows; that absence is recorded, not simulated. The Go checker runs only when a local toolchain exists, with network toolchain/module downloads disabled.
 
-The `scientific-checks.yml` workflow runs on pushes to `main` or manual dispatch. It uses Ubuntu 24.04 and Python 3.12, installs the declared Python dependency in a runner-temporary virtual environment, runs into a unique `RUNNER_TEMP` directory, and uploads raw output even on failure. The complete current run passed all 134 tests without skips, all 33 durability cases, the 48-case/336-policy logical reproduction, and the separate Go census (385 rows, 250,942 quorum pairs, 55 existence cases). Its raw results and actual environment are in `results/current/`. The earlier Windows portable summary is `results/local-checks.json`; it does not claim unsupported durability or Go execution.
+The `scientific-checks.yml` workflow runs on pushes to `main` or manual dispatch. It uses Ubuntu 24.04 and Python 3.12, installs the declared Python dependency in a runner-temporary virtual environment, runs into a unique `RUNNER_TEMP` directory, and uploads raw output even on failure. The retained pre-suffix Linux run passed all 134 tests without skips, all 33 durability cases, the 48-case/336-policy logical reproduction, and the separate Go census (385 rows, 250,942 quorum pairs, 55 existence cases). Its raw results and actual environment are in `results/current/`. The earlier Windows portable summary is `results/local-checks.json`; it does not claim unsupported durability or Go execution.
 
 ```sh
 python src/renewal_study.py \
@@ -72,6 +72,42 @@ The witness-network study runs 45 actual-Ed25519 cases over four distinct loopba
 - one persisted logical-clock rollback case.
 
 All 33 retained outcomes pass. The persist-before-sign path writes a canonical snapshot to a temporary file, flushes and fsyncs it, atomically replaces the prior snapshot, fsyncs the containing directory, and only then releases a signature. Reload validates snapshot identity and commitment, canonical one-namespace scopes, retained-history/tip bindings, report slots against available history, temporal consistency with the durable logical clock, and the signed-slot cardinality bound. Additional unit fault injection covers temporary-file fsync failure, replace failure, and directory-fsync failure after replacement. Pre-replace errors roll back and remain usable; a post-replace durability error releases no signature and poisons the process-local witness until restart. A retry after restart is idempotent for the same body and rejects a conflicting body for the same stable slot.
+
+## Incremental TCP comparison
+
+Both TCP paths now default to `HistorySession` suffix staging. An endpoint's
+namespace/count/tip must match the sequencer's exact prefix before it receives
+up to 128 signed receipts per batch. A signing request carries only the body;
+the original full-history admission, projection, clock, scope, slot and
+accepted-branch checks still run. Staging does not pin the accepted branch.
+Reset discards only that staging buffer and restores the accepted prefix;
+process reopen uses the recovered accepted history. Neither operation clears
+refusal state or repairs the Byzantine-sequencer split-branch counterexample.
+The `incremental=False` constructor option preserves the full-history reference.
+
+```sh
+python -B -m pytest -p no:cacheprovider tests/test_witness_sync.py tests/test_witness_network.py
+python -B src/incremental_tcp_study.py --output results/new-incremental-tcp
+```
+
+`results/incremental-tcp/summary.json` records nine benign initial/growth
+histories and 288 actual TCP checkpoint rounds, four honest witnesses, and
+identical signatures/accepted snapshots in both modes. The 128-initial,
+eight-added case transfers 512,052 suffix-mode versus 5,754,204 full-mode
+canonical framed bytes. Prefix metadata contributes 7,432 bytes to the suffix
+total. The final snapshot envelopes sum to 480,028 bytes; cumulative
+certificate-associated serialization is 5,794,204 bytes in either mode.
+Storage counts use the same serializer as persistence, including the envelope
+and newline, but do not execute durable I/O or include clock-only/configuration
+snapshots. Staging also keeps a complete candidate copy. No disk amplification,
+CPU, latency, client-plane or 96-trace all-plane TCP crossover is measured.
+
+The Windows run passes ten new portable tests plus four existing listener
+tests; the new POSIX process-restart test is explicitly skipped. The modified
+process-isolated transport still needs benign restart testing on a supported
+directory-fsync host. Historical 45-case and 33-case counters and the 96-trace
+model remain distinct evidence; they have not been relabeled as fresh suffix
+measurements.
 
 ## Reload the canonical 48-case campaign
 
@@ -122,7 +158,7 @@ The 33 crash-recovery cases refine that statement:
 - unreadable or commitment-mismatched state refuses service rather than silently resetting; and
 - a persisted logical clock rejects a post-restart backstep.
 
-In the incremental-history encoding model, witnessed exact-scope deltas transfer fewer client bytes than witnessed prefixes in 87/96 traces (median ratio 0.46). Counting witness synchronization and certification gives 48/96 total-byte wins and a median ratio of approximately 1.00; certification is 89.9% of scope traffic at the median. The model sends unseen history in 128-event suffix batches, then a body-only signing request. Both TCP prototypes instead resend complete histories per certification. These wins and crossover describe the incremental model, not their measured transport.
+In the incremental-history encoding model, witnessed exact-scope deltas transfer fewer client bytes than witnessed prefixes in 87/96 traces (median ratio 0.46). Counting witness synchronization and certification gives 48/96 total-byte wins and a median ratio of approximately 1.00; certification is 89.9% of scope traffic at the median. The model sends unseen history in 128-event suffix batches, then a body-only signing request. The revised TCP prototypes implement suffix staging with prefix-agreement/reset metadata that this retained model does not count. These wins and crossover remain encoding-model results, not a measured all-plane TCP comparison.
 
 Witness state is accounted separately as canonical durable payload bytes summed across all four witnesses. The model retains full logs, every immutable old/current scope handle, stable slot/digest entries, witness identity, clock, and clock epsilon. It matches actual protocol objects at registration (6,144 B), extension (7,376 B), state-changing renewal (9,056 B), and same-slot retry (9,056 B with no growth). Across 96 traces the corrected median is 531.5 KiB and maximum 6,939.9 KiB. This state correction does not alter the verified traffic win counts above.
 
@@ -133,7 +169,7 @@ status fold at its two frontiers. It preserves the first manifest, permanent
 conflict/revocation invalidity, and exact sorted cause lists. The scalar `_status`
 reference and honest-issuer/encoding baselines remain unchanged. No cross-request
 cache, skipped admission/signature/durability check, or runtime improvement claim
-is introduced. The new tests use 256 admitted short signed paths, independent
+is introduced. The batch-fold tests use 256 admitted short signed paths, independent
 finite-set references, and actual witness renewal/retry; they do not rerun the
 network, crash, traffic or timing studies.
 
@@ -159,7 +195,7 @@ python src/verify_artifact.py --output ../verification-artifact
 
 The Go checker requires a local Go toolchain and only the Go standard library; it makes no network requests and imports no Python prototype code. It enumerates 385 fixed-threshold parameter rows, 250,942 quorum-pair checks and 55 existence cases. This is independent set enumeration, not an independent registry reimplementation.
 
-The eight actual-signature cases distinguish threshold feasibility from progress. A Byzantine sequencer can split reachable honest witnesses between two individually valid, uncertified branches. With the Byzantine witness withholding, the 2-to-1 and 1-to-2 assignments both prevent a certificate. These are expected counterexamples, not test failures or fixed liveness bugs. No unsafe branch reset is implemented.
+The eight actual-signature cases distinguish threshold feasibility from progress. A Byzantine sequencer can split reachable honest witnesses between two individually valid, uncertified branches. With the Byzantine witness withholding, the 2-to-1 and 1-to-2 assignments both prevent a certificate. These are expected counterexamples, not test failures or fixed liveness bugs. No accepted-branch reset is implemented; TCP staging reset preserves the accepted branch, scopes and signed slots.
 
 `results/journal-repetition/` retains an earlier bounded repetition. Its witness, durability and 96-trace outputs were compared with the canonical results; six main campaigns were compared individually with the canonical 48-case campaign. The canonical 48 cases and their earlier complete repetition remain under `results/` and `results/clean-repetition/`. That earlier journal repetition did not rerun all 48 cases. An interrupted 5,000-history attempt yielded no completed result; its completed differential check contains 500 histories. Interrupted invocations and resumptions remain disclosed in its execution record. The distinct fresh Windows run is identified by `results/local-checks.json` and is not used to refresh unsupported durability or Go observations.
 
