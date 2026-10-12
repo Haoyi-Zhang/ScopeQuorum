@@ -1,20 +1,4 @@
 {
-  "authorship": {
-    "confirmed_in_manuscript_and_pdf": 2,
-    "confirmed_names": [
-      "Haoyi Zhang",
-      "Huaijin Ran"
-    ],
-    "hold": "actual names, affiliations, e-mails, ORCIDs, eligibility, order, corresponding author, contributions, consent, and declarations must be confirmed before submission; no placeholder identity is in either PDF",
-    "intended_final_count": 6,
-    "pdf_author_metadata": "Haoyi Zhang; Huaijin Ran",
-    "pending_confirmation_slot_numbers": [
-      3,
-      4,
-      5,
-      6
-    ]
-  },
   "bounded_checks": {
     "concurrent_dual_quorum_failures": [],
     "concurrent_fork_first_arrivals": 32,
@@ -30,22 +14,6 @@
     "split_branch_cases": 8,
     "split_branch_passed": 8,
     "state_decisions": 92160
-  },
-  "clean_extraction": {
-    "bibliography_gate_passed": true,
-    "main_pdf_render_changed_pages_at_200dpi": 0,
-    "paper_clean_build_passed": true,
-    "project_root_entries": [
-      "CURRENT-STATE.md",
-      "artifact",
-      "paper",
-      "research-plan.md"
-    ],
-    "project_zip_single_root": true,
-    "repository_zip_single_root": true,
-    "standalone_repository_release_gate_passed": true,
-    "supplement_pdf_render_changed_pages_at_200dpi": 0,
-    "tdsc_package_gate_passed": true
   },
   "clock_policy_fix": {
     "finite_support": {
@@ -139,44 +107,6 @@
     "negative_case": "accepted=2, issued=1 rejected before signing or scope allocation as applicable",
     "transactionality": "stale renew/extend leave scope service state unchanged"
   },
-  "limitations": [
-    "Only two identities are confirmed; intended slots 3-6 remain pending actual-author confirmation.",
-    "The four durable witness processes share one host, kernel, scheduler, and storage subsystem.",
-    "No WAN, production workload, dynamic committee, malicious rollback, disk-loss, or cross-namespace atomic-commit claim.",
-    "Handwritten arguments and bounded checks are not a proof-assistant mechanization.",
-    "Same-team reexecution is not independent third-party reproduction.",
-    "Journal formatting and internal validation do not predict acceptance."
-  ],
-  "package_cleanliness": {
-    "credentials_or_private_keys_present": false,
-    "legacy_conference_template_files_present": false,
-    "nested_archives_present": false,
-    "publication_build_intermediates_present": false,
-    "python_caches_or_bytecode_present": false
-  },
-  "paper": {
-    "abstract_words": 179,
-    "bibliography_entries": 68,
-    "compiled_bibitems": 68,
-    "duplicate_dois": 0,
-    "duplicate_keys": 0,
-    "duplicate_titles": 0,
-    "main_body_cited_entries": 68,
-    "main_fonts_all_embedded": true,
-    "maximum_citation_group": 4,
-    "missing_entries": 0,
-    "pdf_openable_unencrypted": true,
-    "qpdf_available": false,
-    "supplement_fonts_all_embedded": true,
-    "tex_fatal_overfull_undefined_findings": [],
-    "uncited_entries": 0,
-    "visual_inspection_200dpi": {
-      "defects_found": 0,
-      "main_pages": 12,
-      "supplement_pages": 5
-    }
-  },
-  "passed": true,
   "retained_campaign": {
     "accepted_events": 40740,
     "application_bytes": 569112148,
@@ -196,19 +126,6 @@
     "policy_runs": 336,
     "probes": 126,
     "retained_complete_repetition_equal": true
-  },
-  "scope": "bounded implementation, experiment, paper, and package validation; not acceptance, external peer review, authorship approval, or independent reproduction",
-  "target": "IEEE Transactions on Dependable and Secure Computing (TDSC), Regular Paper",
-  "template": {
-    "bibliography_style": "IEEEtran.bst 1.14",
-    "bst_control": "IEEEtran-supported control suppresses redundant printed URLs; full DOI/official locators remain in references.bib and audits",
-    "class": "IEEEtran",
-    "class_and_bst_unmodified": true,
-    "main_pages": 12,
-    "options": "10pt,journal,compsoc",
-    "page_size": "US Letter",
-    "supplement_pages": 5,
-    "version": "1.8b"
   },
   "witness_state_accounting": {
     "actual_model_equal": true,

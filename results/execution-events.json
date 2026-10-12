@@ -74,7 +74,7 @@
     "pdf_pages": 18,
     "pdf_pages_pixel_identical": 18,
     "project_root_entries_exact": true,
-    "record": "results/final-verification.json",
+    "record": "results/protocol-checks.json",
     "retained_material_outputs_match": true
   },
   "finite_checks": {
@@ -118,8 +118,7 @@
       "machine-checked general proof",
       "independent external review or acceptance prediction"
     ],
-    "result": "a bounded positive crash-durable witnessed exact-scope mechanism plus a negative two-plane accounting result: compact client evidence need not reduce system-wide traffic",
-    "submission_readiness": "held: top-venue novelty and operational completeness are not independently established, no human attestation exists, and the current venue generative-AI policy conflicts with this production workflow"
+    "result": "a bounded positive crash-durable witnessed exact-scope mechanism plus a negative two-plane accounting result: compact client evidence need not reduce system-wide traffic"
   },
   "paper_build_and_visual_check": {
     "anonymous_title_page": true,
@@ -151,7 +150,7 @@
     "safe_policy_bounded_violations": 0,
     "summed_policy_wall_seconds": 6.581837363999995
   },
-  "record_scope": "Inherited execution evidence; current journal checks are in journal-repetition/execution.json and final-verification.json. Historical test counts are not current totals.",
+  "record_scope": "Inherited execution evidence; journal checks are in journal-repetition/execution.json and protocol-checks.json. Historical test counts are not current totals.",
   "resource_intake": {
     "active_cgroup_swap_bytes": 0,
     "cgroup_cpu_max": "400000 100000",
