@@ -102,12 +102,13 @@ and newline, but do not execute durable I/O or include clock-only/configuration
 snapshots. Staging also keeps a complete candidate copy. No disk amplification,
 CPU, latency, client-plane or 96-trace all-plane TCP crossover is measured.
 
-The Windows run passes ten new portable tests plus four existing listener
-tests; the new POSIX process-restart test is explicitly skipped. The modified
-process-isolated transport still needs benign restart testing on a supported
-directory-fsync host. Historical 45-case and 33-case counters and the 96-trace
-model remain distinct evidence; they have not been relabeled as fresh suffix
-measurements.
+The Windows run passes ten portable tests plus four listener tests and skips
+the POSIX process-restart test. The current Linux execution passes all 175
+tests without skips, re-executes 45 suffix-enabled listener cases and 33
+process-isolated recovery cases, and reproduces the 48-case semantic reference.
+It also repeats the 120 paired two-plane reads. `results/linux-loopback/`
+retains these observations, environment, and exact originating CI run. The
+96-trace encoding model remains a separate workload and schema.
 
 ## Reload the canonical 48-case campaign
 

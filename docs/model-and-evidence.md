@@ -75,10 +75,12 @@ including 7,432 prefix-metadata bytes. Both modes retain 480,028 snapshot bytes
 and serialize 5,794,204 certificate-associated bytes cumulatively. This does
 not measure the client plane or a scope-versus-prefix crossover.
 
-Ten new portable tests and four existing listener tests pass on Windows;
-one new POSIX process-restart test is skipped. Snapshot decoding/reload is
-portable evidence, not new fail-stop durability evidence. The modified
-process-isolated network has not been re-executed on a directory-fsync host.
+Ten portable tests and four listener tests pass on Windows, which skips the
+POSIX process-restart test. The current Linux run passes all 175 tests without
+skips, including that restart, and re-executes the 45 listener and 33
+process-isolated recovery cases. Its thirteen-command driver and independent
+Go census complete, with separate repeat execution of 120 paired root reads.
+The observations and actual environment are in `results/linux-loopback/`.
 
 ## Retained evidence
 
@@ -97,7 +99,9 @@ The older six restart/fork rows report the minimum committee frontier, often
 zero from untouched w3, rather than the w1/w2 frontiers checked by the safety
 predicate. The current source exporter now names w1 and preserves all endpoint
 counts; three portable tests cover the fields and CSV. Historical raw rows are
-not rewritten. The correction still needs a fresh POSIX process run.
+not rewritten. The current POSIX run checks all six corrected exports: w1 and
+w2 retain the certified frontier, all endpoint counts remain visible, and a
+conflicting branch obtains two signatures after full restart.
 
 - 48 single-sequencer network campaigns and 336 policy runs.
 - 96 honest renewal traces and 96 charged causal selector traces.
@@ -110,7 +114,7 @@ not rewritten. The correction still needs a fresh POSIX process run.
 - 5,880 original fixed delivery orders and 500 random differential histories comparing prefix, full signed status, and oracle only.
 - 80 ordered quorum/fault checks and 2,625 witnessed clock assignments.
 
-The durability matrix consists of 24 injected crashes across three commit windows, six full-committee restarts followed by conflicting forks, two damaged-state cases, and one post-restart logical-clock rollback. All 33 outcomes match expectation. It exchanges 560 certification messages and 6,292,402 certification application bytes; 1,284 harness-control messages and 134,885 control bytes are reported separately. Timing fields are host diagnostics and support no latency claim.
+The current incremental-transport durability matrix consists of 24 injected crashes across three commit windows, six full-committee restarts followed by conflicting forks, two damaged-state cases, and one post-restart logical-clock rollback. All 33 outcomes match expectation. It exchanges 1,598 certification messages and 3,511,524 certification application bytes; 1,284 harness-control messages and 134,885 control bytes are separate. These are current application-frame observations, not physical disk or latency measurements. The earlier full-history records retain their original transport and counters.
 
 ## Explicit limits
 
@@ -128,4 +132,4 @@ Current finite reachability output therefore reports `honest_signer_threshold_ro
 
 `src/scientific_checks.py` runs all reviewed finite semantic/encoded-size studies and the complete 48-case six-listener campaign into a new directory. The four-listener study now checks the actual target-namespace cache against accepted-history status and frontier data in each of 24 valid updates; a regression deliberately drops renewal and detects the mismatch even with quorum signatures. This is a scope-local predicate, not a whole-root serving check. The fresh platform summary is `results/local-checks.json`.
 
-On Windows, Linux RSS is null and POSIX address-space/CPU limits are not applied; the runner supplies a bounded wall-time budget instead. That run does not execute directory-fsync durability or Go. The complete Linux run in `results/current/` executes both paths: all 33 durability cases and the independent Go census pass, alongside 134 unit tests and the complete 48-case/336-policy semantic reproduction. Host timings remain separate, and the stated storage assumptions and negative controls still apply.
+On Windows, Linux RSS is null and POSIX address-space/CPU limits are not applied; the runner supplies a bounded wall-time budget instead. The historical Linux run in `results/current/` has 134 tests. The current `results/linux-loopback/` execution passes 175 tests without skips, all 33 incremental-transport durability cases, the independent Go census, and the 48-case/336-policy semantic reproduction. It records Linux 6.17.0-1022-azure, Python 3.12.15, cryptography 50.0.2, and four available logical processors. The CPU model is read from `/proc/cpuinfo`; no physical-core count is inferred from its marketing name. Host timings remain separate, and the storage assumptions and negative controls still apply.

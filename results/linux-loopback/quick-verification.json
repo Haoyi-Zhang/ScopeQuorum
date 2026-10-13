@@ -1,0 +1,69 @@
+{
+  "scope": "quick bounded gate, not a fresh complete network campaign",
+  "retained": {
+    "canonical_main_cases_checked": 48,
+    "retained_complete_repetition_equal": true,
+    "retained_subset_cases_validated_and_equal": 6,
+    "equal_result_files": [
+      "renewal/actual-checks.json",
+      "renewal/faults.json",
+      "renewal/selector-summary.json",
+      "renewal/selector-traces.json.gz",
+      "renewal/summary.json",
+      "renewal/traces.json.gz",
+      "witness/adversarial.json",
+      "witness/state-accounting.json",
+      "witness/summary.json",
+      "witness/traces.json.gz",
+      "witness-network/summary.json",
+      "durable-witness/summary.json",
+      "finite.json",
+      "witness-finite.json"
+    ],
+    "excluded_host_fields": [
+      "cpu_seconds",
+      "elapsed_seconds",
+      "first_attempt_ms",
+      "median_restart_and_retry_ms_host_diagnostic",
+      "p95_restart_and_retry_ms_host_diagnostic",
+      "peak_rss_kib",
+      "restart_and_retry_ms"
+    ],
+    "retained_differential_histories_validated": 500,
+    "differential_seed": 20260923,
+    "differential_mismatches": 0
+  },
+  "commands": [
+    {
+      "name": "unit",
+      "exit_code": 0,
+      "elapsed_seconds_host_diagnostic": 16.491,
+      "discovered_tests": 175,
+      "executed_tests": 175,
+      "passed_tests": 175,
+      "skipped_tests": [],
+      "complete_without_skips": true
+    },
+    {
+      "name": "finite",
+      "exit_code": 0,
+      "elapsed_seconds_host_diagnostic": 0.298
+    },
+    {
+      "name": "witness-finite",
+      "exit_code": 0,
+      "elapsed_seconds_host_diagnostic": 0.049
+    },
+    {
+      "name": "boundary",
+      "exit_code": 0,
+      "elapsed_seconds_host_diagnostic": 0.08
+    },
+    {
+      "name": "quorum",
+      "exit_code": 0,
+      "elapsed_seconds_host_diagnostic": 3.175
+    }
+  ],
+  "passed": true
+}

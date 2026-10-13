@@ -91,8 +91,9 @@ executed reference is cached witnessed-prefix replay under the exact same
 committee and freshness contract, rather than a native benchmark of these systems.
 The manuscript bibliography contains the original papers and RFCs.
 
-Deployment evidence would require current fsync execution, complete process
-memory and I/O accounting, representative workloads, controlled timing and
-independent failure domains. Transport reset preserves accepted branches and
+The separate current Linux process matrix exercises fsync and all 33 recovery
+cases. Deployment evaluation additionally requires integrated two-plane disk
+I/O and process-memory accounting, representative workloads, controlled timing,
+and independent failure domains. Transport reset preserves accepted branches and
 does not reconcile a split committee, tolerate storage loss or implement
 scope reclamation, committee change or reinstall recovery.

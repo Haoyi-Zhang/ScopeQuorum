@@ -1,0 +1,240 @@
+{
+  "commands": [
+    {
+      "command": [
+        "/home/runner/work/_temp/scopequorum-env/bin/python",
+        "-B",
+        "src/scientific_checks.py",
+        "--units",
+        "--output",
+        "/home/runner/work/_temp/scopequorum-checks-38474378008-1/unit"
+      ],
+      "elapsed_seconds_host_diagnostic": 16.743570128,
+      "exit_code": 0,
+      "name": "unit",
+      "outcome": "EXIT"
+    },
+    {
+      "command": [
+        "/home/runner/work/_temp/scopequorum-env/bin/python",
+        "-B",
+        "tests/finite.py",
+        "--output",
+        "/home/runner/work/_temp/scopequorum-checks-38474378008-1/finite.json"
+      ],
+      "elapsed_seconds_host_diagnostic": 0.3646480389999951,
+      "exit_code": 0,
+      "name": "finite",
+      "outcome": "EXIT"
+    },
+    {
+      "command": [
+        "/home/runner/work/_temp/scopequorum-env/bin/python",
+        "-B",
+        "tests/differential.py",
+        "--iterations",
+        "500",
+        "--seed",
+        "20261006",
+        "--output",
+        "/home/runner/work/_temp/scopequorum-checks-38474378008-1/differential.json"
+      ],
+      "elapsed_seconds_host_diagnostic": 2.418365435999995,
+      "exit_code": 0,
+      "name": "differential",
+      "outcome": "EXIT"
+    },
+    {
+      "command": [
+        "/home/runner/work/_temp/scopequorum-env/bin/python",
+        "-B",
+        "tests/witness_finite.py",
+        "--output",
+        "/home/runner/work/_temp/scopequorum-checks-38474378008-1/witness-finite.json"
+      ],
+      "elapsed_seconds_host_diagnostic": 0.06391751099999965,
+      "exit_code": 0,
+      "name": "witness-finite",
+      "outcome": "EXIT"
+    },
+    {
+      "command": [
+        "/home/runner/work/_temp/scopequorum-env/bin/python",
+        "-B",
+        "src/boundary_study.py",
+        "--output",
+        "/home/runner/work/_temp/scopequorum-checks-38474378008-1/boundary.json"
+      ],
+      "elapsed_seconds_host_diagnostic": 0.11395253700000296,
+      "exit_code": 0,
+      "name": "boundary",
+      "outcome": "EXIT"
+    },
+    {
+      "command": [
+        "/home/runner/work/_temp/scopequorum-env/bin/python",
+        "-B",
+        "src/renewal_study.py",
+        "--output",
+        "/home/runner/work/_temp/scopequorum-checks-38474378008-1/renewal",
+        "--generated",
+        "/home/runner/work/_temp/scopequorum-checks-38474378008-1/generated"
+      ],
+      "elapsed_seconds_host_diagnostic": 14.339706150999994,
+      "exit_code": 0,
+      "name": "renewal",
+      "outcome": "EXIT"
+    },
+    {
+      "command": [
+        "/home/runner/work/_temp/scopequorum-env/bin/python",
+        "-B",
+        "src/selector_study.py",
+        "--renewal-traces",
+        "/home/runner/work/_temp/scopequorum-checks-38474378008-1/renewal/traces.json.gz",
+        "--output-dir",
+        "/home/runner/work/_temp/scopequorum-checks-38474378008-1/selector",
+        "--paper-generated",
+        "/home/runner/work/_temp/scopequorum-checks-38474378008-1/generated"
+      ],
+      "elapsed_seconds_host_diagnostic": 6.976473269000003,
+      "exit_code": 0,
+      "name": "selector",
+      "outcome": "EXIT"
+    },
+    {
+      "command": [
+        "/home/runner/work/_temp/scopequorum-env/bin/python",
+        "-B",
+        "src/witness_study.py",
+        "--output",
+        "/home/runner/work/_temp/scopequorum-checks-38474378008-1/witness",
+        "--generated",
+        "/home/runner/work/_temp/scopequorum-checks-38474378008-1/generated"
+      ],
+      "elapsed_seconds_host_diagnostic": 13.086983102999994,
+      "exit_code": 0,
+      "name": "witness",
+      "outcome": "EXIT"
+    },
+    {
+      "command": [
+        "/home/runner/work/_temp/scopequorum-env/bin/python",
+        "-B",
+        "src/witness_network_study.py",
+        "--output",
+        "/home/runner/work/_temp/scopequorum-checks-38474378008-1/witness-network"
+      ],
+      "elapsed_seconds_host_diagnostic": 7.776415587999992,
+      "exit_code": 0,
+      "name": "witness-network",
+      "outcome": "EXIT"
+    },
+    {
+      "command": [
+        "/home/runner/work/_temp/scopequorum-env/bin/python",
+        "-B",
+        "src/durable_witness_study.py",
+        "--output",
+        "/home/runner/work/_temp/scopequorum-checks-38474378008-1/durable-witness",
+        "--generated",
+        "/home/runner/work/_temp/scopequorum-checks-38474378008-1/generated"
+      ],
+      "elapsed_seconds_host_diagnostic": 12.18916673999999,
+      "exit_code": 0,
+      "name": "durable-witness",
+      "outcome": "EXIT"
+    },
+    {
+      "command": [
+        "go",
+        "run",
+        "checks/quorum.go"
+      ],
+      "elapsed_seconds_host_diagnostic": 7.192341349000003,
+      "exit_code": 0,
+      "name": "quorum",
+      "outcome": "EXIT"
+    },
+    {
+      "command": [
+        "/home/runner/work/_temp/scopequorum-env/bin/python",
+        "-B",
+        "src/reproduce.py",
+        "--all",
+        "--portable",
+        "--output",
+        "/home/runner/work/_temp/scopequorum-checks-38474378008-1/main"
+      ],
+      "elapsed_seconds_host_diagnostic": 281.156195882,
+      "exit_code": 0,
+      "name": "main-campaign",
+      "outcome": "EXIT"
+    },
+    {
+      "command": [
+        "/home/runner/work/_temp/scopequorum-env/bin/python",
+        "-B",
+        "src/analyze.py",
+        "--results",
+        "/home/runner/work/_temp/scopequorum-checks-38474378008-1/main",
+        "--output",
+        "/home/runner/work/_temp/scopequorum-checks-38474378008-1/main-analysis",
+        "--compare-semantic",
+        "/home/runner/work/ScopeQuorum/ScopeQuorum/results/semantic-reference.json.gz"
+      ],
+      "elapsed_seconds_host_diagnostic": 0.8154878240000016,
+      "exit_code": 0,
+      "name": "main-analysis",
+      "outcome": "EXIT"
+    }
+  ],
+  "cryptography": "50.0.2",
+  "elapsed_seconds_host_diagnostic": 363.25010943399997,
+  "environment": {
+    "available_affinity_processors": 4,
+    "bytecode_disabled": true,
+    "cpu": {
+      "logical_processors": 4,
+      "models": [
+        "AMD EPYC 9V45 96-Core Processor"
+      ],
+      "physical_cores": null,
+      "source": "/proc/cpuinfo"
+    },
+    "cryptography": "50.0.2",
+    "executable": "/home/runner/work/_temp/scopequorum-env/bin/python",
+    "machine": "x86_64",
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+    "python": "3.12.15 (main, Oct  1 2026, 02:35:59) [GCC 13.3.0]",
+    "python_optimization": 0
+  },
+  "finished_utc": "2026-10-13T22:03:35.418713+00:00",
+  "machine": "x86_64",
+  "not_executed": [],
+  "passed": true,
+  "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "posix_resource_limits_applied_to_main_campaign": true,
+  "python": "3.12.15 (main, Oct  1 2026, 02:35:59) [GCC 13.3.0]",
+  "python_optimization": 0,
+  "result_checks": {
+    "complete_independent_go_census": true,
+    "durable_33_passed": true,
+    "full_main_semantic_equal": true,
+    "network_24_client_states": true,
+    "network_45_passed": true,
+    "no_unexpected_posix_unit_skips": true,
+    "renewal_96_traces": true,
+    "renewal_actual_30_passed": true,
+    "renewal_encoding_parity": true,
+    "selector_96_traces": true,
+    "unit_tests_passed": true,
+    "witness_96_traces": true,
+    "witness_adversarial": true,
+    "witness_encoding_parity": true,
+    "witness_state_accounting": true
+  },
+  "rss_scope": "Linux getrusage only; null elsewhere",
+  "scope": "finite formal models and synthetic/projection loopback fixtures only",
+  "started_utc": "2026-10-13T21:57:32.168622+00:00"
+}

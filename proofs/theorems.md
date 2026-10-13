@@ -166,10 +166,11 @@ not a new quorum theorem or an execution of crash recovery. Across 120 read pair
 both paths agree on decisions and all cached scoped statuses/frontiers; scope wins
 client bytes in 12/12 but total bytes in 1/12 (median ratio 1.1302).
 
-The restart/fork export repair names w1's recovered certified count, rather than
-the minimum count of a committee including untouched w3. All endpoint counts are
-retained. Portable export tests do not refresh the historical POSIX durability
-execution, whose raw rows and boolean safety outcomes remain unchanged.
+The restart/fork export names w1's recovered certified count and retains every
+endpoint count. In the current POSIX run, all six full-restart rows recover the
+certified count at w1 and w2 while untouched w3 remains at zero; conflicting
+proposals obtain two signatures. Three portable regressions separately check
+the fields and CSV. Earlier raw rows retain their original reporting schema.
 
 - Prefix integrity and closure: `src/client.py`, `tests/test_protocol.py`.
 - Honest status and coherent cache: `src/status_reference.py`, `src/cached_status.py`, `tests/test_cached_status.py`.
