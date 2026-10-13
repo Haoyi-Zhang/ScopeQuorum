@@ -21,6 +21,7 @@ import time
 import unittest
 
 import cryptography
+from runtime_environment import current_environment
 
 ROOT = Path(__file__).resolve().parents[1]
 DURABLE_MODULES = {'test_durable_witness', 'test_durable_witness_network'}
@@ -78,6 +79,7 @@ def units(output: Path) -> int:
     result = unittest.TextTestRunner(verbosity=2).run(unittest.TestSuite(cases))
     write(output / 'unit.json', {
         'discovered': len(cases), 'run': result.testsRun,
+        'test_ids': [case.id() for case in cases],
         'passed': result.testsRun - len(result.skipped) - len(result.failures) - len(result.errors),
         'skipped': [{'test': case.id(), 'reason': reason} for case, reason in result.skipped],
         'failures': [case.id() for case, _ in result.failures],
@@ -92,6 +94,8 @@ def main() -> int:
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--units', action='store_true', help=argparse.SUPPRESS)
     args = parser.parse_args()
+    if sys.flags.optimize:
+        parser.error('experimental assertions must remain enabled; run without -O')
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
     temporary = output / 'tmp'; temporary.mkdir()
@@ -105,6 +109,8 @@ def main() -> int:
         'started_utc': datetime.now(timezone.utc).isoformat(),
         'platform': platform.platform(), 'machine': platform.machine(),
         'python': sys.version, 'cryptography': cryptography.__version__,
+        'python_optimization': sys.flags.optimize,
+        'environment': current_environment(),
         'scope': 'finite formal models and synthetic/projection loopback fixtures only',
         'rss_scope': 'Linux getrusage only; null elsewhere',
         'posix_resource_limits_applied_to_main_campaign': os.name != 'nt',

@@ -11,12 +11,13 @@ import gzip
 import json
 import os
 from pathlib import Path
-import re
 import shutil
 import subprocess
 import sys
 import time
 from analyze import load, semantic
+from scientific_checks import flatten
+import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 # Exact host-diagnostic fields; logical timestamps/frontiers remain compared.
@@ -44,6 +45,36 @@ def require(condition: bool, message: str) -> None:
     if not condition:
         raise ValueError(message)
 
+
+def unit_receipt(value: dict, expected_ids: list[str], *, posix: bool) -> dict:
+    """Check executed inventory and outcomes, not a stale printed test count."""
+    require(type(value) is dict and value.get('successful') is True,
+            'unit suite did not succeed')
+    for field in ('discovered', 'run', 'passed'):
+        require(type(value.get(field)) is int and value[field] >= 0,
+                'invalid unit count: ' + field)
+    require(expected_ids and len(set(expected_ids)) == len(expected_ids),
+            'empty or duplicate expected unit inventory')
+    require(value.get('test_ids') == expected_ids,
+            'executed unit inventory differs from current discovered tests')
+    require(value['discovered'] == value['run'] == len(expected_ids),
+            'unit execution count differs from discovered inventory')
+    for field in ('skipped', 'failures', 'errors'):
+        require(type(value.get(field)) is list, 'invalid unit outcome list: ' + field)
+    require(not value['failures'] and not value['errors'], 'unit failures or errors')
+    skipped = value['skipped']
+    require(all(type(r) is dict and type(r.get('test')) is str
+                and r['test'] in expected_ids and type(r.get('reason')) is str
+                and r['reason'] for r in skipped), 'invalid skipped-test record')
+    require(len({r['test'] for r in skipped}) == len(skipped),
+            'duplicate skipped-test record')
+    require(value['passed'] + len(skipped) == value['run'],
+            'passed/skipped accounting differs from execution')
+    require(not posix or not skipped, 'unexpected POSIX unit skips')
+    return {'discovered_tests': value['discovered'], 'executed_tests': value['run'],
+            'passed_tests': value['passed'], 'skipped_tests': skipped,
+            'complete_without_skips': not skipped}
+
 def retained_comparison() -> dict:
     results = ROOT / 'results'
     repeat = results / 'journal-repetition'
@@ -70,7 +101,7 @@ def retained_comparison() -> dict:
                 f'repetition mismatch {name}')
         pairs.append(name)
     new_main = sorted((repeat/'main').glob('case-*.json.gz'))
-    require(len(new_main) == 6, 'six current main repeats must be present')
+    require(len(new_main) == 6, 'six retained partial main repeats must be present')
     for path in new_main:
         require(semantic(read_json(path)) == semantic(read_json(results/path.name)),
                 f'logical main-case mismatch {path.name}')
@@ -81,10 +112,10 @@ def retained_comparison() -> dict:
     return {
         'canonical_main_cases_checked': len(canonical),
         'retained_complete_repetition_equal': True,
-        'current_main_cases_rerun_and_equal': len(new_main),
+        'retained_subset_cases_validated_and_equal': len(new_main),
         'equal_result_files': pairs,
         'excluded_host_fields': sorted(HOST_FIELDS),
-        'fresh_seed_differential_histories': 500,
+        'retained_differential_histories_validated': 500,
         'differential_seed': 20260923,
         'differential_mismatches': 0,
     }
@@ -94,14 +125,17 @@ def main() -> int:
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--retained-only', action='store_true',
                         help='only validate stored records; this does not execute tests')
-    args=parser.parse_args(); output=args.output.resolve();output.mkdir(parents=True,exist_ok=True)
+    args=parser.parse_args(); output=args.output.resolve();output.mkdir(parents=True,exist_ok=False)
     report={'scope':'quick bounded gate, not a fresh complete network campaign',
             'retained':retained_comparison(), 'commands':[]}
     if not args.retained_only:
         require(shutil.which('go') is not None, 'local Go toolchain required')
         env={**os.environ,'PYTHONDONTWRITEBYTECODE':'1','GOMAXPROCS':'2'}
+        expected_units = [case.id() for case in flatten(
+            unittest.defaultTestLoader.discover(str(ROOT / 'tests'), pattern='test_*.py'))]
         jobs=[
-            ('unit',[sys.executable,'-m','unittest','discover','-s','tests','-p','test_*.py','-v']),
+            ('unit',[sys.executable,'-B','src/scientific_checks.py','--units',
+                     '--output',str(output/'unit')]),
             ('finite',[sys.executable,'tests/finite.py','--output',str(output/'finite.json')]),
             ('witness-finite',[sys.executable,'tests/witness_finite.py','--output',str(output/'witness-finite.json')]),
             ('boundary',[sys.executable,'src/boundary_study.py','--output',str(output/'boundary.json')]),
@@ -116,9 +150,8 @@ def main() -> int:
             require(run.returncode==0,f'{name} failed; see {name}.log')
             row={'name':name,'exit_code':run.returncode,'elapsed_seconds_host_diagnostic':round(time.monotonic()-start,3)}
             if name=='unit':
-                match=re.search(r'Ran (\d+) tests',run.stdout)
-                require(match is not None,'unit-test result count missing')
-                row['passed_tests']=int(match.group(1));require(row['passed_tests']==148,'unit count changed')
+                row.update(unit_receipt(read_json(output/'unit/unit.json'),
+                                        expected_units, posix=os.name != 'nt'))
             if name=='quorum':
                 actual=json.loads(run.stdout)
                 require(actual==read_json(ROOT/'results/quorum-general.json'),'independent quorum output changed')
@@ -130,7 +163,7 @@ def main() -> int:
     report['passed']=True
     (output/'verification.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps({'passed':True,'executed_commands':len(report['commands']),
-                      'current_main_cases_rerun':6,'canonical_main_cases_validated':48},indent=2))
+                      'retained_subset_cases_validated':6,'canonical_main_cases_validated':48},indent=2))
     return 0
 
 if __name__=='__main__':

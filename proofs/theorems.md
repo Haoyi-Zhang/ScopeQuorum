@@ -154,11 +154,29 @@ The retained 96-trace witness study counts canonical JSON request and response b
 
 ## 8. Evidence-to-code map and bounded evidence
 
+The dated twelve-trace TCP read adapter is a separate non-crashing, memory-backed
+experiment. Its `PrefixCache.apply` requires an exact checkpoint with the existing
+authority/distinct-witness verifier, verifies retained base count/tip, reconstructs
+and replays a complete signed prefix, and checks terminal count/tip and issuance.
+Only then are history and the derived status index committed. Commitment binding,
+receipt authentication and replay therefore bind that index to the certified
+history. The shared closure check uses the same floors and witnessed `3 epsilon`
+guard as the scope path. This is an adapter argument under the existing assumptions,
+not a new quorum theorem or an execution of crash recovery. Across 120 read pairs,
+both paths agree on decisions and all cached scoped statuses/frontiers; scope wins
+client bytes in 12/12 but total bytes in 1/12 (median ratio 1.1302).
+
+The restart/fork export repair names w1's recovered certified count, rather than
+the minimum count of a committee including untouched w3. All endpoint counts are
+retained. Portable export tests do not refresh the historical POSIX durability
+execution, whose raw rows and boolean safety outcomes remain unchanged.
+
 - Prefix integrity and closure: `src/client.py`, `tests/test_protocol.py`.
 - Honest status and coherent cache: `src/status_reference.py`, `src/cached_status.py`, `tests/test_cached_status.py`.
 - Honest ScopeDelta: `src/scope_delta.py`, `tests/test_scope_delta.py`.
 - Witnessed ScopeDelta: `src/witness_delta.py`, `tests/test_witness_delta.py`.
 - Four in-process loopback witness endpoints: `src/witness_network.py`, `src/witness_network_study.py`, `tests/test_witness_network.py`.
+- Two-plane finite read adapter and cached-prefix comparator: `src/witness_read_study.py`, `src/witness_read_report.py`, `tests/test_witness_read_study.py`, `results/tcp-read-20261014/`, `results/tcp-read-accounting-20261014/`.
 - Crash-durable process-isolated witnesses: `src/durable_witness.py`, `src/durable_witness_network.py`, `src/durable_witness_study.py`, `tests/test_durable_witness.py`, `tests/test_durable_witness_network.py`, `results/durable-witness/`.
 - Committee, reachability, and clock enumeration: `tests/witness_finite.py`, `results/witness-finite.json`.
 - Witness cost and adversarial study: `src/witness_study.py`, `tests/test_witness_study.py`, `results/witness/`.

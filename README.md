@@ -179,6 +179,39 @@ The four durable witnesses are separate processes but still share one host, kern
 
 See `docs/model-and-evidence.md` before reusing any claim.
 
+## Two-plane TCP read comparison
+
+`docs/witness-reads.md` specifies the same-contract cached-prefix
+baseline, nondegenerate read/update schedule, complete byte and state accounting,
+raw environment, and remaining scientific gaps. The twelve memory-backed traces
+match all 120 read pairs (72 serve/48 deny per mode). Scope saves client bytes in
+12/12 traces but total bytes in only 1/12, median total scope/prefix ratio 1.1302.
+These are additional bounded observations, not a native CoSi/CHAINIAC/WAVE run,
+production deployment, POSIX durability repetition, or refresh of the older
+96-trace model. Seven new read tests and three export tests passed on Windows.
+
+Run after reviewing the project-local import closure, with bytecode disabled,
+into fresh output directories (both programs reject existing outputs):
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 python -B src/witness_read_study.py --output /fresh/tcp-read
+PYTHONDONTWRITEBYTECODE=1 python -B src/witness_read_report.py --source /fresh/tcp-read --output /fresh/accounting --generated /owned/paper/generated
+```
+
+The restart/fork exporter now reports the checked honest witness w1's count and
+retains all endpoint counts. Its portable tests validate reporting/CSV only;
+the old raw durability outputs remain unchanged and require a new POSIX run.
+
+The quick verifier compares the executed unit IDs with the current discovery
+inventory and checks passed/skipped/error accounting from a structured receipt.
+Adding a test therefore does not trip an obsolete fixed-count expectation.
+POSIX execution requires no skipped tests; Windows receipts keep unsupported
+directory-fsync tests explicit. Eight receipt regressions also reject false
+success, missing tests, Boolean counts and inconsistent skip accounting. Existing
+output directories are rejected before any result can be overwritten. The full
+experimental driver refuses optimized Python because its assertion checks are
+part of the experiment; the configured scientific workflow keeps them enabled.
+
 ## License
 
 The artifact implementation and documentation are under the license in `LICENSE`. The retained public lockfile projection and its upstream notices are under `data/licenses/`.

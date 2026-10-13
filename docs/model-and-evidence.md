@@ -82,6 +82,23 @@ process-isolated network has not been re-executed on a directory-fsync host.
 
 ## Retained evidence
 
+The separate `results/tcp-read-20261014/` collection adds twelve memory-backed
+two-plane traces, not a re-execution of the 96-trace model or process durability.
+The cached-prefix reader receives only new receipts plus a quorum checkpoint;
+both representations use the same 3-of-4 and 3-epsilon predicate. All 120 paired
+whole-root decisions and cached scope states/frontiers match (72 serve, 48 deny
+per mode). Scope reduces client bytes in every trace but total bytes in only one;
+the median total ratio is 1.1302. `results/tcp-read-accounting-20261014/` validates
+all raw exports and tabulates sequencer/client/accepted-witness/staging state,
+serialization CPU and Python-memory diagnostics. See `docs/witness-reads.md` for exact
+measurement exclusions and the baseline-source comparison.
+
+The older six restart/fork rows report the minimum committee frontier, often
+zero from untouched w3, rather than the w1/w2 frontiers checked by the safety
+predicate. The current source exporter now names w1 and preserves all endpoint
+counts; three portable tests cover the fields and CSV. Historical raw rows are
+not rewritten. The correction still needs a fresh POSIX process run.
+
 - 48 single-sequencer network campaigns and 336 policy runs.
 - 96 honest renewal traces and 96 charged causal selector traces.
 - 30 actual-signature honest ScopeDelta checks: 24 updates plus six extensions, counted once.

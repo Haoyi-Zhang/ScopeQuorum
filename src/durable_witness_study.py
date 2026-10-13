@@ -161,6 +161,18 @@ async def _recovery_matrix(root: Path) -> tuple[list[dict], DurableNetworkCounte
     return rows, counters
 
 
+def _fork_recovery_fields(retained: dict[str, int], certified_count: int) -> dict:
+    """Report the honest witness checked by the restart safety predicate.
+
+    The untouched w3 may legitimately retain zero, so a committee minimum is
+    not the recovered frontier of w1. Preserve every endpoint's count as well.
+    """
+    return {'recovered_witness': 'w1',
+            'recovered_count_before_retry': retained.get('w1', -1),
+            'expected_recovered_count': certified_count,
+            'recovered_frontiers': dict(sorted(retained.items()))}
+
+
 async def _durable_fork_matrix(root: Path) -> tuple[list[dict], DurableNetworkCounters]:
     rows: list[dict] = []
     async with DurableWitnessProcessNetwork(root) as network:
@@ -221,8 +233,7 @@ async def _durable_fork_matrix(root: Path) -> tuple[list[dict], DurableNetworkCo
                     'crash_phase': 'full-committee-restart',
                     'first_signatures': len(first),
                     'retry_signatures': len(second),
-                    'recovered_count_before_retry': min(retained.values()),
-                    'expected_recovered_count': len(base.log),
+                    **_fork_recovery_fields(retained, len(left.log)),
                     'old_count': len(base.log),
                     'new_count': len(left.log),
                     'serve_after_update': False,
@@ -353,6 +364,7 @@ def _write_csv(path: Path, rows: list[dict]) -> None:
         'case', 'category', 'family', 'span', 'update', 'crash_phase',
         'first_signatures', 'retry_signatures',
         'recovered_count_before_retry', 'expected_recovered_count',
+        'recovered_witness', 'recovered_frontiers',
         'old_count', 'new_count', 'serve_after_update',
         'expected_serve_after_update', 'state_bytes_total', 'state_bytes_max',
         'first_attempt_ms', 'restart_and_retry_ms', 'passed',
@@ -362,7 +374,13 @@ def _write_csv(path: Path, rows: list[dict]) -> None:
     ]
     with path.open('w', newline='') as handle:
         writer = csv.DictWriter(handle, fieldnames=fields)
-        writer.writeheader(); writer.writerows(rows)
+        writer.writeheader()
+        for row in rows:
+            exported = dict(row)
+            if 'recovered_frontiers' in exported:
+                exported['recovered_frontiers'] = json.dumps(
+                    exported['recovered_frontiers'], sort_keys=True, separators=(',', ':'))
+            writer.writerow(exported)
 
 
 def _write_generated(generated: Path, summary: dict) -> None:

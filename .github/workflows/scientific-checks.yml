@@ -8,10 +8,11 @@ permissions:
 jobs:
   owned-fixture-campaign:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 50
     env:
       PYTHONUTF8: '1'
       PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONOPTIMIZE: '0'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -34,6 +35,19 @@ jobs:
       - name: Check incremental TCP history and durable restart
         run: |
           timeout --signal=TERM --kill-after=10s 180s "$RUNNER_TEMP/scopequorum-env/bin/python" -B -m unittest discover -s tests -p test_witness_sync.py -v > "$RUNNER_TEMP/scopequorum-incremental-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.log" 2>&1
+      - name: Validate the quick gate against current executed test inventory
+        timeout-minutes: 5
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=10s 240s "$RUNNER_TEMP/scopequorum-env/bin/python" -B src/verify_artifact.py --output "$RUNNER_TEMP/scopequorum-quick-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" > "$RUNNER_TEMP/scopequorum-quick-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.log" 2>&1
+      - name: Reproduce two-plane witnessed reads and validate accounting
+        timeout-minutes: 8
+        run: |
+          set -euo pipefail
+          python="$RUNNER_TEMP/scopequorum-env/bin/python"
+          output="$RUNNER_TEMP/scopequorum-reads-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          timeout --signal=TERM --kill-after=10s 420s "$python" -B src/witness_read_study.py --output "$output" > "$RUNNER_TEMP/scopequorum-reads-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.log" 2>&1
+          "$python" -B src/witness_read_report.py --source "$output" --output "$output-accounting" --generated "$output-generated" > "$RUNNER_TEMP/scopequorum-reads-accounting-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.log" 2>&1
       - name: Upload raw observations even on failure
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -42,6 +56,13 @@ jobs:
           path: |
             ${{ runner.temp }}/scopequorum-status-fold-${{ github.run_id }}-${{ github.run_attempt }}.log
             ${{ runner.temp }}/scopequorum-incremental-${{ github.run_id }}-${{ github.run_attempt }}.log
+            ${{ runner.temp }}/scopequorum-quick-${{ github.run_id }}-${{ github.run_attempt }}.log
+            ${{ runner.temp }}/scopequorum-quick-${{ github.run_id }}-${{ github.run_attempt }}/
+            ${{ runner.temp }}/scopequorum-reads-${{ github.run_id }}-${{ github.run_attempt }}.log
+            ${{ runner.temp }}/scopequorum-reads-accounting-${{ github.run_id }}-${{ github.run_attempt }}.log
+            ${{ runner.temp }}/scopequorum-reads-${{ github.run_id }}-${{ github.run_attempt }}/
+            ${{ runner.temp }}/scopequorum-reads-${{ github.run_id }}-${{ github.run_attempt }}-accounting/
+            ${{ runner.temp }}/scopequorum-reads-${{ github.run_id }}-${{ github.run_attempt }}-generated/
             ${{ runner.temp }}/scopequorum-checks-${{ github.run_id }}-${{ github.run_attempt }}/
             !${{ runner.temp }}/scopequorum-checks-${{ github.run_id }}-${{ github.run_attempt }}/tmp/
           if-no-files-found: error

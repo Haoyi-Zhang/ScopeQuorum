@@ -83,4 +83,4 @@ Malkhi and Reiter, Distributed Computing 11(4), 203–213 (1998), DOI 10.1007/s0
 
 ## Scope of the local pass
 
-68 main-cited records; no appendix-only padding, missing key, duplicate key, duplicate normalized title or uncited record; each has author/title/year/URL and a matching source ledger. Compiled IEEEtran bibliography contains 68 items. Citation groups have at most four keys. These checks concern document consistency, not universal verification of each cited scientific result.
+68 main-cited records; no appendix-only padding, missing key, duplicate key, duplicate normalized title or uncited record; each has author/title/year/URL and a matching source ledger. The compiled IEEEtran bibliography contains 68 items and displays author names. Current citation groups have at most three keys. These checks concern document consistency, not universal verification of each cited scientific result.
