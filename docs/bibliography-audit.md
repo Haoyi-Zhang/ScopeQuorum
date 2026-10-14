@@ -45,7 +45,7 @@ For 66 records, the package retains the existing bibliographic/source evidence a
 | `parakeet` | Parakeet: Practical Key Transparency for End-to-End Encrypted Messaging | 2023 | Inherited source record; structural/citation check rerun |
 | `crlite` | CRLite: A Scalable System for Pushing All TLS Revocations to All Browsers | 2017 | Inherited source record; structural/citation check rerun |
 | `leases` | Leases: An Efficient Fault-Tolerant Mechanism for Distributed File Cache Consistency | 1989 | Inherited source record; structural/citation check rerun |
-| `naornissim` | Certificate Revocation and Certificate Update | 2000 | Inherited source record; structural/citation check rerun |
+| `naornissim` | Certificate Revocation and Certificate Update | 1998 | USENIX proceedings identity and Sections 3-5 communication-cost passages read |
 | `macaroons` | Macaroons: Cookies with Contextual Caveats for Decentralized Authorization in the Cloud | 2014 | Inherited source record; structural/citation check rerun |
 | `zanzibar` | Zanzibar: Google's Consistent, Global Authorization System | 2019 | Inherited source record; structural/citation check rerun |
 | `rfc9162` | Certificate Transparency Version 2.0 | 2021 | Inherited source record; structural/citation check rerun |
