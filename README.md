@@ -268,3 +268,13 @@ The eight actual-signature cases distinguish threshold feasibility from progress
 `results/journal-repetition/` retains an earlier bounded repetition. Its witness, durability and 96-trace outputs were compared with the canonical results; six main campaigns were compared individually with the canonical 48-case campaign. The canonical 48 cases and their earlier complete repetition remain under `results/` and `results/clean-repetition/`. That earlier journal repetition did not rerun all 48 cases. An interrupted 5,000-history attempt yielded no completed result; its completed differential check contains 500 histories. Interrupted invocations and resumptions remain disclosed in its execution record. The distinct fresh Windows run is identified by `results/local-checks.json` and is not used to refresh unsupported durability or Go observations.
 
 The quick verifier checks retained consistency and reruns tests, finite checks, actual boundary signatures and the Go program. It does not rerun every long network study. The explicit commands above are the complete study entry points; never equate a quick verifier pass with a complete new experimental campaign. Do not run Python with `-O`, because the experimental checks use assertions.
+
+## Manuscript diagrams
+
+The model and protocol schematics are drawn directly in Python as vector PDFs
+with embedded STIX fonts. They encode the stated relationships, not measured
+performance. To regenerate them with Python 3.9+ and Matplotlib:
+
+```sh
+python -B figures/draw_schematics.py --output figures
+```
