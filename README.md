@@ -12,6 +12,7 @@ The implementation uses the Python standard library plus `cryptography`, declare
 From the repository root:
 
 ```sh
+export PYTHONDONTWRITEBYTECODE=1
 python -m unittest discover -s tests -p 'test_*.py' -v
 python tests/finite.py --output ../verification-finite.json
 python tests/differential.py \
@@ -118,7 +119,8 @@ refusal state or repairs the Byzantine-sequencer split-branch counterexample.
 The `incremental=False` constructor option preserves the full-history reference.
 
 ```sh
-python -B -m pytest -p no:cacheprovider tests/test_witness_sync.py tests/test_witness_network.py
+python -B -m unittest discover -s tests -p test_witness_sync.py -v
+python -B -m unittest discover -s tests -p test_witness_network.py -v
 python -B src/incremental_tcp_study.py --output results/new-incremental-tcp
 ```
 
