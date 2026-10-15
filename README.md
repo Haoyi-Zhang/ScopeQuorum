@@ -75,6 +75,38 @@ All 33 retained outcomes pass. The persist-before-sign path writes a canonical s
 
 ## Incremental TCP comparison
 
+### Client evidence reconstruction
+
+`src/witness_client.py` provides a transcript-backed `WitnessClient`. Apply fresh
+register, extend, renew and head certificates through `apply(certificate, now)`;
+`snapshot()` returns bounded canonical evidence bytes. Reconstruct with
+`WitnessClient.restore(payload, namespaces=..., delta=..., epsilon=...,
+minimum_floors=...)`. Namespace membership and clock policy come from the caller,
+not the saved file. The complete signed transcript is replayed into temporary
+state, saved floors must equal authenticated replay, and independently retained
+minimum floors reject an older snapshot. No partially verified client is returned.
+
+Historical replay preserves signed issue times. `check(root, now)` still uses the
+current clock and strict three-epsilon margin: replaying an old registration does
+not renew its freshness. A complete rollback of both the snapshot and its external
+floor anchor is outside that retained-anchor contract. The module performs no disk
+I/O; callers supply snapshot durability and independent floor retention. Existing
+175-test Linux receipts and storage/traffic measurements remain their actual
+historical runs and do not include transcript storage or restore costs.
+
+Sixteen additional unittest methods cover all four operations, cross-namespace
+state, invalidation, expiry, exact policy/floor types, damaged transcripts, bounded
+admission, and isolation from caller mutation. One exercises actual registry and
+witness TCP listeners, restores a client, accepts a new revocation, then rejects
+its older snapshot against the newly retained floor. Run them with:
+
+```sh
+python -B -m unittest discover -s tests -p test_witness_client.py -v
+```
+
+The current scientific runner discovers these tests with the existing suite;
+its execution receipt records the actual test IDs, platform skips and failures.
+
 Both TCP paths now default to `HistorySession` suffix staging. An endpoint's
 namespace/count/tip must match the sequencer's exact prefix before it receives
 up to 128 signed receipts per batch. A signing request carries only the body;
