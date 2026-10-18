@@ -52,8 +52,35 @@
     "public-lock-3-1-scope.json": "8e1e968841b8a5ab9fbd10a874c910d1d2a666db0336daf3abcf1ffd4c568749",
     "public-lock-3-4-prefix.json": "9344927749206d88bd79960db14940fea54a1c2262c6583d6bb469785e60adc8",
     "public-lock-3-4-scope.json": "819ef3473658057f61ce1522671290d6423b19ba99e85bdbd13486f61cb4101a",
-    "summary.json": "f20d782bfe666399ad0a81ed98c67105d5836d8408defb3345e2ed022bebb8c0"
+    "summary.json": "850f9ffaa4d5bfdc68b9aaddb785d76e11efb8de8c9f48235201e4b9921c8ed0"
   },
   "validated_read_pairs": 120,
-  "validated_traces": 24
+  "validated_traces": 24,
+  "recorded_raw_sha256": {
+    "generated-1-0-prefix.json": "82a68964021953640c57bd3550916e26b9a9631de7df8b34afd889440c3e9987",
+    "generated-1-0-scope.json": "924cbc20d24e31b774e6e06843c22d70fe17b0556837d67060f5e4d3d9af6272",
+    "generated-1-1-prefix.json": "05d087eb70fd472cdeeea61471f0959d60cf92b0de0d72ffefc31cf1c8297e0a",
+    "generated-1-1-scope.json": "82414f0953ed15c55d27a1542abde284f12a9f8e720b9edb0433d5b95f3974e6",
+    "generated-1-4-prefix.json": "0efc7a327a0365d35e24e67ec0d060ad99a9dcbacf20bf77f1762db2c7c8366e",
+    "generated-1-4-scope.json": "8b17658110fe1a0f64b9efbc7f7f71ec12d0e76f5f5c6556c72f659e0afad584",
+    "generated-3-0-prefix.json": "a276699fc61cc9c05b0be86b2998ee5c31a6fefde887a5ff96105a744ebbc22f",
+    "generated-3-0-scope.json": "b2d30d5666aa419cbcc089c7fd1f4f6ab55cc3a84952603c72b79692edc6c0e5",
+    "generated-3-1-prefix.json": "02a88fa3ee31b0a12d99fb56e04cb080900c1a7a387f3f2b53ef8cbde4e16ec0",
+    "generated-3-1-scope.json": "ccb8eac427d8d24002e8b53c59ccd80679471da65c21eaf5f073776ae913fc5c",
+    "generated-3-4-prefix.json": "61647784ac20c46abd87ce5e26807d4c131024b4c23e31a487bc33812d911805",
+    "generated-3-4-scope.json": "5543c1f0e5d534752edfbda6aa8c6c35a87b10259985754000814d3bf79d19c0",
+    "public-lock-1-0-prefix.json": "d7b1f2c48b5736435911dba74eff9f80e82589a25b5a593615c67c126311027c",
+    "public-lock-1-0-scope.json": "c4ad2ed5019b6f7dbc1a346478afaaf71d93c4eecc74dcf7a70cb7c4825b40ef",
+    "public-lock-1-1-prefix.json": "fd94d09fb1e3f7465ec6e898d92d8b99f4578ac7888bb57f1e9d10e68eacdfad",
+    "public-lock-1-1-scope.json": "309caa5e1ffefdbd3f8826066e6cc695684e7dac76150c32f72220742d8e937f",
+    "public-lock-1-4-prefix.json": "35fdfb0f31978945c802bd15960dc174cfca23dce3d3ad194f2edd30a71877d5",
+    "public-lock-1-4-scope.json": "530acf2d6743eac77d0209413ea3a487db9ccd103feecacfe7a6b7231694b700",
+    "public-lock-3-0-prefix.json": "95f864624d552b95d0243bc851f56881d95344be638b04563bf6a1c697890ce5",
+    "public-lock-3-0-scope.json": "398003b74720f2d68c23d7b937b098e16d88b3edea21bd180a898d1a9cd5041f",
+    "public-lock-3-1-prefix.json": "6d7efcffb3eeed7cb8fcd4680be8077a39703138a2b718d5a3aba18f0fdee9c2",
+    "public-lock-3-1-scope.json": "8e1e968841b8a5ab9fbd10a874c910d1d2a666db0336daf3abcf1ffd4c568749",
+    "public-lock-3-4-prefix.json": "9344927749206d88bd79960db14940fea54a1c2262c6583d6bb469785e60adc8",
+    "public-lock-3-4-scope.json": "819ef3473658057f61ce1522671290d6423b19ba99e85bdbd13486f61cb4101a",
+    "summary.json": "f20d782bfe666399ad0a81ed98c67105d5836d8408defb3345e2ed022bebb8c0"
+  }
 }
