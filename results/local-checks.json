@@ -5,7 +5,7 @@
   "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
   "cryptography": "50.0.1",
   "scope": "Fresh finite formal models, encoded-size studies and owned loopback fixtures; not independent implementation or production evaluation",
-  "raw_output_location": "<WORK_ROOT>/windows-local (separate completion-workspace handoff, not embedded in this artifact)",
+  "raw_output_location": "<WORK_ROOT>/windows-local (historical run outputs; not bundled in this artifact)",
   "portable_runner_commands_completed": 11,
   "all_completed_commands_exit_zero": true,
   "unit": {
