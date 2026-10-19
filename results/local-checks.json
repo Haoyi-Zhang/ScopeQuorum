@@ -5,7 +5,7 @@
   "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
   "cryptography": "50.0.1",
   "scope": "Fresh finite formal models, encoded-size studies and owned loopback fixtures; not independent implementation or production evaluation",
-  "raw_output_location": "completion_workspace/experiments/P008/windows-local (separate completion-workspace handoff, not embedded in this artifact)",
+  "raw_output_location": "<WORK_ROOT>/windows-local (separate completion-workspace handoff, not embedded in this artifact)",
   "portable_runner_commands_completed": 11,
   "all_completed_commands_exit_zero": true,
   "unit": {
@@ -25,7 +25,11 @@
     "violations": 0,
     "weakened_clock_negative_controls": 48
   },
-  "differential": {"histories": 500, "seed": 20261006, "mismatches": 0},
+  "differential": {
+    "histories": 500,
+    "seed": 20261006,
+    "mismatches": 0
+  },
   "witness_finite": {
     "ordered_quorum_fault_checks": 80,
     "reachability_fault_cases": 80,
@@ -36,7 +40,11 @@
     "two_epsilon_negative_controls": 5,
     "reachability_scope": "signer-threshold feasibility only, not guaranteed liveness"
   },
-  "split_boundary": {"cases": 8, "withholding_split_counterexamples": 2, "dual_quorums": 0},
+  "split_boundary": {
+    "cases": 8,
+    "withholding_split_counterexamples": 2,
+    "dual_quorums": 0
+  },
   "honest_renewal": {
     "traces": 96,
     "queries": 3072,
@@ -74,11 +82,19 @@
     "probes": 126,
     "protected_policy_bounded_violations": 0,
     "root_only_bounded_violations": 18,
-    "negative_reference_bounded_violations": {"lww": 84, "signed-index": 84, "transparency-only": 66},
+    "negative_reference_bounded_violations": {
+      "lww": 84,
+      "signed-index": 84,
+      "transparency-only": 66
+    },
     "logical_reference_equal": true,
     "comparison_exclusions": "named host durations, peak RSS, driver timing basis and runtime provenance only; all logical observations retained"
   },
-  "reconciliation": {"comparison_groups": 15, "all_equal": true, "python_sources_syntax_checked": 43},
+  "reconciliation": {
+    "comparison_groups": 15,
+    "all_equal": true,
+    "python_sources_syntax_checked": 43
+  },
   "dropped_renewal_negative_control": {
     "scope": "separate owned-fixture experiment; client renewal deliberately replaced by a no-op",
     "network_cases": 45,
@@ -86,10 +102,18 @@
     "client_state_checks_passed_under_mutation": 0,
     "mutation_detected": true
   },
-  "bibliography": {"entries": 68, "main_body_cited": 68, "local_metadata_or_mapping_failures": 0, "full_text_entailment_certificate": false},
+  "bibliography": {
+    "entries": 68,
+    "main_body_cited": 68,
+    "local_metadata_or_mapping_failures": 0,
+    "full_text_entailment_certificate": false
+  },
   "peak_rss_kib": null,
   "posix_cpu_and_address_space_limits_applied": false,
-  "runner_wall_time_limits_seconds": {"overall": 1800, "per_command": 900},
+  "runner_wall_time_limits_seconds": {
+    "overall": 1800,
+    "per_command": 900
+  },
   "not_executed_here": [
     "17 POSIX durability unit tests",
     "33-case process-isolated directory-fsync durability matrix",
