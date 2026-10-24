@@ -31,6 +31,10 @@ jobs:
           timeout --signal=TERM --kill-after=10s 1500s "$RUNNER_TEMP/scopequorum-env/bin/python" -B src/scientific_checks.py --output "$RUNNER_TEMP/scopequorum-checks-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
       - name: Check request-local status folding against finite independent references
         run: |
+          "$RUNNER_TEMP/scopequorum-env/bin/python" -B tests/cost_choice_regression.py
+          "$RUNNER_TEMP/scopequorum-env/bin/python" -B -O tests/cost_choice_regression.py
+      - name: Check request-local status folding and retain finite reference logs
+        run: |
           timeout 30s "$RUNNER_TEMP/scopequorum-env/bin/python" -B tests/status_fold_regression.py > "$RUNNER_TEMP/scopequorum-status-fold-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.log" 2>&1
       - name: Check incremental TCP history and durable restart
         run: |

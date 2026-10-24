@@ -179,6 +179,22 @@ Run remaining ranges in bounded chunks. `src/reproduce.py` uses atomic checkpoin
 
 ## Main bounded findings
 
+`src/cost_choice.py` independently checks all12retained TCP trace pairs against
+their raw plane counters and paired decisions, then derives a conditional byte-price
+choice. If the client plane costs rho times the witness plane per byte, scope is
+cheaper exactly when rho times client bytes saved exceeds witness bytes added.
+The retained traces favor scope in1,4and12cases at rho=1,2and4 respectively;
+the aggregate threshold is543988/303485. These are calculations on the existing
+memory-backed traces, not new prices, persistence measurements or deployment gains.
+Run `python -B tests/cost_choice_regression.py`; the manuscript consumes the same
+calculation via `paper/generate_choice.py` in the complete project.
+
+The projection layer preserves safety when a Byzantine sequencer splits honest
+witnesses before any quorum, but does not restore progress. An operator cannot
+safely clear their refusal state merely because communication has healed. A system
+requiring that progress needs a separately justified ordering/recovery substrate;
+the prototype instead retains state and stops serving after certificate expiry.
+
 Under one honest sequencer, dependency-scoped prefixes and signed object status make the same 192 main decisions in the canonical campaign. Both have zero bounded violations; root-only freshness has 18. Honest ScopeDelta is smaller than full-prefix transfer in all 96 original renewal traces, but cached status remains cheaper in 42 traces.
 
 Under the witnessed contract, an omitted exact revocation, capability revocation, or conflict obtains only the configured Byzantine witness's signature, not a quorum. Any two 3-of-4 quorums intersect in an honest witness when at most one witness is Byzantine. A quorum-acknowledged revocation therefore cannot later be hidden by a stale fork, including after all four witness-process states have been reloaded from retained stable storage.
