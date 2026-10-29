@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from copy import deepcopy
 import json
+import os
 from pathlib import Path
 import tempfile
 import sys
@@ -47,6 +48,7 @@ def rewrite_snapshot(path: Path, mutate) -> None:
     path.write_bytes(encode(envelope) + b'\n')
 
 
+@unittest.skipUnless(os.name == 'posix', 'requires POSIX directory fsync')
 class DurableWitnessTests(unittest.TestCase):
     def test_rejects_cross_namespace_scope_even_with_matching_envelope(self):
         with tempfile.TemporaryDirectory() as directory:

@@ -1,0 +1,1 @@
+{"cases":9,"guard_difference_controls":9,"logical_schedule":true,"namespace_instances_per_process":2,"passed":9,"platform":"Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39","python":"3.12.3","root_checks":54,"scope":"Owned single-host integration; client is local, certification uses TCP; not a latency or PQ-signature study.","separate_witness_processes":4}

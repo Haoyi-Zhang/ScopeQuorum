@@ -17,7 +17,7 @@ from pathlib import Path
 import re
 from typing import Iterable
 
-from codec import MAX_FRAME, encode
+from codec import MAX_FRAME, encode, natural, NAMESPACES
 from durable_witness import DurableStateError, DurableWitness, InjectedCrash
 from witness_delta import WITNESS_IDS
 from witness_sync import HistorySession, incremental_certify
@@ -44,8 +44,27 @@ def _case_path(root: Path, case_id: str) -> Path:
         raise ValueError('bad case id')
     return root / f'{case_id}.json'
 
+def _identity_path(root: Path, ns: str) -> Path:
+    if ns not in NAMESPACES:
+        raise ValueError('unknown namespace')
+    # A normal execution has one stable file per signing identity, even after
+    # a coordinator restart changes its in-memory case labels. Do not silently
+    # ignore older case-named experiment state when opening this mode.
+    known={'namespace-'+item+'.json':item for item in NAMESPACES}
+    for path in root.glob('*.json'):
+        if path.name not in known:
+            raise DurableStateError('legacy trial files require explicit independent-trial mode')
+        try:
+            payload=json.loads(path.read_text())['state']
+            if payload['ns'] != known[path.name] or payload['witness_id'] != root.name:
+                raise DurableStateError('canonical filename disagrees with stored signing identity')
+        except (OSError,ValueError,KeyError,TypeError) as error:
+            raise DurableStateError('unreadable canonical signing identity') from error
+    return root / ('namespace-'+ns+'.json')
 
-async def _worker_server(witness_id: str, root: Path, ready) -> None:
+
+async def _worker_server(witness_id: str, root: Path, ready,
+                         allow_independent_trials: bool = False) -> None:
     states: dict[str, DurableWitness] = {}
     sessions: dict[str, HistorySession] = {}
 
@@ -61,23 +80,32 @@ async def _worker_server(witness_id: str, root: Path, ready) -> None:
                 if not isinstance(request, dict) or not isinstance(request.get('op'), str):
                     answer = {'error': 'BAD_REQUEST'}
                 elif request['op'] == 'configure':
-                    if set(request) != {'op', 'case', 'ns', 'faulty'}:
+                    if set(request) != {'op', 'case', 'ns', 'faulty', 'clock_epsilon'}:
                         answer = {'error': 'BAD_REQUEST'}
                     else:
                         case_id = request['case']
-                        path = _case_path(root, case_id)
+                        _case_path(root, case_id)  # validate before state mutation
+                        path = (_case_path(root, case_id) if allow_independent_trials
+                                else _identity_path(root, request['ns']))
                         faulty = bool(request['faulty'])
-                        if request['faulty'] is not faulty or not isinstance(request['ns'], str):
+                        if (request['faulty'] is not faulty or not isinstance(request['ns'], str)
+                                or not natural(request['clock_epsilon'])):
                             answer = {'error': 'BAD_REQUEST'}
+                        elif (not allow_independent_trials and any(
+                                other != case_id and value.ns == request['ns']
+                                for other,value in states.items())):
+                            answer = {'error': 'IDENTITY_ALREADY_CONFIGURED'}
                         elif case_id in states:
                             state = states[case_id]
-                            if state.ns != request['ns'] or state.faulty is not faulty:
+                            if (state.ns != request['ns'] or state.faulty is not faulty
+                                    or state.witness.clock_epsilon != request['clock_epsilon']):
                                 answer = {'error': 'CONFIG_MISMATCH'}
                             else:
                                 answer = {'ok': True, 'summary': asdict(state.summary())}
                         else:
                             state = DurableWitness(
-                                path, request['ns'], witness_id, faulty=faulty)
+                                path, request['ns'], witness_id, faulty=faulty,
+                                clock_epsilon=request['clock_epsilon'])
                             states[case_id] = state
                             sessions[case_id] = HistorySession(state)
                             answer = {'ok': True, 'summary': asdict(state.summary())}
@@ -150,15 +178,22 @@ async def _worker_server(witness_id: str, root: Path, ready) -> None:
     server = await asyncio.start_server(
         handler, '127.0.0.1', 0, limit=MAX_FRAME + 1)
     port = server.sockets[0].getsockname()[1]
-    ready.send({'port': port, 'pid': os.getpid()})
-    ready.close()
+    try:
+        ready.send({'port': port, 'pid': os.getpid()})
+    except (BrokenPipeError, EOFError, OSError):
+        server.close()
+        await server.wait_closed()
+        return
+    finally:
+        ready.close()
     async with server:
         await server.serve_forever()
 
 
-def _worker_main(witness_id: str, root: str, ready) -> None:
+def _worker_main(witness_id: str, root: str, ready,
+                 allow_independent_trials: bool = False) -> None:
     try:
-        asyncio.run(_worker_server(witness_id, Path(root), ready))
+        asyncio.run(_worker_server(witness_id, Path(root), ready, allow_independent_trials))
     finally:
         try:
             ready.close()
@@ -169,7 +204,11 @@ def _worker_main(witness_id: str, root: str, ready) -> None:
 class DurableWitnessProcessNetwork:
     """Four spawned witness processes and their bounded TCP control plane."""
 
-    def __init__(self, state_root: str | Path, *, incremental: bool = True):
+    def __init__(self, state_root: str | Path, *, incremental: bool = True,
+                 allow_independent_trials: bool = False):
+        if type(allow_independent_trials) is not bool:
+            raise ValueError('independent-trial flag must be Boolean')
+        self.allow_independent_trials=allow_independent_trials
         self.state_root = Path(state_root)
         self.state_root.mkdir(parents=True, exist_ok=True)
         method = 'forkserver' if 'forkserver' in mp.get_all_start_methods() else 'spawn'
@@ -180,13 +219,17 @@ class DurableWitnessProcessNetwork:
         self.pids: dict[str, int] = {}
         self.blocked: set[str] = set()
         self.counters = DurableNetworkCounters()
-        self.cases: dict[str, tuple[str, frozenset[str]]] = {}
+        self.cases: dict[str, tuple[str, frozenset[str], int]] = {}
         self.incremental = incremental
 
     def state_path(self, witness_id: str, case_id: str) -> Path:
         if witness_id not in WITNESS_IDS:
             raise ValueError('unknown witness')
-        return _case_path(self.state_root / witness_id, case_id)
+        if self.allow_independent_trials:
+            return _case_path(self.state_root / witness_id, case_id)
+        if case_id not in self.cases:
+            raise ValueError('unknown configured case')
+        return _identity_path(self.state_root / witness_id, self.cases[case_id][0])
 
     def _start(self, witness_id: str) -> None:
         if witness_id not in WITNESS_IDS or witness_id in self.processes:
@@ -196,22 +239,28 @@ class DurableWitnessProcessNetwork:
         parent, child = self.context.Pipe(duplex=False)
         process = self.context.Process(
             target=_worker_main,
-            args=(witness_id, str(root), child),
+            args=(witness_id, str(root), child, self.allow_independent_trials),
             name=f'durable-{witness_id}',
         )
         process.start()
         child.close()
         try:
-            if not parent.poll(10):
+            if not parent.poll(30):
                 raise RuntimeError('witness start timeout')
             ready = parent.recv()
+            if (not isinstance(ready, dict) or set(ready) != {'port', 'pid'}
+                    or not isinstance(ready['port'], int)
+                    or not isinstance(ready['pid'], int)):
+                raise RuntimeError('bad witness ready message')
+        except BaseException:
+            if process.is_alive():
+                process.terminate()
+            process.join(timeout=5)
+            if process.is_alive():
+                process.kill(); process.join(timeout=5)
+            raise
         finally:
             parent.close()
-        if (not isinstance(ready, dict) or set(ready) != {'port', 'pid'}
-                or not isinstance(ready['port'], int)
-                or not isinstance(ready['pid'], int)):
-            process.terminate(); process.join(timeout=5)
-            raise RuntimeError('bad witness ready message')
         self.processes[witness_id] = process
         self.ports[witness_id] = ready['port']
         self.pids[witness_id] = ready['pid']
@@ -229,10 +278,15 @@ class DurableWitnessProcessNetwork:
             process.kill(); process.join(timeout=5)
 
     async def __aenter__(self):
-        for witness_id in WITNESS_IDS:
-            self._start(witness_id)
-        if len(set(self.pids.values())) != len(WITNESS_IDS):
-            raise RuntimeError('witness processes are not distinct')
+        try:
+            for witness_id in WITNESS_IDS:
+                self._start(witness_id)
+            if len(set(self.pids.values())) != len(WITNESS_IDS):
+                raise RuntimeError('witness processes are not distinct')
+        except BaseException:
+            for witness_id in tuple(self.processes):
+                self._stop(witness_id)
+            raise
         return self
 
     async def __aexit__(self, *args):
@@ -297,14 +351,22 @@ class DurableWitnessProcessNetwork:
                     pass
 
     async def configure(self, case_id: str, ns: str, *,
-                        faulty: Iterable[str] = (), strict: bool = True) -> dict[str, dict | None]:
+                        faulty: Iterable[str] = (), strict: bool = True,
+                        clock_epsilon: int = 0) -> dict[str, dict | None]:
+        _case_path(self.state_root, case_id)
+        if type(ns) is not str or ns not in NAMESPACES:
+            raise ValueError('unknown namespace')
         faulty_set = frozenset(faulty)
-        if len(faulty_set) > 1 or not faulty_set <= set(WITNESS_IDS):
+        if (len(faulty_set) > 1 or not faulty_set <= set(WITNESS_IDS)
+                or not natural(clock_epsilon)):
             raise ValueError('fault bound')
         prior = self.cases.get(case_id)
-        if prior is not None and prior != (ns, faulty_set):
+        if (not self.allow_independent_trials and any(
+                other != case_id and config[0] == ns for other,config in self.cases.items())):
+            raise ValueError('signing namespace already configured under another case')
+        if prior is not None and prior != (ns, faulty_set, clock_epsilon):
             raise ValueError('case configuration mismatch')
-        self.cases[case_id] = (ns, faulty_set)
+        self.cases[case_id] = (ns, faulty_set, clock_epsilon)
         replies = {
             witness_id: reply
             for witness_id, reply in zip(
@@ -313,10 +375,14 @@ class DurableWitnessProcessNetwork:
                     self.rpc(witness_id, {
                         'op': 'configure', 'case': case_id, 'ns': ns,
                         'faulty': witness_id in faulty_set,
+                        'clock_epsilon': clock_epsilon,
                     }) for witness_id in WITNESS_IDS
                 )),
             )
         }
+        if prior is None and not any(reply is not None and reply.get('ok') is True
+                                     for reply in replies.values()):
+            self.cases.pop(case_id, None)
         if strict and any(reply is None or reply.get('ok') is not True
                           for reply in replies.values()):
             raise RuntimeError('durable witness configuration failed')
@@ -386,10 +452,10 @@ class DurableWitnessProcessNetwork:
             raise ValueError('unknown recovery case')
         ok = True
         for case_id in selected:
-            ns, faulty = self.cases[case_id]
+            ns, faulty, clock_epsilon = self.cases[case_id]
             reply = await self.rpc(witness_id, {
                 'op': 'configure', 'case': case_id, 'ns': ns,
-                'faulty': witness_id in faulty,
+                'faulty': witness_id in faulty, 'clock_epsilon': clock_epsilon,
             })
             if reply is None or reply.get('ok') is not True:
                 ok = False

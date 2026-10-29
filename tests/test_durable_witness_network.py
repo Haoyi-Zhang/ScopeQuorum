@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import asyncio
+import os
 from copy import deepcopy
 from pathlib import Path
 import tempfile
@@ -31,6 +32,7 @@ def checkpoint(value: Authority, issued: int) -> dict:
     }
 
 
+@unittest.skipUnless(os.name == 'posix', 'requires POSIX directory fsync')
 class DurableWitnessNetworkTests(unittest.TestCase):
     def test_four_distinct_processes_certify(self):
         async def scenario(root: Path):

@@ -152,6 +152,18 @@ An empty exact-scope renewal has constant schema shape apart from integer/text l
 
 The retained 96-trace witness study counts canonical JSON request and response bytes separately for the client plane and the sequencer-to-four-witness certification plane. Witness durable-state bytes are a separate four-witness aggregate over canonical payload fields, including every retained scope handle and stable slot/digest; four actual/model transitions agree byte-for-byte. Witnessed scope transfer is smaller than witnessed prefix transfer in 87/96 traces on the client plane but only 48/96 when both counted planes are included. Its median scope/prefix ratio changes from 0.46 to approximately 1.00, and certification traffic is 89.9% of witnessed-scope total traffic at the median. These 96-trace traffic results use the retained encoding-model RPC schemas, not the revised TCP prefix/reset exchanges. A separate nine-history full-versus-suffix TCP comparison measures 288 benign checkpoint rounds and includes prefix metadata; its snapshot serializer includes the persistence envelope but executes no durable I/O. Neither study measures all-plane TCP crossover, latency, CPU, throughput, WAN, compression, or physical disk amplification.
 
+### Delayed signature collection
+
+Let an invalidator become quorum-effective by real time a <= t-Delta. For an
+allegedly stale accepted report, select an honest witness common to its quorum
+and the invalidator's quorum. If that witness signs the report at s, the issued
+field satisfies i <= C_w(s)+epsilon <= s+2epsilon. The client has t <= u+epsilon,
+so the strict guard u-i+3epsilon < Delta gives s > t-Delta >= a. That witness
+already durably retained the invalidating branch before its later report
+signature. Complete replay includes the invalidator, or branch-extension checks
+reject the stale proposal. Signatures may be gathered at different times; no
+simultaneous-quorum premise is used.
+
 ## 8. Evidence-to-code map and bounded evidence
 
 The dated twelve-trace TCP read adapter is a separate non-crashing, memory-backed

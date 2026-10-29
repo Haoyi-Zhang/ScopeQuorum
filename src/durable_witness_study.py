@@ -78,7 +78,9 @@ async def _initialize_scope(network: DurableWitnessProcessNetwork, case_id: str,
 
 async def _recovery_matrix(root: Path) -> tuple[list[dict], DurableNetworkCounters]:
     rows: list[dict] = []
-    async with DurableWitnessProcessNetwork(root) as network:
+    # Each matrix row is a separate logical experiment, not another service
+    # instance for the same signing identity in one protocol execution.
+    async with DurableWitnessProcessNetwork(root, allow_independent_trials=True) as network:
         case_number = 0
         for family in FAMILIES:
             for update in UPDATES:
@@ -175,7 +177,7 @@ def _fork_recovery_fields(retained: dict[str, int], certified_count: int) -> dic
 
 async def _durable_fork_matrix(root: Path) -> tuple[list[dict], DurableNetworkCounters]:
     rows: list[dict] = []
-    async with DurableWitnessProcessNetwork(root) as network:
+    async with DurableWitnessProcessNetwork(root, allow_independent_trials=True) as network:
         case_number = 0
         for family in FAMILIES:
             for span in (1, 3, 6):

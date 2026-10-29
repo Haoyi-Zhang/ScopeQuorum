@@ -144,6 +144,40 @@ It also repeats the 120 paired two-plane reads. `results/linux-loopback/`
 retains these observations, environment, and exact originating CI run. The
 96-trace encoding model remains a separate workload and schema.
 
+## Integrated durable dependency reads
+
+`src/durable_read_study.py` connects two namespaces to the current client through
+four separate durable TCP witness processes. It crosses three invalidators
+(object revoke, capability revoke, conflicting publication) with the three crash
+windows. A configured Byzantine witness withholds; an honest witness must restart
+before the invalidator receives its third signature. The nonzero-error schedule
+uses epsilon=2 and delta=10. The isolated old cache expires at its strict deadline,
+the freshly updated client denies the dependent root, and an independent root
+still serves. A two-epsilon comparison accepts at that stricter guard boundary;
+this contrast alone is not an overdue-effective-invalidation example. The separate
+API regression uses a feasible delayed-delivery schedule and reaches the actual
+effective-time deadline before its two-epsilon control incorrectly serves.
+
+Run on POSIX into a fresh directory:
+
+```sh
+python -B src/durable_read_study.py --output ../verification-durable-root-read
+```
+
+`results/durable-root-read/` contains the nine successful case records, actual
+certificates, process/restart checks and 54 phase-specific root decisions. The
+client is coordinator-local; certification uses the TCP processes. This is a
+logical integration study, not an all-plane traffic, latency, WAN or PQ-signature
+experiment. The witness configuration binds its clock-error policy and restores
+that exact policy after restart. Existing zero-error callers retain their default.
+The normal process harness rejects two case names for one namespace signing
+identity and stores it at a namespace-canonical path, so coordinator reopen
+cannot reset its branch by changing a case label. Legacy case-named files are
+refused rather than silently ignored. The historical multi-row crash matrix explicitly enables independent
+logical trials; their certificates must not be combined into one execution.
+Direct unittest discovery now skips POSIX directory-fsync tests on Windows rather
+than reporting unsupported filesystem operations as implementation failures.
+
 ## Reload the canonical 48-case campaign
 
 The complete retained main campaign is under `results/case-01.json.gz` through `results/case-48.json.gz`. Reload and compare it without rerunning the several-minute campaign:

@@ -93,16 +93,16 @@ def draw(out):
     d.text(2.4,-2.4,'may be disconnected',size=8.5)
     d.save(out,'dependency-footprint')
 
-    d=Drawing((-4.1,-4.5,4.1,.7))
-    d.box('seq',0,0,4.2,1,'namespace sequencer\nprefix suffix + scope body',size=8.5)
+    d=Drawing((-4.1,-4.6,4.1,.7))
+    d.box('seq',0,0,4.8,1,'namespace sequencer\nauthenticated history + scope body',size=8.5)
     for i,x in enumerate([-3,-1,1,3]):
-        d.box('w'+str(i),x,-1.8,1.8,1.25,'$w_'+str(i)+'$\nreplay\npersist',size=8.5)
-    d.box('client',0,-3.8,4.9,1,'client\nauthority + any 3 distinct signatures',size=8.5)
-    for i in range(4):d.edge('seq','w'+str(i))
-    d.edge('w0','client','s','nw')
-    d.arrow(d.point('w1','s'),(-.6,-3.3))
-    d.arrow(d.point('w2','s'),(.6,-3.3))
-    d.edge('w3','client','s','ne')
+        d.box('w'+str(i),x,-1.9,1.8,1.55,'$w_'+str(i)+'$\nreplay\ncommit\nsign',size=8.5)
+    d.box('client',0,-3.85,7.5,1.1,'client: authority + 3 distinct witnesses\nverify scope, frontier and freshness',size=8.5)
+    d.line([(0,-.5),(0,-.84)])
+    d.line([(-3,-.84),(3,-.84)])
+    for i,x in enumerate([-3,-1,1,3]):
+        d.arrow((x,-.84),d.point('w'+str(i),'n'))
+        d.arrow(d.point('w'+str(i),'s'),(x,-3.30))
     d.save(out,'witnessed-scope')
 
 if __name__ == "__main__":

@@ -66,9 +66,9 @@ class WitnessDeltaTests(unittest.TestCase):
     def test_nonzero_error_cached_reads_use_three_epsilon(self):
         """Exercise certificate admission and later serving through public APIs.
 
-        True-time annotations for this bounded trace are: publications at 10;
-        witnesses read 12 while the report says 14; the client reads 10 at true
-        time 12; a revocation at 11 obtains a quorum at witness reading 13; and
+        True-time annotations are: publications and old report signing at 10
+        (witness reading 12, issue field 14); revocation and its quorum at 11
+        (witness reading 13); delayed old-report delivery at 12 (client 10); and
         the isolated client reads 19 at true time 21.  With two epsilon the old
         cache would still serve at 19; witnessed reads must use three epsilon.
         """
@@ -81,6 +81,13 @@ class WitnessDeltaTests(unittest.TestCase):
 
         certificate = service.register(
             ['n1/leaf'], 14, witness_now=12)
+        # The later revocation quorum forms BEFORE delivery of the old report.
+        authority.append('revoke', {'target': 'n1/leaf'}, 11)
+        acknowledged = service.checkpoint(15, witness_now=13)
+        self.assertEqual(len(acknowledged['witnesses']), QUORUM)
+        schedule=((10,12),(11,13),(12,10),(19,17),(20,18),(21,19))
+        self.assertTrue(all(a<=b for (a,_),(b,_) in zip(schedule,schedule[1:])))
+        self.assertTrue(all(abs(reading-real)<=2 for real,reading in schedule))
         cache.apply_register(certificate, 10, delta=10, epsilon=2)
         self.assertTrue(check_witness_scopes(
             {'n1': cache}, 'n1/leaf', 17, delta=10, epsilon=2)['serve'])
@@ -89,9 +96,6 @@ class WitnessDeltaTests(unittest.TestCase):
             {'n1': cache}, 'n1/leaf', 18, delta=10, epsilon=2)['reason'],
             'EXPIRED')
 
-        authority.append('revoke', {'target': 'n1/leaf'}, 11)
-        acknowledged = service.checkpoint(15, witness_now=13)
-        self.assertEqual(len(acknowledged['witnesses']), QUORUM)
         # Reproduce the former adapter wiring: forwarding this witnessed cache
         # through the honest 2*epsilon scope checker still serves at 19.
         self.assertTrue(check_scopes_with_legacy_two_epsilon(
