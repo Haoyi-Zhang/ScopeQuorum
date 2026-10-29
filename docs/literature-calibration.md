@@ -43,7 +43,7 @@ projected changes. Twelve traces produce 120 matching read pairs. Scope reduces
 client traffic in every trace but total client-plus-witness traffic in one.
 `witness-reads.md` defines the accounting boundary and retained raw inputs.
 
-Reference identities and scholarly URLs are recorded in
-`external_resources.csv` and the manuscript bibliography. Structural checks in
-`bibliography-audit.md` concern citation records and styles; they do not certify
-that every full text has been independently read or reproduced.
+Reference identities and scholarly URLs are recorded in `external_resources.csv`.
+The manuscript bibliography and its structural checks belong to the separate
+local paper package, not the standalone artifact repository. Bibliographic
+identity checks do not establish empirical reproduction of a cited system.

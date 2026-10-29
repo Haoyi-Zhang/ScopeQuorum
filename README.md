@@ -22,7 +22,8 @@ python tests/witness_finite.py \
   --output ../verification-witness-finite.json
 ```
 
-Expected current results are:
+The current unittest inventory is discovered at runtime. The counts below identify
+retained experimental records, not a fixed pass-count gate:
 
 - 134 directed tests in the retained pre-suffix suite; a supported POSIX host is required for all durability tests. The 130-test Windows campaign passes 113 and explicitly skips 17 POSIX durability tests; four subsequently added command-runner regressions also pass separately;
 - six additional finite status-fold regressions, explicitly run in scientific CI by `python -B tests/status_fold_regression.py`. They are separate from unittest discovery and retained 134-test receipts;
@@ -213,12 +214,12 @@ Run remaining ranges in bounded chunks. `src/reproduce.py` uses atomic checkpoin
 
 ## Main bounded findings
 
-`src/cost_choice.py` independently checks all12retained TCP trace pairs against
+`src/cost_choice.py` independently checks all 12 retained TCP trace pairs against
 their raw plane counters and paired decisions, then derives a conditional byte-price
 choice. If the client plane costs rho times the witness plane per byte, scope is
 cheaper exactly when rho times client bytes saved exceeds witness bytes added.
-The retained traces favor scope in1,4and12cases at rho=1,2and4 respectively;
-the aggregate threshold is543988/303485. These are calculations on the existing
+The retained traces favor scope in 1, 4 and 12 cases at rho=1, 2 and 4 respectively;
+the aggregate threshold is 543988/303485. These are calculations on the existing
 memory-backed traces, not new prices, persistence measurements or deployment gains.
 Run `python -B tests/cost_choice_regression.py`; the manuscript consumes the same
 calculation via `paper/generate_choice.py` in the complete project.
